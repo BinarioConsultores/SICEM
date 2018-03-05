@@ -317,6 +317,10 @@ class PabellonController extends Controller
     }
 
     public function postVerNichos(Request $request){
+       $this->validate($request, [
+        'pab_id' => 'required',
+      ]);
+       
       $pab_id=$request->get('pab_id');
       $pabellon = Pabellon::find($pab_id);
       $nrofil = $pabellon->pab_nrofil;
