@@ -18,7 +18,6 @@ class Creartablaconvenio extends Migration
             $table->date('conv_fecha');
             $table->decimal('conv_cuotaini');
             $table->integer('conv_nrocuota');
-            $table->decimal('conv_montocuota');
             $table->integer('cont_id')->unsigned();
             $table->foreign('cont_id')->references('cont_id')->on('t_contrato');
             $table->timestamps();

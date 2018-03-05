@@ -12,7 +12,7 @@ class Convenio extends Model
       'created_at', 'updated_at'
   ];
   protected $fillable = [
-        'conv_fecha', 'conv_cuotaini','conv_nrocuotas','conv_montocuota','cont_id',
+        'conv_fecha', 'conv_cuotaini','conv_nrocuotas','cont_id',
   ];
   public function PlanPagos()
   {
