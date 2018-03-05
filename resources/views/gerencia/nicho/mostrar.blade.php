@@ -2,10 +2,23 @@
 
 @section('javascript')
 <script type="text/javascript">
+        
     function iralpaso2(){
         $("#div2").removeAttr( "hidden" )
         $("#div1").attr("hidden","true");
+        $("#primero").attr("class","col-4 bs-wizard-step complete");
+        $("#segundo").attr("class","col-4 bs-wizard-step active");
+
     }
+    function iralpaso3(){
+        $("#div2").removeAttr( "hidden" )
+        $("#div3").removeAttr( "hidden" )
+        $("#div1").attr("hidden","true");
+        $("#div2").attr("hidden","true");
+        $("#segundo").attr("class","col-4 bs-wizard-step complete");
+        $("#tercero").attr("class","col-4 bs-wizard-step active");
+    }
+
 </script>
 @endsection
 
@@ -57,33 +70,28 @@
                     
                             <div class="row bs-wizard" style="border-bottom:0;">
                                 
-                                <div class="col-3 bs-wizard-step complete">
+                                <div class="col-4 bs-wizard-step active" id="primero">
                                   <div class="text-center bs-wizard-stepnum">Step 1</div>
                                   <div class="progress"><div class="progress-bar"></div></div>
                                   <a href="#" class="bs-wizard-dot"></a>
                                   <div class="bs-wizard-info text-center">Lorem ipsum dolor sit amet.</div>
                                 </div>
                                 
-                                <div class="col-3 bs-wizard-step complete"><!-- complete -->
+                                <div class="col-4 bs-wizard-step disabled" id="segundo"><!-- complete -->
                                   <div class="text-center bs-wizard-stepnum">Step 2</div>
                                   <div class="progress"><div class="progress-bar"></div></div>
                                   <a href="#" class="bs-wizard-dot"></a>
                                   <div class="bs-wizard-info text-center">Nam mollis tristique erat vel tristique. Aliquam erat volutpat. Mauris et vestibulum nisi. Duis molestie nisl sed scelerisque vestibulum. Nam placerat tristique placerat</div>
                                 </div>
                                 
-                                <div class="col-3 bs-wizard-step complete"><!-- complete -->
+                                <div class="col-4 bs-wizard-step disabled" id="tercero"><!-- complete -->
                                   <div class="text-center bs-wizard-stepnum">Step 3</div>
                                   <div class="progress"><div class="progress-bar"></div></div>
                                   <a href="#" class="bs-wizard-dot"></a>
                                   <div class="bs-wizard-info text-center">Integer semper dolor ac auctor rutrum. Duis porta ipsum vitae mi bibendum bibendum</div>
                                 </div>
                                 
-                                <div class="col-3 bs-wizard-step active"><!-- active -->
-                                  <div class="text-center bs-wizard-stepnum">Step 4</div>
-                                  <div class="progress"><div class="progress-bar"></div></div>
-                                  <a href="#" class="bs-wizard-dot"></a>
-                                  <div class="bs-wizard-info text-center"> Curabitur mollis magna at blandit vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae</div>
-                                </div>
+                                
                             </div>
                         </div>    
                     </div>
@@ -97,43 +105,50 @@
                     <div class="col-8" >
                         <div class="example" >
                             <div class="source-preview-wrapper">
-                                <div class="preview" id="div1">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect2">Example multiple select</label>
-                                            <select multiple="" class="form-control" id="exampleFormControlSelect2">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                        <label class="btn btn-primary fuse-ripple-ready" onclick="iralpaso2();">Siguiente</label>
+                                 
+                                            <div class="preview" id="div1">
+                                                <form action="/gerencia/pabellon/nicho/comprar">
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlSelect2">Example multiple select</label>
+                                                            <select multiple="" class="form-control" id="exampleFormControlSelect2">
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                                <option>5</option>
+                                                            </select>
+                                                        </div>
+                                                        <input type="text" name="paso"  hidden="" value="1">
+                                                        <button class="btn btn-primary fuse-ripple-ready" onclick="iralpaso2();">Siguiente</button>
+                                                </form>
+                        
+                                            </div>
+                                             <div class="preview" id="div2" hidden="">
+                                                <form action="/gerencia/pabellon/nicho/comprar">
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlSelect2">Example multiple select</label>
+                                                        <select multiple="" class="form-control" id="exampleFormControlSelect2">
+                                                            <option>segundo</option> 
+                                                        </select>
+                                                    </div>
+                                                    <input type="text" name="paso" hidden="" value="2">
+                                                    <button class="btn btn-primary fuse-ripple-ready" onclick="iralpaso3();">Siguiente</button>
+                                                    
+                                                </form>
+                                            </div>
+                                            <div class="preview" id="div3" hidden="">
+                                                <form action="/gerencia/pabellon/nicho/comprar">
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlSelect2">Example multiple select</label>
+                                                        <select multiple="" class="form-control" id="exampleFormControlSelect2">
+                                                            <option>tercero</option> 
+                                                        </select>
+                                                    </div>
+                                                    <input type="text" name="paso" hidden="" value="3">
+                                                    <button class="btn btn-primary fuse-ripple-ready">Submit</button>
+                                                </form>
+                                            </div>
                                     </form>
-                                </div>
-                                <div class="preview" id="div2" hidden="">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect2">Example multiple select</label>
-                                            <select multiple="" class="form-control" id="exampleFormControlSelect2">
-                                                <option>segundo</option> 
-                                            </select>
-                                        </div>
-                                        <button  class="btn btn-primary fuse-ripple-ready">Submit</button>
-                                    </form>
-                                </div>
-                                <div class="preview" id="div3" hidden="">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect2">Example multiple select</label>
-                                            <select multiple="" class="form-control" id="exampleFormControlSelect2">
-                                                <option>tercero</option> 
-                                            </select>
-                                        </div>
-                                        <button class="btn btn-primary fuse-ripple-ready">Submit</button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>

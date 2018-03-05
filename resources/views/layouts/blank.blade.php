@@ -48,7 +48,13 @@
                             <div class="source-preview-wrapper">
                                 <div class="preview">
                                     <div class="row">                                               
-                                        
+                                        jhbmug - 
+
+                                                {{Session::get('paso')}}
+                                            
+                
+                                                 
+        
                                     </div>
                                 </div>
                             </div>
