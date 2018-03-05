@@ -29,6 +29,7 @@
     <link type="text/css" rel="stylesheet" href="{{asset('assets/vendor/fuse-html/fuse-html.min.css')}}" />
     <!-- Main CSS -->
     <link type="text/css" rel="stylesheet" href="{{asset('assets/css/main.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/steps.css')}}">
     @yield('css')
     <!-- / STYLESHEETS -->
 
