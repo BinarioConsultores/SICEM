@@ -1,5 +1,14 @@
 @extends('layouts.appgerencia')
 
+@section('javascript')
+<script type="text/javascript">
+    function iralpaso2(){
+        $("#div2").removeAttr( "hidden" )
+        $("#div1").attr("hidden","true");
+    }
+</script>
+@endsection
+
 @section('content')
 
 
@@ -88,60 +97,42 @@
                     <div class="col-8" >
                         <div class="example" >
                             <div class="source-preview-wrapper">
-                                <div class="preview">
-                                        <form>
-                                            <div class="form-group">
-                                                <label for="exampleFormControlSelect2">Example multiple select</label>
-                                                <select multiple="" class="form-control" id="exampleFormControlSelect2">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                                <label for="exampleFormControlTextarea1">Example textarea</label>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleFormControlFile1">Example file input</label>
-                                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                                            </div>
-                                            <fieldset class="form-group">
-                                                <legend>Radio buttons</legend>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                                        <span class="radio-icon fuse-ripple-ready"></span>
-                                                        <span>Option one is this and that—be sure to include why it's great</span>
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2">
-                                                        <span class="radio-icon fuse-ripple-ready"></span>
-                                                        <span>Option two can be something else and selecting it will deselect option one</span>
-                                                    </label>
-                                                </div>
-                                                <div class="form-check disabled">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios3" value="option3" disabled="">
-                                                        <span class="radio-icon fuse-ripple-ready"></span>
-                                                        <span>Option three is disabled</span>
-                                                    </label>
-                                                </div>
-                                            </fieldset>
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <span class="checkbox-icon fuse-ripple-ready"></span>
-                                                    <span>Check me out</span>
-                                                </label>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary fuse-ripple-ready">Submit</button>
-                                        </form>
-                                    
+                                <div class="preview" id="div1">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect2">Example multiple select</label>
+                                            <select multiple="" class="form-control" id="exampleFormControlSelect2">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                        <label class="btn btn-primary fuse-ripple-ready" onclick="iralpaso2();">Siguiente</label>
+                                    </form>
+                                </div>
+                                <div class="preview" id="div2" hidden="">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect2">Example multiple select</label>
+                                            <select multiple="" class="form-control" id="exampleFormControlSelect2">
+                                                <option>segundo</option> 
+                                            </select>
+                                        </div>
+                                        <button  class="btn btn-primary fuse-ripple-ready">Submit</button>
+                                    </form>
+                                </div>
+                                <div class="preview" id="div3" hidden="">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect2">Example multiple select</label>
+                                            <select multiple="" class="form-control" id="exampleFormControlSelect2">
+                                                <option>tercero</option> 
+                                            </select>
+                                        </div>
+                                        <button class="btn btn-primary fuse-ripple-ready">Submit</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
