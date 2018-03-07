@@ -97,63 +97,128 @@
       <!-- CONTENT -->
         <div class="page-content p-6">
             <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8" >
-                    <div class="example" >
+                <div class="col-3"></div>
+                <div class="col-6 ">
+                    <div class="example">
                         <div class="description">
                             <div class="description-text">
-                                <h5>Registrar Solicitante</h5>
+
+                                @if (Session::has('paso'))
+                                    @if(Session::get('paso')==1)
+                                        <h5>Registro de Difunto</h5>
+                                    @endif
+                                @else
+                                    <h5>Registro de Solicitante</h5>
+                                @endif
                             </div>
+                            
                         </div>
+
                         <div class="source-preview-wrapper">
-                            <div class="preview" id="div1">
-                                <form action="/gerencia/pabellon/nicho/comprar">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlSelect2">Example multiple select</label>
-                                        <select multiple="" class="form-control" id="exampleFormControlSelect2">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                            
+                                    <div class="preview" id="div1">
+                                        <div class="preview-elements">
+                                            <form action="/gerencia/pabellon/nicho/comprar">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="sol_nombre" id="Nombre---Solicitante"  placeholder="Nombre de Solicitante">
+                                                    <label for="NombreSolicitante">Nombre de Solicitante</label>
+                                                    <small id="emailHelp" class="form-text text-muted">Ingrese datos de solicitante.
+                                                    </small>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="sol_telefono"  id="TelefonoSolicitante"  placeholder="Ingrese su Telefono">
+                                                    <label for="TelefonoSolicitante">Telefono</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="sol_dir"  id="DirSolicitante"  placeholder="Ingrese su Direccion">
+                                                    <label for="DirSolicitante">Direccion</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="sol_dni" id="DNISolicitante"  placeholder="Ingrese su DNI">
+                                                    <label for="DirSolicitante">DNI</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" name="paso"  hidden="" value="1">
+                                                    <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
+                                                    <button  type="submit" class="btn btn-primary fuse-ripple-ready">Siguiente</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
                                     </div>
-                                    <input type="text" name="paso"  hidden="" value="1">
-                                    <button class="btn btn-primary fuse-ripple-ready" onclick="iralpaso2();">Siguiente</button>
-                                </form>
-                            </div>
-                            <div class="preview" id="div2" hidden="">
-                                <form action="/gerencia/pabellon/nicho/comprar">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlSelect2">Example multiple select</label>
-                                        <select multiple="" class="form-control" id="exampleFormControlSelect2">
-                                            <option>segundo</option> 
-                                        </select>
+                                
+                                        <div class="preview" id="div2" hidden="">
+                                            <div class="preview-elements">
+                                                <form action="/gerencia/pabellon/nicho/comprar">
+                                                    <div class="form-group">
+                                                        <input type="text"   name="dif_nom" class="form-control" id="NombreSolicitante"  placeholder="Nombre de Solicitante">
+                                                        <label for="NombreSolicitante">Nombre de Difunto</label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" name="dif_ape"  class="form-control" id="TelefonoSolicitante"  placeholder="Ingrese sus Apellidos">
+                                                        <label for="TelefonoSolicitante">Apellidos</label>
+                                                    </div>
+                                                    <div class="form-group">   
+                                                        <input type="text"  name="dif_dni" class="form-control" id="DirSolicitante"  placeholder="Ingrese su DNI">
+                                                        <label for="DirSolicitante">DNI</label>
+                                                    </div> 
+                                                    <div class="form-group">  
+                                                        <input type="date" name="dif_fechadef"  class="form-control" id="DNISolicitante"  placeholder="Ingrese Fecha de.....">
+                                                        <label for="DNISolicitante">Fecha de fallecido</label>
+                                                    </div> 
+                                                    <div class="form-group">
+                                                        <textarea class="form-control" name="dif_obser" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                        <label for="exampleFormControlTextarea1">Obervaciones</label>
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
+                                                        <input type="text" name="paso" hidden="" value="2">
+                                                        <input type="text" name="nicho_id" value="{{$nicho->nicho_nro}}" hidden="">
+                                                        <button type="submit" class="btn btn-primary fuse-ripple-ready">Siguiente</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    
+                                    
+                                    <div class="preview" id="div3" hidden="">
+                                        <div class="preview-elements">
+                                            <form action="/gerencia/pabellon/nicho/comprar">
+                                                <div class="form-group">
+                                                    <input type="email" name="dif_ape"  class="form-control" id="TelefonoSolicitante"  placeholder="Ingrese sus Apellidos">
+                                                    <label for="TelefonoSolicitante">tercero</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" name="nicho_id" value="{{$nicho->nicho_nro}}" hidden="">
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <input type="text" name="paso" hidden="" value="2">
-                                    <button class="btn btn-primary fuse-ripple-ready" onclick="iralpaso3();">Siguiente</button>
-                                </form>
-                            </div>
-                            <div class="preview" id="div3" hidden="">
-                                <form action="/gerencia/pabellon/nicho/comprar">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlSelect2">Example multiple select</label>
-                                        <select multiple="" class="form-control" id="exampleFormControlSelect2">
-                                            <option>tercero</option> 
-                                        </select>
-                                    </div>
-                                    <input type="text" name="paso" hidden="" value="3">
-                                    <button class="btn btn-primary fuse-ripple-ready">Submit</button>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-2"></div>
             </div>
         </div>
     </div>
 </div>
 <!-- CONTENT -->
+@endsection
 
+
+
+@section('javascriptFinal')
+
+    @if (Session::has('paso'))
+        @if(Session::get('paso')==1)
+            <script type="text/javascript">
+                iralpaso2();
+            </script>
+        @endif
+        @if(Session::get('paso')==2)
+            <script type="text/javascript">
+                iralpaso3();
+            </script>
+        @endif
+
+    @endif
 @endsection
