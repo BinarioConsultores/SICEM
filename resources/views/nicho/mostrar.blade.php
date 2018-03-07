@@ -57,7 +57,7 @@
                             <i class="icon icon-menu"></i>
                         </button>
 
-                        <span class="h3">Nicho #ejemplo</span>
+                        <span class="h3">Nicho {{$nicho->nicho_nro}}</span>
                     </div>
 
                 </div>

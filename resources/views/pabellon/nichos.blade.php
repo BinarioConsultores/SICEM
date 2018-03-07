@@ -96,7 +96,7 @@
                                                         <?php $flagPrecio = true; ?>
                                                     @for($j=1;$j<=$pabellon->pab_nrocol;$j++)
                                                         <td>
-                                                            <form action="/admin/nicho/" method="post">
+                                                            <form action="/admin/pabellon/nicho/" method="post">
                                                                 <input type="hidden" name="nicho_id" value="{{$nichos[$i-1][$j-1]->nicho_id}}">
                                                                 @if($nichos[$i-1][$j-1]->nicho_est=="ocupado")
                                                                     <button type="submit"  class="ocupado" data-toggle="tooltip" data-placement="top" data-original-title="ocupado"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>

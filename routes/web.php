@@ -44,10 +44,8 @@ Route::post('/admin/pabellon/crear','PabellonController@postCrear');
 Route::get('/admin/pabellon/nichos','PabellonController@getVerNichos');
 Route::post('/admin/pabellon/postCambiarPrecioFila','PabellonController@postCambiarPrecioFila');
 
-//PRUEBA
-Route::get('/admin/nicho', function () {
-    return view('nicho.mostrar');
-});
+Route::get('/admin/pabellon/nicho','NichoController@getVerNichoAdmin');
+
 
 Route::get('/gerencia/gestion','GerenciaController@getIndex');
 Route::post('/gerencia/pabellon/nichos','PabellonController@postVerNichos');

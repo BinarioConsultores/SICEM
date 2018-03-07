@@ -69,24 +69,24 @@
                         <div class="container">
                             <div class="row bs-wizard" style="border-bottom:0;">
                                 <div class="col-4 bs-wizard-step active" id="primero">
-                                    <div class="text-center bs-wizard-stepnum">Step 1</div>
+                                    <div class="text-center bs-wizard-stepnum">Paso 1</div>
                                     <div class="progress"><div class="progress-bar"></div></div>
                                     <a href="#" class="bs-wizard-dot"></a>
-                                    <div class="bs-wizard-info text-center">Lorem ipsum dolor sit amet.</div>
+                                    <div class="bs-wizard-info text-center">Registrar o Buscar los Datos del Solicitante</div>
                                 </div>
 
                                 <div class="col-4 bs-wizard-step disabled" id="segundo"><!-- complete -->
-                                    <div class="text-center bs-wizard-stepnum">Step 2</div>
+                                    <div class="text-center bs-wizard-stepnum">Paso 2</div>
                                     <div class="progress"><div class="progress-bar"></div></div>
                                     <a href="#" class="bs-wizard-dot"></a>
-                                    <div class="bs-wizard-info text-center">Nam mollis tristique erat vel tristique. Aliquam erat volutpat. Mauris et vestibulum nisi. Duis molestie nisl sed scelerisque vestibulum. Nam placerat tristique placerat</div>
+                                    <div class="bs-wizard-info text-center">Registrar o Buscar los Datos del Difunto</div>
                                 </div>
 
                                 <div class="col-4 bs-wizard-step disabled" id="tercero"><!-- complete -->
-                                    <div class="text-center bs-wizard-stepnum">Step 3</div>
+                                    <div class="text-center bs-wizard-stepnum">Paso 3</div>
                                     <div class="progress"><div class="progress-bar"></div></div>
                                     <a href="#" class="bs-wizard-dot"></a>
-                                    <div class="bs-wizard-info text-center">Integer semper dolor ac auctor rutrum. Duis porta ipsum vitae mi bibendum bibendum</div>
+                                    <div class="bs-wizard-info text-center">Elegir la forma de pago</div>
                                 </div>
                             </div>
                         </div>    
@@ -100,6 +100,11 @@
                 <div class="col-2"></div>
                 <div class="col-8" >
                     <div class="example" >
+                        <div class="description">
+                            <div class="description-text">
+                                <h5>Registrar Solicitante</h5>
+                            </div>
+                        </div>
                         <div class="source-preview-wrapper">
                             <div class="preview" id="div1">
                                 <form action="/gerencia/pabellon/nicho/comprar">
