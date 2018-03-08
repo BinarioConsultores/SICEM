@@ -12,7 +12,7 @@ class Contrato extends Model
       'created_at', 'updated_at',
   ];
   protected $fillable = [
-        'cont_fecha', 'cont_tipopago','cont_concepto','cont_tipouso','cont_tiempo', 'cont_monto', 'cont_diffechsep', 'sol_id', 'dif_id', 'nicho_id', 'usu_id_reg', 'usu_id_auto','bolde_id'
+        'cont_fecha', 'cont_tipopago','cont_concepto','cont_estado','cont_tipouso','cont_tiempo', 'cont_monto', 'cont_diffechsep', 'sol_id', 'dif_id', 'nicho_id', 'usu_id_reg', 'usu_id_auto','bolde_id'
   ];
   public function BoletaDetalle()
   {

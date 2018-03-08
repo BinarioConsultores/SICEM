@@ -18,6 +18,7 @@ class Creartablacontrato extends Migration
             $table->date('cont_fecha');
             $table->string('cont_tipopago');
             $table->string('cont_concepto');
+            $table->string('cont_estado');
             $table->string('cont_tipouso');
             $table->integer('cont_tiempo');
             $table->decimal('cont_monto');
