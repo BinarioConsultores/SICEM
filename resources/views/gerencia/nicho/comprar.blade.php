@@ -13,6 +13,7 @@
             day = "0" + day;
         var today = now.getFullYear() + '-' + month + '-' + day;
         $('#cont_fecha').val(today);
+        $('#cont_fecha1').val(today);
     });
 
     function contado(){
@@ -45,6 +46,7 @@
     }
     
     document.getElementById("cont_fecha").innerHTML = Date();
+    document.getElementById("cont_fecha1").innerHTML = Date();
 
 
 </script>
@@ -95,26 +97,35 @@
                 <div class="col-12">
                     <div class="row">
                         <div class="container">
+                    
                             <div class="row bs-wizard" style="border-bottom:0;">
-                                <div class="col-4 bs-wizard-step active" id="primero">
-                                    <div class="text-center bs-wizard-stepnum">Paso 1</div>
-                                    <div class="progress"><div class="progress-bar"></div></div>
-                                    <a href="#" class="bs-wizard-dot"></a>
-                                    <div class="bs-wizard-info text-center">Registrar o Buscar los Datos del Solicitante</div>
+                                
+                                <div class="col-3 bs-wizard-step active" id="primero">
+                                  <div class="text-center bs-wizard-stepnum">Paso 1</div>
+                                  <div class="progress"><div class="progress-bar"></div></div>
+                                  <a href="#" class="bs-wizard-dot"></a>
+                                  <div class="bs-wizard-info text-center">Lorem ipsum dolor sit amet.</div>
                                 </div>
-
-                                <div class="col-4 bs-wizard-step disabled" id="segundo"><!-- complete -->
-                                    <div class="text-center bs-wizard-stepnum">Paso 2</div>
-                                    <div class="progress"><div class="progress-bar"></div></div>
-                                    <a href="#" class="bs-wizard-dot"></a>
-                                    <div class="bs-wizard-info text-center">Registrar o Buscar los Datos del Difunto</div>
+                                
+                                <div class="col-3 bs-wizard-step disabled" id="segundo"><!-- complete -->
+                                  <div class="text-center bs-wizard-stepnum">Paso 2</div>
+                                  <div class="progress"><div class="progress-bar"></div></div>
+                                  <a href="#" class="bs-wizard-dot"></a>
+                                  <div class="bs-wizard-info text-center">Nam mollis tristique erat vel tristique. Aliquam erat volutpat. Mauris et vestibulum nisi. Duis molestie nisl sed scelerisque vestibulum. Nam placerat tristique placerat</div>
                                 </div>
-
-                                <div class="col-4 bs-wizard-step disabled" id="tercero"><!-- complete -->
-                                    <div class="text-center bs-wizard-stepnum">Paso 3</div>
-                                    <div class="progress"><div class="progress-bar"></div></div>
-                                    <a href="#" class="bs-wizard-dot"></a>
-                                    <div class="bs-wizard-info text-center">Elegir la forma de pago</div>
+                                
+                                <div class="col-3 bs-wizard-step disabled" id="tercero"><!-- complete -->
+                                  <div class="text-center bs-wizard-stepnum">Paso 3</div>
+                                  <div class="progress"><div class="progress-bar"></div></div>
+                                  <a href="#" class="bs-wizard-dot"></a>
+                                  <div class="bs-wizard-info text-center">Integer semper dolor ac auctor rutrum. Duis porta ipsum vitae mi bibendum bibendum</div>
+                                </div>
+                                
+                                <div class="col-3 bs-wizard-step disabled" id="cuarto"><!-- active -->
+                                  <div class="text-center bs-wizard-stepnum">Paso 4</div>
+                                  <div class="progress"><div class="progress-bar"></div></div>
+                                  <a href="#" class="bs-wizard-dot"></a>
+                                  <div class="bs-wizard-info text-center"> Curabitur mollis magna at blandit vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae</div>
                                 </div>
                             </div>
                         </div>    
@@ -178,7 +189,7 @@
                 <div class="col-3"></div>
             </div>
 
-            <div class="row" id="div2">
+            <div class="row" id="div2" hidden="">
                 <div class="col-3"></div>
                 <div class="col-6" id="div2">
                     <div class="example">
@@ -233,7 +244,7 @@
                 <div class="col-3"></div>
             </div>
 
-            <div class="row" id="div3">
+            <div class="row" id="div3" hidden="">
                 <div class="col-2">
                     <div class="example">
                         <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
@@ -266,7 +277,7 @@
                                         <label for="cont_fecha">Fecha del Contrato</label>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="cont_tipopago" id="cont_tipopago"  placeholder="Tipo de Pago" required="" readonly="" value="Credito">
+                                        <input type="text" class="form-control" name="cont_tipopago" id="cont_tipopago"  placeholder="Tipo de Pago" required="" readonly="" value="contado">
                                         <label for="cont_tipopago">Tipo de Pago</label>
                                     </div>
                                     
@@ -279,7 +290,7 @@
                                         </div>
                                         <div class="col-6" align="right">
                                             <div class="form-group">
-                                                <input type="text" name="paso"  hidden="" value="2">
+                                                <input type="text" name="paso"  hidden="" value="3">
                                                 <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
                                                 <button  type="submit" class="btn btn-primary fuse-ripple-ready">Siguiente <i class="icon-arrow-right"></i></button>
                                             </div>    
@@ -289,14 +300,111 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-6" id="opcionCredito" hidden="">
                     <div class="example">
                         <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
                             <div class="title h6">Compra al Credito</div>
                         </header>
-                        <div class="content activities p-4">
+                        <div class="content activities p-4"> 
+                            <form action="/gerencia/pabellon/nicho/comprar" method="POST">                                
+                                <div class="row">
+                                    
+                                    <div class="form-group col-4">
+                                        <label for="cont_tipouso">Tipo de Uso</label>
+                                        <select  class="form-control" name="cont_tipouso">
+                                            <option  selected="" value="cesion">Cesión de uso</option>
+                                            <option value="perpetuo">Perpetuo</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-3">
+                                            <label  for="cont_precio">Precio de Nicho</label>
+                                            <input class="form-control " type="text" name="cont_precio" value="{{$nicho->nicho_precio}}" required="" >
+                                    </div>
+                                    <div class="form-group col-1">
+                                            <label for="cont_precio">(S/).</label>                     
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="inputZip" >Duración del contrato</label>
+                                        <input type="number" class="form-control" id="inputZip" value="25" required="">
+                                    </div>
+                                    
+                                </div>
+                                 <div class="row">
+                                        <div class="form-group col-4">
+                                            <label for="cont_tipopago">TIpo de Pago</label>  
+                                            <input  class="form-control" type="text" name="cont_tipopago" value="credito" required="">
+                                               
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="cont_concepto">Concepto</label> 
+                                            <input class="form-control" type="text" name="cont_concepto" value="concepto" disabled="" required="">
+                                                  
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="cont_estado">Estado de Contrado</label>
+                                            <input class="form-control" type="text" name="cont_estado" value="En Trámite" disabled="" required="">
+                                            
+                                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-1"></div>
+                                     <div class="form-group col-5">
+                                        <label for="cont_fecha">Fecha de Contrato</label>
+                                        <input class="form-control" type="date" name="cont_fecha" id="cont_fecha1" required="" required="">
+                                        
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <label  for="cont_diffechasep">Fecha de Entierro</label>
+                                        <input class="form-control" type="date" name="cont_diffechasep" id="cont_diffechasep" required="" required="">
+                                        
+                                    </div>
+
+                                </div>
                             
+                                
+                               <div class="divider"></div>
+                                <div class="content activities p-4">
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <div class="row">
+                                                <div class="form-group col">
+                                                    <label  for="conv_cuotaini">Cuota Inicial</label>
+                                                    <input class="form-control " type="text" name="conv_cuotaini"  required="">
+                                                </div>
+                                                <div class="form-group col">
+                                                    <label for="conv_cuotaini">(S/).</label>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <div class="row">
+                                                <div class="form-group col">
+                                                    <label for="conv_nrocuota">Nro. Cuotas</label>
+                                                    <select class="form-control" id="conv_nrocuota">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <button  type="" class="btn btn-danger fuse-ripple-ready">Atras<i class="icon-arrow-left"></i></button>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <button  type="" class="btn btn-primary fuse-ripple-ready">Calcular Cuotas</button>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <button  type="submit" class="btn btn-primary fuse-ripple-ready">Registrar</button>
+                                    </div>
+                               </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -307,9 +415,8 @@
                         <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
                             <div class="title h6">Calculadora de Pagos</div>
                         </header>
-                        <div class="content activities p-4">
-                            
-                        </div>
+
+
                     </div>
                 </div>
             </div>
