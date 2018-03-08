@@ -3,6 +3,30 @@
 @section('javascript')
 <script type="text/javascript">
 
+    $(document).ready( function() {
+        var now = new Date();
+        var month = (now.getMonth() + 1);               
+        var day = now.getDate();
+        if (month < 10) 
+            month = "0" + month;
+        if (day < 10) 
+            day = "0" + day;
+        var today = now.getFullYear() + '-' + month + '-' + day;
+        $('#cont_fecha').val(today);
+    });
+
+    function contado(){
+        $("#opcionCredito").attr("hidden","true");
+        $("#calculadora").attr("hidden","true");
+        $("#opcionContado").removeAttr( "hidden" );
+    }
+    function credito(){
+        $("#calculadora").removeAttr( "hidden" );
+        $("#opcionContado").attr("hidden","true");
+        $("#opcionCredito").removeAttr( "hidden" );
+    }
+
+
     function iralpaso2(){
         $("#div2").removeAttr( "hidden" )
         $("#div1").attr("hidden","true");
@@ -100,201 +124,197 @@
         </div>
       <!-- CONTENT -->
         <div class="page-content p-6">
-            <div class="row">
+            <div class="row" id="div1">
                 <div class="col-3"></div>
-                <div class="col-6 ">
+                <div class="col-6" id="div1">
                     <div class="example">
-                        <div class="description">
-                            <div class="description-text">
+                        <div class="profile-box latest-activity card">
+                            <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                                
+                                    <div class="title h6">Datos del Solicitante</div>
+                                
+                                <div class="more text-muted">Registro</div>
+                            </header>
 
-                                @if (Session::has('paso'))
-                                    @if(Session::get('paso')==1)
-                                        <h5>Registro de Difunto</h5>
-                                    @endif
-                                    @if(Session::get('paso')==2)
-                                        <h5>Tipo de pago</h5>
-                                    @endif
-                                @else
-                                    <h5>Registro de Solicitante</h5>
-                                @endif
-                            </div>
-                            
-                        </div>
-
-                        <div class="source-preview-wrapper">
-                            
-                                    <div class="preview" id="div1">
-                                        <div class="preview-elements">
-                                            <form action="/gerencia/pabellon/nicho/comprar">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="sol_nombre" id="Nombre---Solicitante"  placeholder="Nombre de Solicitante">
-                                                    <label for="NombreSolicitante">Nombre de Solicitante</label>
-                                                    <small id="emailHelp" class="form-text text-muted">Ingrese datos de solicitante.
-                                                    </small>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="sol_telefono"  id="TelefonoSolicitante"  placeholder="Ingrese su Telefono">
-                                                    <label for="TelefonoSolicitante">Telefono</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="sol_dir"  id="DirSolicitante"  placeholder="Ingrese su Direccion">
-                                                    <label for="DirSolicitante">Direccion</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="sol_dni" id="DNISolicitante"  placeholder="Ingrese su DNI">
-                                                    <label for="DirSolicitante">DNI</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="text" name="paso"  hidden="" value="1">
-                                                    <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
-                                                    <button  type="submit" class="btn btn-primary fuse-ripple-ready">Siguiente</button>
-                                                </div>
-                                            </form>
-
-                                        </div>
+                            <div class="content activities p-4">
+                                <form action="/gerencia/pabellon/nicho/comprar" method="POST">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="sol_nombre" id="NombreSolicitante"  placeholder="Nombre de Solicitante" required="">
+                                        <label for="NombreSolicitante">Nombre de Solicitante</label>
                                     </div>
-                        
-                                    <div class="preview" id="div2" hidden="">
-                                        <div class="preview-elements">
-                                            <form action="/gerencia/pabellon/nicho/comprar">
-                                                <div class="form-group">
-                                                    <input type="text"   name="dif_nom" class="form-control" id="NombreSolicitante"  placeholder="Nombre de Solicitante">
-                                                    <label for="NombreSolicitante">Nombre de Difunto</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="text" name="dif_ape"  class="form-control" id="TelefonoSolicitante"  placeholder="Ingrese sus Apellidos">
-                                                    <label for="TelefonoSolicitante">Apellidos</label>
-                                                </div>
-                                                <div class="form-group">   
-                                                    <input type="text"  name="dif_dni" class="form-control" id="DirSolicitante"  placeholder="Ingrese su DNI">
-                                                    <label for="DirSolicitante">DNI</label>
-                                                </div> 
-                                                <div class="form-group">  
-                                                    <input type="date" name="dif_fechadef"  class="form-control" id="DNISolicitante" >
-                                                    <label for="DNISolicitante">Fecha de fallecido</label>
-                                                </div> 
-                                                <div class="form-group">
-                                                    <textarea class="form-control" name="dif_obser" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                                    <label for="exampleFormControlTextarea1">Obervaciones</label>
-                                                </div>
-                                                
-                                                <div class="form-group">
-                                                    <input type="text" name="paso" hidden="" value="2">
-                                                    <input type="text" name="nicho_id" value="{{$nicho->nicho_nro}}" hidden="">
-                                                    <button type="submit" class="btn btn-primary fuse-ripple-ready">Siguiente</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="sol_telefono"  id="TelefonoSolicitante"  placeholder="Ingrese su Telefono" required="">
+                                        <label for="TelefonoSolicitante">Telefono</label>
                                     </div>
-                                    
-                                    
-                                    <div class="preview" id="div3" hidden="">
-                                        <div class="row">
-                                            <div class="preview-elements">
-                                                <form action="/gerencia/pabellon/nicho/comprar">
-                                                    <div class="form-group">
-                                                        <button  type="submit" class="btn btn-primary fuse-ripple-ready">Contado</button>
-                                                        <button  type="submit" class="btn btn-primary fuse-ripple-ready">Credito</button>
-                                                    </div>
-                                                    
-                                                    <div class="form-group">
-                                                        <input type="text" name="nicho_id" value="{{$nicho->nicho_nro}}" hidden=""> 
-                                                    </div>
-                                                </form>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="sol_dir"  id="DirSolicitante"  placeholder="Ingrese su Direccion" required="">
+                                        <label for="DirSolicitante">Direccion</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="sol_dni" id="DNISolicitante"  placeholder="Ingrese su DNI" required="">
+                                        <label for="DirSolicitante">DNI</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6" align="left">
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-danger fuse-ripple-ready">Cancelar <i class="icon-cancel"></i></button>
                                             </div>
                                         </div>
+                                        <div class="col-6" align="right">
+                                            <div class="form-group">
+                                                <input type="text" name="paso"  hidden="" value="1">
+                                                <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
+                                                <button  type="submit" class="btn btn-primary fuse-ripple-ready">Siguiente <i class="icon-arrow-right"></i></button>
+                                            </div>    
+                                        </div>
                                     </div>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>
                 <div class="col-3"></div>
             </div>
 
-            <div class="row m-6">
-                
-                <div class="col-6 ">
+            <div class="row" id="div2">
+                <div class="col-3"></div>
+                <div class="col-6" id="div2">
                     <div class="example">
-                        <div class="source-preview-wrapper">
-                            <div class="preview">
-                                <div class="preview-elements">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="cont_tipouso"></label>
-                                            <select  class="form-control" name="cont_tipouso" id="cont_tipouso">
-                                                <option value="cesion"> Cesión de uso</option>
-                                                <option value="perpetuo">Perpetuo</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                           <input type="number"  class="form-control"  id="cont_tiempo" name="cont_tiempo" value="25">
-                                        <div class="form-group mx-sm-3">
-                                           <label for="cont_tiempo">años</label>
-                                        </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text"  class="form-control" name="cont_monto" id="cont_monto" value="{{$nicho->nicho_precio}}">
-                                            <label  class="form-control" for="cont_monto">Precio de nicho</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <select  class="form-control" name="cont_tipopago">
-                                                    <option value="contado">contado</option>
-                                                    <option value="credito">credito</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text"  class="form-control" name="cont_concepto" value="concepto">
-                                            <label  class="form-control" for="cont_concepto"></label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="cont_estado" id="cont_estado" value="bloqueado">
-                                            <label for="cont_estado">Estado de contrato</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="date" name="cont_fecha" id="cont_fecha">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="example">
-                        <div class="source-preview-wrapper">
-                            <div class="preview">
-                                <form action="">
+                        <div class="profile-box latest-activity card">
+                            <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                                <div class="title h6">Datos del Solicitante</div>
+                                <div class="more text-muted">Registro</div>
+                            </header>
+                            <div class="content activities p-4">
+                                <form action="/gerencia/pabellon/nicho/comprar" method="POST">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="dif_nom"  value="{{Session::get('difunto')->dif_nom}}">
-                                        <label class="form-control" for="dif_nom">Nombre de difunto</label>
+                                        <input type="text" class="form-control" name="dif_nom" id="dif_nom"  placeholder="Nombre del Difunto" required="">
+                                        <label for="dif_nom">Nombre del Difunto</label>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="dif_ape"  value="{{Session::get('difunto')->dif_ape}}">
-                                        <label class="form-control" for="dif_ape">Apellidos</label>
+                                        <input type="text" class="form-control" name="dif_ape" id="dif_ape"  placeholder="Apellido del Difunto" required="">
+                                        <label for="dif_ape">Apellido del Difunto</label>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="dif_dni" value="{{Session::get('difunto')->dif_dni}}">
-                                        <label class="form-control" for="dif_dni">DNI</label>
+                                        <input type="text" class="form-control" name="dif_dni" id="dif_dni"  placeholder="DNI. del Difunto" required="">
+                                        <label for="dif_dni">DNI. del Difunto</label>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="dif_fechadef" value="{{Session::get('difunto')->dif_fechadef}}">
-                                        <label class="form-control" for="dif_fechadef">Fecha de Fallecimiento</label>
+                                        <input type="text" class="form-control" name="dif_fechadef" id="dif_fechadef"  placeholder="Fecha de defunción" required="">
+                                        <label for="dif_fechadef">Fecha de defunción</label>
                                     </div>
                                     <div class="form-group">
-                                        <input  class="form-controlclass="form-control" " type="text" name="dif_obser" value="{{Session::get('difunto')->dif_obser}}">
-                                        <label  class="form-control" for="dif_obser">Obervaciones</label>
+                                        <textarea type="text" class="form-control" name="dif_obser" id="dif_obser"  placeholder="Observaciones" required=""></textarea>
+                                        <label for="dif_obser">Observaciones</label>
                                     </div>
 
-
+                                    <div class="row">
+                                        <div class="col-6" align="left">
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-danger fuse-ripple-ready">Atras <i class="icon-arrow-left"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-6" align="right">
+                                            <div class="form-group">
+                                                <input type="text" name="paso"  hidden="" value="2">
+                                                <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
+                                                <button  type="submit" class="btn btn-primary fuse-ripple-ready">Siguiente <i class="icon-arrow-right"></i></button>
+                                            </div>    
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+                <div class="col-3"></div>
             </div>
-               
+
+            <div class="row" id="div3">
+                <div class="col-2">
+                    <div class="example">
+                        <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                            <div class="title h6">Datos del Tipo de Pago</div>
+                        </header>
+                        <div class="content activities p-4">
+                            <form action="/gerencia/pabellon/nicho/comprar" method="POST">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-info fuse-ripple-ready" onclick="contado();">Contado <i class="icon-cash"></i></button>
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-info fuse-ripple-ready" onclick="credito();">Credito <i class="icon-document"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6" id="opcionContado" hidden="">
+                    <div class="example">
+                        <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                            <div class="title h6">Compra al Contado</div>
+                        </header>
+                        <div class="content activities p-4">
+                            <form action="/gerencia/pabellon/nicho/comprar" method="POST">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" name="cont_fecha" id="cont_fecha"  placeholder="Fecha del Contrato" required="">
+                                        <label for="cont_fecha">Fecha del Contrato</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="cont_tipopago" id="cont_tipopago"  placeholder="Tipo de Pago" required="" readonly="" value="Credito">
+                                        <label for="cont_tipopago">Tipo de Pago</label>
+                                    </div>
+                                    
+
+                                    <div class="row">
+                                        <div class="col-6" align="left">
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-danger fuse-ripple-ready">Atras <i class="icon-arrow-left"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-6" align="right">
+                                            <div class="form-group">
+                                                <input type="text" name="paso"  hidden="" value="2">
+                                                <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
+                                                <button  type="submit" class="btn btn-primary fuse-ripple-ready">Siguiente <i class="icon-arrow-right"></i></button>
+                                            </div>    
+                                        </div>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6" id="opcionCredito" hidden="">
+                    <div class="example">
+                        <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                            <div class="title h6">Compra al Credito</div>
+                        </header>
+                        <div class="content activities p-4">
+                            
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="col-4" id="calculadora" hidden="">
+                    <div class="example">
+                        <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                            <div class="title h6">Calculadora de Pagos</div>
+                        </header>
+                        <div class="content activities p-4">
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 </div>
 <!-- CONTENT -->
 @endsection
@@ -302,7 +322,6 @@
 
 
 @section('javascriptFinal')
-
     @if (Session::has('paso'))
         @if(Session::get('paso')==1)
             <script type="text/javascript">

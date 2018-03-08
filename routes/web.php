@@ -51,7 +51,7 @@ Route::get('/gerencia/gestion','GerenciaController@getIndex');
 Route::post('/gerencia/pabellon/nichos','PabellonController@postVerNichos');
 
 Route::get('/gerencia/pabellon/nicho','NichoController@getVerNicho');
-Route::get('/gerencia/pabellon/nicho/comprar','ContratoController@postComprarNicho');
+Route::post('/gerencia/pabellon/nicho/comprar','ContratoController@postComprarNicho');
 
 //AJAX
 Route::get('/ajax/get/ObtenerPabellonesPorCementerio','PabellonController@getAjaxObtenerPabellonesPorCementerio');

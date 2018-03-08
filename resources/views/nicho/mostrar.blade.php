@@ -79,19 +79,19 @@
                                             <div class="profile-box info-box general card mb-4">
 
                                                 <header class="h6 bg-secondary text-auto p-4">
-                                                    <div class="title">General Information</div>
+                                                    <div class="title">Información de Contrato</div>
                                                 </header>
 
                                                 <div class="content p-4">
 
                                                     <div class="info-line mb-6">
-                                                        <div class="title font-weight-bold mb-1">Gender</div>
-                                                        <div class="info">Female</div>
+                                                        <div class="title font-weight-bold mb-1">Fecha de Inicio de Contrato</div>
+                                                        <div class="info">01-01-2018</div>
                                                     </div>
 
                                                     <div class="info-line mb-6">
-                                                        <div class="title font-weight-bold mb-1">Birthday</div>
-                                                        <div class="info">12.01.1987</div>
+                                                        <div class="title font-weight-bold mb-1">Tipo de Contrato</div>
+                                                        <div class="info">Cesión de Uso / Perpetuo</div>
                                                     </div>
 
                                                     <div class="info-line mb-6">
@@ -221,33 +221,12 @@
                                                 </header>
 
                                                 <div class="content row no-gutters p-4">
-
                                                     <div class="friend col-3 p-1">
-                                                        <img class="w-100" src="{{asset('assets/images/nicho/default.jpg')}}">
                                                     </div>
-
-                                                    <div class="friend col-3 p-1">
-                                                        <img class="w-100" src="../assets/images/avatars/carl.jpg">
+                                                    <div class="friend col-6 p-1">
+                                                        <img class="w-100" src="/assets/images/nicho/{{$nicho->nicho_pathimag}}">
                                                     </div>
-
                                                     <div class="friend col-3 p-1">
-                                                        <img class="w-100" src="../assets/images/avatars/jane.jpg">
-                                                    </div>
-
-                                                    <div class="friend col-3 p-1">
-                                                        <img class="w-100" src="../assets/images/avatars/garry.jpg">
-                                                    </div>
-
-                                                    <div class="friend col-3 p-1">
-                                                        <img class="w-100" src="../assets/images/avatars/vincent.jpg">
-                                                    </div>
-
-                                                    <div class="friend col-3 p-1">
-                                                        <img class="w-100" src="../assets/images/avatars/alice.jpg">
-                                                    </div>
-
-                                                    <div class="friend col-3 p-1">
-                                                        <img class="w-100" src="../assets/images/avatars/andrew.jpg">
                                                     </div>
 
                                                 </div>
