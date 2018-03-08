@@ -229,7 +229,7 @@ class ContratoController extends Controller
                             }
                             else{
                                 if ($contrato->save()) {
-                                    
+                                    return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$pabellon->Nichos])->with('creado', 'Nicho Reservado de Manera Correcta');
                                 }
                             }
                         }

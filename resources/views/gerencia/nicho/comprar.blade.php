@@ -306,7 +306,9 @@
                             <div class="title h6">Compra al Credito</div>
                         </header>
                         <div class="content activities p-4"> 
-                            <form action="/gerencia/pabellon/nicho/comprar" method="POST">                                
+                            <form action="/gerencia/pabellon/nicho/comprar" method="POST">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
                                 <div class="row">
                                     
                                     <div class="form-group col-4">
@@ -330,21 +332,21 @@
                                     
                                 </div>
                                  <div class="row">
-                                        <div class="form-group col-4">
-                                            <label for="cont_tipopago">TIpo de Pago</label>  
-                                            <input  class="form-control" type="text" name="cont_tipopago" value="credito" required="">
-                                               
-                                        </div>
-                                        <div class="form-group col-4">
-                                            <label for="cont_concepto">Concepto</label> 
-                                            <input class="form-control" type="text" name="cont_concepto" value="concepto" disabled="" required="">
-                                                  
-                                        </div>
-                                        <div class="form-group col-4">
-                                            <label for="cont_estado">Estado de Contrado</label>
-                                            <input class="form-control" type="text" name="cont_estado" value="En Trámite" disabled="" required="">
-                                            
-                                        </div>
+                                    <div class="form-group col-4">
+                                        <label for="cont_tipopago">TIpo de Pago</label>  
+                                        <input  class="form-control" type="text" name="cont_tipopago" value="credito" required="">
+                                           
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="cont_concepto">Concepto</label> 
+                                        <input class="form-control" type="text" name="cont_concepto" value="concepto" disabled="" required="">
+                                              
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="cont_estado">Estado de Contrado</label>
+                                        <input class="form-control" type="text" name="cont_estado" value="En Trámite" disabled="" required="">
+                                        
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-1"></div>
@@ -393,6 +395,8 @@
                                     </div>
                                         
                                 </div>
+                                <input type="text" name="paso"  hidden="" value="3">
+                                <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
                                 <div class="row">
                                     <div class="form-group col-4">
                                         <button  type="" class="btn btn-danger fuse-ripple-ready">Atras<i class="icon-arrow-left"></i></button>

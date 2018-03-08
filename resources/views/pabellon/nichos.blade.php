@@ -3,6 +3,37 @@
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/pabellon.css')}}">
+<style type="text/css">
+   .square-libre {
+
+    background: #4EAA4E;
+    border: 1px;
+    width: 2em;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 7px 7px 7px 7px;
+    height: 2em;
+    margin-right: 2px;
+    }
+    .square-ocupado {
+    background: #E5594D;
+    border: 1px;
+    width: 2em;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 7px 7px 7px 7px;
+    height: 2em;
+    margin-right: 2px;
+    }
+    .square-tramite {
+    background: #FF9958;
+    border: 1px;
+    width: 2em;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 7px 7px 7px 7px;
+    height: 2em;
+    margin-right: 2px;
+    }
+    
+</style>
 @endsection
 
 @section('content')
@@ -81,7 +112,40 @@
         <div class="page-content p-6">
             <div class="content" align="center">
                 <div class="row">
-                    <div class="col-12" >
+                    <div class="col-2">
+                        <div class="example">
+                            <div class="source-preview-wrapper">
+                                <div class="preview" >
+                                    <div class="row">
+                                        <ul class="nav flex-column">
+                                            <li class="subheader"><h4>Leyenda</h4></li>
+                                            <li class="nav-item">
+                                                <div class="row">
+                                                    <table>
+                                                        <tr>
+                                                            <td><div class="square-libre"></div></td>
+                                                            <td><span>Nicho Libre</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><div class="square-ocupado"></div></td>
+                                                            <td><span>Nicho Ocupado</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><div class="square-tramite"></div></td>
+                                                            <td><span>Nicho en trámite</span></td>
+                                                        </tr>
+                                                        
+                                                    </table>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-10" >
                         <div class="example " >
                             <div class="source-preview-wrapper"  style="overflow: scroll">
                                 <div class="preview" >
@@ -102,8 +166,12 @@
                                                                     <button type="submit"  class="ocupado" data-toggle="tooltip" data-placement="top" data-original-title="ocupado"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
                                                                     <?php $flagPrecio = false; ?>
                                                                 @else
-                                                                    <button type="submit"  class="libre" data-toggle="tooltip" data-placement="top" data-original-title="Libre | S/.{{$nichos[$i-1][$j-1]->nicho_precio}}"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                                    @if($nichos[$i-1][$j-1]->nicho_est=="libre")
+                                                                        <button type="submit"  class="libre" data-toggle="tooltip" data-placement="top" data-original-title="Libre | S/.{{$nichos[$i-1][$j-1]->nicho_precio}}"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                                    @else
+                                                                        <button type="submit"  class="tramite" data-toggle="tooltip" data-placement="top" data-original-title="En Trámite"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
                                                                 @endif
+                                                            @endif
                                                             </form>
                                                         </td>
                                                         @if($j==$pabellon->pab_nrocol)

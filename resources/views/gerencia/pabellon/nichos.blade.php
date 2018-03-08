@@ -22,8 +22,8 @@
     height: 2em;
     margin-right: 2px;
     }
-    .square-traslado {
-    background: #4EAA4E;
+    .square-tramite {
+    background: #FF9958;
     border: 1px;
     width: 2em;
     -webkit-border-radius: 5px 5px 5px 5px;
@@ -126,6 +126,11 @@
                                                             <td><div class="square-ocupado"></div></td>
                                                             <td><span>Nicho Ocupado</span></td>
                                                         </tr>
+                                                        <tr>
+                                                            <td><div class="square-tramite"></div></td>
+                                                            <td><span>Nicho en trámite</span></td>
+                                                        </tr>
+                                                        
                                                     </table>
                                                 </div>
                                             </li>
@@ -156,7 +161,11 @@
                                                                 <button type="submit"  class="ocupado" data-toggle="tooltip" data-placement="top" data-original-title="ocupado"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
                                                                 <?php $flagPrecio = false; ?>
                                                             @else
-                                                                <button type="submit"  class="libre" data-toggle="tooltip" data-placement="top" data-original-title="Libre | S/.{{$nichos[$i-1][$j-1]->nicho_precio}}"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                                @if($nichos[$i-1][$j-1]->nicho_est=="libre")
+                                                                    <button type="submit"  class="libre" data-toggle="tooltip" data-placement="top" data-original-title="Libre | S/.{{$nichos[$i-1][$j-1]->nicho_precio}}"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                                @else
+                                                                    <button type="submit"  class="tramite" data-toggle="tooltip" data-placement="top" data-original-title="En Trámite"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                                @endif
                                                             @endif
                                                         </form>
                                                     </td>
