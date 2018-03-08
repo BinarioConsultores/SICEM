@@ -10,6 +10,8 @@ use sicem\Difunto;
 use Carbon\Carbon;
 use sicem\Contrato;
 use sicem\Convenio;
+use sicem\PlanPago;
+use sicem\Pabellon;
 
 class ContratoController extends Controller
 {
@@ -39,6 +41,7 @@ class ContratoController extends Controller
             'nicho_id' => 'required',
             'paso' => 'required',
         ]);
+        $nicho = Nicho::findOrFail($request->get('nicho_id'));
         /**
          * Si el paso es 1, debemos guardar en SESION, los datos del solicitante
          */
@@ -147,7 +150,80 @@ class ContratoController extends Controller
                                     $convenio->conv_nrocuota = $request->get('conv_nrocuota');
                                     $convenio->cont_id = $contrato->cont_id;
                                     if ($convenio->save()) {
+                                        /**
+                                         * Si el convenio es correctamente creado, procedemos a llenar la tabla plan pago con los 
+                                         * pagos y el siguiente algoritmo
+                                         */
                                         
+                                        /**
+                                         * El subtotal es el pago total del nicho menos la cuota inicial.
+                                         *
+                                         * @var        integer
+                                         */
+                                        $subtotal = 0;
+                                        $subtotal=$contrato->cont_monto - $convenio->conv_cuotaini;
+                                        $residuo=$subtotal%$convenio->conv_nrocuota;
+                                        $cuotamensual=($subtotal-$residuo)/$convenio->conv_nrocuota;
+                                        if($residuo>0)
+                                        {
+                                            $xpricuota=$cuotamensual+1;
+                                        }
+                                        else
+                                        {
+                                            $xpricuota=$cuotamensual;
+                                        }
+
+                                        $now = Carbon::now();
+                                        $dia_hoyX = $now->day;
+                                        $mes_hoy = $now->month+1;
+                                        $ano_hoy = $now->year; 
+
+
+
+                                        for($j=1; $j<=$convenio->conv_nrocuota; $j++) 
+                                        {
+                                            $planPago = new PlanPago();
+                                            $planPago->ppago_nrocuota = $j;
+                                             
+                                            if($mes_hoy>12)
+                                            {   
+                                                $mes_hoy=1;
+                                                $ano_hoy=$ano_hoy+1;
+                                            }
+                                            
+                                            if (($dia_hoy== 31) &&($mes_hoy==4 || $mes_hoy==6 || $mes_hoy==9 || $mes_hoy==11 )) 
+                                                $dia_hoyX = 30;
+                                            
+                                            if( $mes_hoy == 2 && $dia_hoy>27)
+                                            {
+                                            if (($dia_hoy==29 || $dia_hoy==30 || $dia_hoy==31) &&  (($ano_hoy % 4 == 0) && !($ano_hoy % 100 == 0 && $ano_hoy % 400!= 0)))
+                                                $dia_hoyX = 29;
+                                            else 
+                                                $dia_hoyX = 28;
+                                            }
+                                                
+                                            $planPago->ppago_fechaven = Carbon::create($ano_hoy, $mes_hoy, $dia_hoyX, 0, 0, 0);    
+                                                
+                                            if($j<=$residuo)
+                                            {
+                                                $planPago->ppago_montocuota=round($xpricuota,0);
+                                            }
+                                            else
+                                            {   
+                                                $planPago->ppago_montocuota=round($xmontocomun,0);            
+
+                                            }
+                                            $dia_hoyX = $dia_hoy;
+                                            $mes_hoy=$mes_hoy+1;    
+                                            $planPago->ppago_saldocuota = 0;
+                                            $planPago->conv_id = $convenio->conv_id;
+                                            $planPago->save();
+                                        }
+                                        $pabellon = new Pabellon();
+                                        $pabellon = $nicho->Pabellon;
+                                        $nicho->nicho_est = "ocupado";
+                                        $nicho->save();
+                                        return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$pabellon->Nichos])->with('creado', 'Nicho Reservado de Manera Correcta');
                                     }
                                 }
                             }
@@ -162,8 +238,6 @@ class ContratoController extends Controller
                 }
             }
         }
-
-        $nicho = Nicho::findOrFail($request->get('nicho_id'));
     
         return view('gerencia.nicho.comprar',['nicho'=>$nicho]);
         
