@@ -28,8 +28,10 @@ class Creartablacontrato extends Migration
             $table->integer('nicho_id')->unsigned();
             $table->integer('usu_id_reg')->unsigned();
             $table->integer('usu_id_auto')->unsigned();
+            $table->integer('conv_id')->unsigned();
             $table->integer('bolde_id')->unsigned();
             $table->foreign('sol_id')->references('sol_id')->on('t_solicitante');
+            $table->foreign('conv_id')->references('conv_id')->on('t_convenio');
             $table->foreign('dif_id')->references('dif_id')->on('t_difunto');
             $table->foreign('nicho_id')->references('nicho_id')->on('t_nicho');
             $table->foreign('usu_id_reg')->references('id')->on('users');

@@ -143,6 +143,7 @@ class ContratoController extends Controller
                             $contrato->sol_id = $solicitante->sol_id;
                             $contrato->dif_id = $difunto->dif_id;
                             $contrato->nicho_id = $nicho->nicho_id;
+                            $contrato->conv_id = 1;
                             $contrato->usu_id_reg = Auth::user()->id;
                             $contrato->usu_id_auto = $request->get('usu_id_auto');
                             $contrato->bolde_id = 1;
@@ -152,7 +153,7 @@ class ContratoController extends Controller
                                     $convenio->conv_fecha = Carbon::now();
                                     $convenio->conv_cuotaini = $request->get('conv_cuotaini');
                                     $convenio->conv_nrocuota = $request->get('conv_nrocuota');
-                                    $convenio->cont_id = $contrato->cont_id;
+                                    
                                     if ($convenio->save()) {
                                         /**
                                          * Si el convenio es correctamente creado, procedemos a llenar la tabla plan pago con los 
@@ -251,6 +252,7 @@ class ContratoController extends Controller
                                 for($i=1;$i<=$nrofil;$i++){
                                     for($j=1;$j<=$nrocol;$j++){
                                       $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pabellon->pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
+
                                     }
                                 }
                                 

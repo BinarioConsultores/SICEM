@@ -12,14 +12,14 @@ class Convenio extends Model
       'created_at', 'updated_at'
   ];
   protected $fillable = [
-        'conv_fecha', 'conv_cuotaini','conv_nrocuotas','cont_id',
+        'conv_fecha', 'conv_cuotaini','conv_nrocuotas',
   ];
   public function PlanPagos()
   {
       return $this->hasMany('sicem\PlanPago','conv_id');
   }
-   public function Contrato()
+  public function Contrato()
   {
-      return $this->belongsTo('sicem\Contrato','cont_id');
+      return $this->belongsTo('sicem\Contrato','conv_id');
   }
 }
