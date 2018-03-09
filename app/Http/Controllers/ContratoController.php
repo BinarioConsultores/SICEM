@@ -12,6 +12,7 @@ use sicem\Contrato;
 use sicem\Convenio;
 use sicem\PlanPago;
 use sicem\Pabellon;
+use sicem\User;
 
 class ContratoController extends Controller
 {
@@ -42,6 +43,7 @@ class ContratoController extends Controller
             'paso' => 'required',
         ]);
         $nicho = Nicho::findOrFail($request->get('nicho_id'));
+        $usuarios = User::where('tipo','administrador')->get();
         /**
          * Si el paso es 1, debemos guardar en SESION, los datos del solicitante
          */
@@ -59,6 +61,7 @@ class ContratoController extends Controller
             $solicitante->sol_dni = $request->get('sol_dni');
             session(['solicitante' => $solicitante]);
             session(['paso' => 1]);
+            return view('gerencia.nicho.comprar',['nicho'=>$nicho,'usuarios'=>$usuarios]);
         }else {
             /**
              * Si el paso es 2, guardamos en SESION, los datos del difunto
@@ -79,6 +82,7 @@ class ContratoController extends Controller
                 $difunto->dif_obser = $request->get('dif_obser');                
                 session(['difunto' => $difunto]);
                 session(['paso' => 2]);
+                return view('gerencia.nicho.comprar',['nicho'=>$nicho,'usuarios'=>$usuarios]);
             }
             else{
                 /**
@@ -138,11 +142,11 @@ class ContratoController extends Controller
                             $contrato->cont_diffechsep = $request->get('cont_diffechsep');
                             $contrato->sol_id = $solicitante->sol_id;
                             $contrato->dif_id = $difunto->dif_id;
-                            $contrato->nicho_id = $difunto->nicho_id;
+                            $contrato->nicho_id = $nicho->nicho_id;
                             $contrato->usu_id_reg = Auth::user()->id;
                             $contrato->usu_id_auto = $request->get('usu_id_auto');
                             $contrato->bolde_id = 1;
-                            if ($contrato->tipopago == "credito") {
+                            if ($contrato->cont_tipopago == "credito") {
                                 if ($contrato->save()) {
                                     $convenio = new Convenio();
                                     $convenio->conv_fecha = Carbon::now();
@@ -174,7 +178,8 @@ class ContratoController extends Controller
                                         }
 
                                         $now = Carbon::now();
-                                        $dia_hoyX = $now->day;
+                                        $dia_hoy = $now->day;
+                                        $dia_hoyX = $dia_hoy;
                                         $mes_hoy = $now->month+1;
                                         $ano_hoy = $now->year; 
 
@@ -201,46 +206,77 @@ class ContratoController extends Controller
                                             else 
                                                 $dia_hoyX = 28;
                                             }
-                                                
-                                            $planPago->ppago_fechaven = Carbon::create($ano_hoy, $mes_hoy, $dia_hoyX, 0, 0, 0);    
-                                                
+                                            $planPago->ppago_fechaven = Carbon::create($ano_hoy, $mes_hoy, $dia_hoyX, 0, 0, 0);
                                             if($j<=$residuo)
                                             {
                                                 $planPago->ppago_montocuota=round($xpricuota,0);
                                             }
                                             else
                                             {   
-                                                $planPago->ppago_montocuota=round($xmontocomun,0);            
-
+                                                $planPago->ppago_montocuota=round($cuotamensual,0);
                                             }
+                                            $planPago->ppago_saldocuota = $planPago->ppago_montocuota; 
                                             $dia_hoyX = $dia_hoy;
                                             $mes_hoy=$mes_hoy+1;    
-                                            $planPago->ppago_saldocuota = 0;
                                             $planPago->conv_id = $convenio->conv_id;
                                             $planPago->save();
                                         }
                                         $pabellon = new Pabellon();
                                         $pabellon = $nicho->Pabellon;
-                                        $nicho->nicho_est = "ocupado";
+
+                                        $nrofil = $pabellon->pab_nrofil;
+                                        $nrocol = $pabellon->pab_nrocol;
+                                        $nichos[0][0]=0;
+                                        $nicho->nicho_est = "tramite";
                                         $nicho->save();
-                                        return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$pabellon->Nichos])->with('creado', 'Nicho Reservado de Manera Correcta');
+                                        for($i=1;$i<=$nrofil;$i++){
+                                            for($j=1;$j<=$nrocol;$j++){
+                                              $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pabellon->pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
+                                            }
+                                        }
+                                        
+                                        self::borrarSesion();
+                                        return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('creado', 'Nicho Reservado de Manera Correcta');
                                     }
                                 }
                             }
                             else{
+                                $pabellon = new Pabellon();
+                                $pabellon = $nicho->Pabellon;
+                                $nrofil = $pabellon->pab_nrofil;
+                                $nrocol = $pabellon->pab_nrocol;
+                                $nichos[0][0]=0;
+                                $nicho->nicho_est = "tramite";
+                                $nicho->save();
+                                for($i=1;$i<=$nrofil;$i++){
+                                    for($j=1;$j<=$nrocol;$j++){
+                                      $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pabellon->pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
+                                    }
+                                }
+                                
                                 if ($contrato->save()) {
-                                    return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$pabellon->Nichos])->with('creado', 'Nicho Reservado de Manera Correcta');
+                                    self::borrarSesion();
+                                    return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('creado', 'Nicho Reservado de Manera Correcta');
                                 }
                             }
                         }
                     }
 
                 }
+                // else{
+
+                // }
             }
         }
-    
-        return view('gerencia.nicho.comprar',['nicho'=>$nicho]);
         
+        return view('gerencia.nicho.comprar',['nicho'=>$nicho,'usuarios',$usuarios]);
         
+    }
+
+    public function borrarSesion()
+    {
+        session()->forget('difunto');
+        session()->forget('paso');
+        session()->forget('solicitante');
     }
 }

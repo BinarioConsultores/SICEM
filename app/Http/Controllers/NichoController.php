@@ -5,6 +5,7 @@ namespace sicem\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use sicem\Nicho;
+use sicem\User;
 
 class NichoController extends Controller
 {
@@ -33,8 +34,9 @@ class NichoController extends Controller
             'nicho_id' => 'required',
         ]);
         $nicho = Nicho::findOrFail($request->get('nicho_id'));
+        $usuarios = User::where('tipo','administrador')->get();
         if ($nicho->nicho_est == "libre") {
-            return view('gerencia.nicho.comprar',['nicho'=>$nicho]);
+            return view('gerencia.nicho.comprar',['nicho'=>$nicho, 'usuarios'=>$usuarios]);
         }
         return view('gerencia.nicho.mostrar',['nicho'=>$nicho]);
     }

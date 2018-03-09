@@ -8,7 +8,7 @@ class PlanPago extends Model
 {
   protected $table = 't_planpago';
   protected $primaryKey = 'ppago_id';
-  protected $fillable = [
+  protected $hidden = [
       'created_at', 'updated_at',
   ];
   protected $fillable = [

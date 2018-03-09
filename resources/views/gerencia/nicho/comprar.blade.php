@@ -127,6 +127,23 @@
                                   <a href="#" class="bs-wizard-dot"></a>
                                   <div class="bs-wizard-info text-center"> Curabitur mollis magna at blandit vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae</div>
                                 </div>
+
+                                @if (Session::has('paso'))
+                                    <div class="alert alert-success" role="alert">
+                                        {{Session::get('paso')}}
+                                    </div>
+                                @endif
+                                @if (Session::has('solicitante'))
+                                    <div class="alert alert-success" role="alert">
+                                        {{Session::get('solicitante')}}
+                                    </div>
+                                @endif
+                                @if (Session::has('difunto'))
+                                    <div class="alert alert-success" role="alert">
+                                        {{Session::get('difunto')}}
+                                    </div>
+                                @endif
+
                             </div>
                         </div>    
                     </div>
@@ -163,7 +180,7 @@
                                         <label for="DirSolicitante">Direccion</label>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="sol_dni" id="DNISolicitante"  placeholder="Ingrese su DNI" required="">
+                                        <input pattern=".{8,8}" required title="Ingrese un D.N.I. válido" type="text" class="form-control" name="sol_dni" id="DNISolicitante"  placeholder="Ingrese su DNI" required="">
                                         <label for="DirSolicitante">DNI</label>
                                     </div>
                                     <div class="row">
@@ -195,7 +212,7 @@
                     <div class="example">
                         <div class="profile-box latest-activity card">
                             <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
-                                <div class="title h6">Datos del Solicitante</div>
+                                <div class="title h6">Datos del Difunto</div>
                                 <div class="more text-muted">Registro</div>
                             </header>
                             <div class="content activities p-4">
@@ -214,7 +231,7 @@
                                         <label for="dif_dni">DNI. del Difunto</label>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="dif_fechadef" id="dif_fechadef"  placeholder="Fecha de defunción" required="">
+                                        <input type="date" class="form-control" name="dif_fechadef" id="dif_fechadef"  placeholder="Fecha de defunción" required="">
                                         <label for="dif_fechadef">Fecha de defunción</label>
                                     </div>
                                     <div class="form-group">
@@ -319,51 +336,62 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-3">
-                                            <label  for="cont_precio">Precio de Nicho</label>
-                                            <input class="form-control " type="text" name="cont_precio" value="{{$nicho->nicho_precio}}" required="" >
+                                            <label  for="cont_monto">Precio de Nicho</label>
+                                            <input class="form-control " type="text" name="cont_monto" value="{{$nicho->nicho_precio}}" required="" >
                                     </div>
                                     <div class="form-group col-1">
                                             <label for="cont_precio">(S/).</label>                     
                                     </div>
                                     <div class="form-group col-4">
-                                        <label for="inputZip" >Duración del contrato</label>
-                                        <input type="number" class="form-control" id="inputZip" value="25" required="">
+                                        <label for="cont_tiempo" >Duración del contrato</label>
+                                        <input type="number" class="form-control" id="cont_tiempo" value="25" name="cont_tiempo" required="">
                                     </div>
                                     
                                 </div>
                                  <div class="row">
                                     <div class="form-group col-4">
-                                        <label for="cont_tipopago">TIpo de Pago</label>  
+                                        <label for="cont_tipopago">Tipo de Pago</label>  
                                         <input  class="form-control" type="text" name="cont_tipopago" value="credito" required="">
                                            
                                     </div>
                                     <div class="form-group col-4">
                                         <label for="cont_concepto">Concepto</label> 
-                                        <input class="form-control" type="text" name="cont_concepto" value="concepto" disabled="" required="">
+                                        <input class="form-control" type="text" name="cont_concepto" value="concepto" readonly="" required="">
                                               
                                     </div>
                                     <div class="form-group col-4">
                                         <label for="cont_estado">Estado de Contrado</label>
-                                        <input class="form-control" type="text" name="cont_estado" value="En Trámite" disabled="" required="">
+                                        <input class="form-control" type="text" name="cont_estado" value="En Trámite" readonly="" required="">
                                         
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-1"></div>
-                                     <div class="form-group col-5">
+                                    <div class="form-group col-4">
                                         <label for="cont_fecha">Fecha de Contrato</label>
-                                        <input class="form-control" type="date" name="cont_fecha" id="cont_fecha1" required="" required="">
-                                        
+                                        <input class="form-control" type="date" name="cont_fecha" id="cont_fecha1" required="" required="">    
                                     </div>
-                                    <div class="form-group col-5">
-                                        <label  for="cont_diffechasep">Fecha de Entierro</label>
-                                        <input class="form-control" type="date" name="cont_diffechasep" id="cont_diffechasep" required="" required="">
+                                    <div class="form-group col-4">
+                                        <label  for="cont_diffechsep">Fecha de Sepultura</label>
+                                        <input class="form-control" type="date" name="cont_diffechsep" id="cont_diffechsep" required="" required="">
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="usu_id_auto">Usuario que autoriza</label>
+
+                                        @if(sizeof($usuarios)>0)
+                                            <select  class="form-control" name="usu_id_auto" required="">
+                                                <option  selected="" value="0">Seleccione usuario autorizador </option>
+                                                @foreach($usuarios as $usuario)
+                                                    <option  selected="" value="{{$usuario->id}}">{{$usuario->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        @else
+                                            NO EXISTEN USUARIOS AUTORIZADORES
+                                        @endif
                                         
                                     </div>
 
                                 </div>
                             
-                                
                                <div class="divider"></div>
                                 <div class="content activities p-4">
                                     <div class="row">
@@ -382,7 +410,7 @@
                                             <div class="row">
                                                 <div class="form-group col">
                                                     <label for="conv_nrocuota">Nro. Cuotas</label>
-                                                    <select class="form-control" id="conv_nrocuota">
+                                                    <select class="form-control" id="conv_nrocuota" name="conv_nrocuota">
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
