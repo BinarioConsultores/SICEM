@@ -1,5 +1,5 @@
 @extends('layouts.appgerencia')
-
+ 
 @section('javascript')
 <script type="text/javascript">
 
@@ -26,129 +26,307 @@
 
 
 <div class="content">
-    <div class="doc data-table-doc page-layout simple full-width">
-        <!-- HEADER -->
-        <div class="page-header bg-secondary text-auto p-6 row no-gutters align-items-center justify-content-between">
-            <h2 class="doc-title" id="content">Nicho {{$nicho->nicho_nro}}</h2>
-        </div>
-
-        @if (Session::has('creado'))
-        <div class="alert alert-success" role="alert">
-            {{Session::get('creado')}}
-        </div>
-        @endif
-        @if (Session::has('editado'))
-        <div class="alert alert-success" role="alert">
-            {{Session::get('editado')}}
-        </div>
-        @endif
-        @if (Session::has('error'))
-        <div class="alert alert-danger" role="alert">
-            {{Session::get('error')}}
-        </div>
-        @endif
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-        @if (Session::has('eliminado'))
-        <div class="alert alert-success" role="alert">
-            {{Session::get('eliminado')}}
-        </div>
-        @endif
-
-        <div class="page-content p-6">
-            <div class="example">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="container">
-                            <div class="row bs-wizard" style="border-bottom:0;">
-                                <div class="col-4 bs-wizard-step active" id="primero">
-                                    <div class="text-center bs-wizard-stepnum">Step 1</div>
-                                    <div class="progress"><div class="progress-bar"></div></div>
-                                    <a href="#" class="bs-wizard-dot"></a>
-                                    <div class="bs-wizard-info text-center">Lorem ipsum dolor sit amet.</div>
-                                </div>
-
-                                <div class="col-4 bs-wizard-step disabled" id="segundo"><!-- complete -->
-                                    <div class="text-center bs-wizard-stepnum">Step 2</div>
-                                    <div class="progress"><div class="progress-bar"></div></div>
-                                    <a href="#" class="bs-wizard-dot"></a>
-                                    <div class="bs-wizard-info text-center">Nam mollis tristique erat vel tristique. Aliquam erat volutpat. Mauris et vestibulum nisi. Duis molestie nisl sed scelerisque vestibulum. Nam placerat tristique placerat</div>
-                                </div>
-
-                                <div class="col-4 bs-wizard-step disabled" id="tercero"><!-- complete -->
-                                    <div class="text-center bs-wizard-stepnum">Step 3</div>
-                                    <div class="progress"><div class="progress-bar"></div></div>
-                                    <a href="#" class="bs-wizard-dot"></a>
-                                    <div class="bs-wizard-info text-center">Integer semper dolor ac auctor rutrum. Duis porta ipsum vitae mi bibendum bibendum</div>
-                                </div>
-                            </div>
-                        </div>    
+    <div class="page-layout carded left-sidebar">
+        <div class="top-bg bg-primary"></div>
+        <div class="page-content-wrapper">
+            <aside class="page-sidebar" data-fuse-bar="demo-sidebar" data-fuse-bar-media-step="md">
+                <div class="header p-6 bg-primary text-auto">
+                    <span class="h3">Información de Nicho</span>
+                </div>
+                <div class="demo-sidebar">
+                    <ul class="nav flex-column">
+                        <li class="subheader">Menú</li>
+                        <li class="nav-item">
+                            <a class="nav-link">Sidenav Item 1</a>
+                        </li>
+                        <md-divider></md-divider>
+                        <li class="nav-item">
+                            <a class="nav-link">Sidenav Item 2</a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            <div class="page-content">
+                <div class="header py-6 bg-primary text-auto">
+                     <div class="d-flex flex-row align-items-center">
+                        <button type="button" class="sidebar-toggle-button btn btn-icon d-block d-lg-none mr-2" data-fuse-bar-toggle="demo-sidebar">
+                            <i class="icon icon-menu"></i>
+                        </button>
+                        <span class="h3">Nicho {{$nicho->nicho_nro}} {{$nicho->nicho_id}} </span>
                     </div>
-                </div> 
-            </div>     
-        </div>
-      <!-- CONTENT -->
-        <div class="page-content p-6">
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8" >
-                    <div class="example" >
-                        <div class="source-preview-wrapper">
-                            <div class="preview" id="div1">
-                                <form action="/gerencia/pabellon/nicho/comprar">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlSelect2">Example multiple select</label>
-                                        <select multiple="" class="form-control" id="exampleFormControlSelect2">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                </div>
+                <div class="page-content-card">
+                    <div class="toolbar p-6">Información General</div>
+                    <div class="page-content p-6">
+                            <div class="row">
+                                        <div class="col-3">
+                                            <div class="example"> 
+                                                <div class="card m-1">   
+                                                     <header class="h6 bg-secondary text-auto p-4">
+                                                        <div class="title">Información de Contrato</div>
+                                                    </header>
+                                                    <div class="content  p-4">
+                                                        <div class=" mb-6">
+                                                            <div class="title font-weight-bold mb-1">Fecha de Contrato</div>
+                                                            <div class="info">{{$contrato->cont_fecha}}</div>
+                                                        </div>
+                                                        <div class=" mb-6">
+                                                            <div class="title font-weight-bold mb-1">Concepto de Contrato</div>
+                                                            <div class="info">{{$contrato->cont_tipopago}}</div>
+                                                        </div>
+                                                        <div class=" mb-6">
+                                                            <div class="title font-weight-bold mb-1">Concepto de Contrato</div>
+                                                            <div class="info">{{$contrato->cont_concepto}}</div>
+                                                        </div>
+                                                        <div class=" mb-6">
+                                                            <div class="title font-weight-bold mb-1">Estado</div>
+                                                            <div class="info">{{$contrato->cont_estado}}</div>
+                                                        </div>
+                                                        <div class=" mb-6">
+                                                            <div class="title font-weight-bold mb-1">Tipo de Contrato</div>
+                                                            <div class="info">{{$contrato->cont_tipouso}}</div>
+                                                        </div>
+                                                        <div class="info-line mb-6">
+                                                            <div class="title font-weight-bold mb-1">Locations</div>
+                                                            <div class="info">{{$contrato->cont_tiempo}}
+                                                                <span> Años</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class=" mb-6">
+                                                            <div class="title font-weight-bold mb-1">Fecha de Sepultura</div>
+                                                            <div class="info">{{$contrato->cont_diffechsep}}</div>
+                                                        </div>
+                                                        
+
+                                                        <div class="info-line">
+                                                            <!-- <div class="title font-weight-bold mb-1">About Me</div> -->
+                                                            <!-- <div class="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eget pharetra felis, sed ullamcorper dui. Sed et elementum neque. Vestibulum pellente viverra ultrices. Etiam justo augue, vehicula ac -->
+                                                                <!-- gravida a, interdum sit amet nisl. Integer vitae nisi id nibh dictum mollis in vitae tortor.</div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <div class="example">
+                                                <div class="  card m-1"> 
+                                                    <header class="h6 bg-secondary text-auto p-4">
+                                                        <div class="title">Información de difunto</div>
+                                                    </header>
+                                                    <div class="content p-4">
+                                                        <div class="info-line mb-6">
+                                                            <div class="title font-weight-bold mb-1">Nombre</div>
+                                                            <div class="info">{{$contrato->Difunto->dif_nom}}</div>
+                                                        </div>
+                                                        <div class="info-line mb-6">
+                                                            <div class="title font-weight-bold mb-1">Apellidos</div>
+                                                            <div class="info">{{$contrato->Difunto->dif_ape}}</div>
+                                                        </div>
+                                                        <div class="info-line mb-6">
+                                                            <div class="title font-weight-bold mb-1">DNI</div>
+                                                            <div class="info">{{$contrato->Difunto->dif_dni}}</div>
+                                                        </div>
+                                                        <div class="info-line mb-6">
+                                                            <div class="title font-weight-bold mb-1">Fecha de Fallecimiento</div>
+                                                            <div class="info">{{$contrato->Difunto->dif_fechadef}}</div>
+                                                        </div>
+                                                        <div class="info-line mb-6">
+                                                            <div class="title font-weight-bold mb-1">Observaciones</div>
+                                                            <div class="info">{{$contrato->Difunto->dif_nom}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="example">
+                                                <div class=" card m-1">
+                                                    <header class="h6 bg-secondary text-auto p-4">
+                                                        <div class="title">Información de Solicitante</div>
+                                                    </header>
+                                                    <div class="content p-4">
+                                                        <div class="info-line mb-6">
+                                                            <div class="title font-weight-bold mb-1">Nombre</div>
+                                                            <div class="info"> {{$contrato->Solicitante->sol_telefono}}</div>
+                                                        </div>
+                                                        <div class="info-line mb-6">
+                                                            <div class="title font-weight-bold mb-1">Telefono</div>
+                                                            <div class="info">
+                                                                <span>&#43;{{$contrato->Solicitante->sol_telefono}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="info-line mb-6">
+                                                            <div class="title font-weight-bold mb-1">Direccion</div>
+                                                            <div class="info"> {{$contrato->Solicitante->sol_dir}}</div>
+                                                        </div>
+
+                                                        <div class="info-line mb-6">
+                                                            <div class="title font-weight-bold mb-1">DNI</div>
+                                                            <div class="info"> {{$contrato->Solicitante->sol_dni}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         </div>
+                                        <div class="col-3">
+                                            <div class="example">
+                                                <div class=" card m-1">
+                                                    <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                                                        <div class="title h6">Imagen del Nicho</div>
+                                                        <div class="more text-muted">
+                                                            <span>Imagen</span>
+                                                            <span>Referencial</span>
+                                                        </div>
+                                                    </header>
+                                                    <div class="content p-4">
+                                                        <div class="content row no-gutters p-4">
+                                                            <div class="friend col-3 p-1"></div>
+                                                            <div class="friend col-6 p-1">
+                                                                <img class="w-100" src="/assets/images/nicho/{{$nicho->nicho_pathimag}}">
+                                                            </div>
+                                                            <div class="friend col-3 p-1"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="example">
+                                                <div class=" card m-1"> 
+                                                        <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                                                            <div class="title h6">Servicios Extra</div> 
+                                                        </header>
+                                                        <div class="content p-4">
+                                                            <table id="sample-data-table" class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="secondary-text">
+                                                                            <div class="table-header">
+                                                                                <span class="column-title">#</span>
+                                                                            </div>
+                                                                        </th>
+                                                                        <th class="secondary-text">
+                                                                            <div class="table-header">
+                                                                                <span class="column-title">Descripcion</span>
+                                                                            </div>
+                                                                        </th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tr>
+                                                                    @php
+                                                                    $a = 1
+                                                                    @endphp
+                                                                    @foreach($contrato->CSExtras as $cse)
+                                                                       <td>{{$a++}}</td>
+                                                                        <td>{{$cse->ServicioExtra->sextra_desc}}</td> 
+                                                                    @endforeach
+                                                                    
+                                                                </tr>
+                                                                
+                                                                <tbody>
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <input type="text" name="paso"  hidden="" value="1">
-                                    <button class="btn btn-primary fuse-ripple-ready" onclick="iralpaso2();">Siguiente</button>
-                                </form>
-                            </div>
-                            <div class="preview" id="div2" hidden="">
-                                <form action="/gerencia/pabellon/nicho/comprar">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlSelect2">Example multiple select</label>
-                                        <select multiple="" class="form-control" id="exampleFormControlSelect2">
-                                            <option>segundo</option> 
-                                        </select>
+                                <div class="page-content p-6">
+                                    <div class="divider"></div>
+                                </div>
+                                <div class="page-content p-6">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="example"> 
+                                                <div class="card m-1">   
+                                                     <header class="h6 bg-secondary text-auto p-4">
+                                                        <div class="title">Plan de Pagos</div>
+                                                    </header>
+                                                    <div class="content  p-4">
+                                                    <table id="sample-data-table" class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="secondary-text">
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">Nro. Cuota</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th class="secondary-text">
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">Fecha de Pago</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th class="secondary-text">
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">Monto de Cuota</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th class="secondary-text">
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">Saldo de Cuota</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th class="secondary-text">
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">Estado de Cuota</span>
+                                                                    </div>
+                                                                </th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        @if(sizeof($contrato->Convenio->PlanPagos)>0)
+                                                        <tbody>                  
+                                                            @foreach ($contrato->Convenio->PlanPagos as $ppago)
+                                                                @if($ppago->ppago_saldocuota==0)
+                                                                    <tr class="table-success">
+                                                                @endif
+                                                                @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven < $now)
+                                                                    <tr class="table-danger">
+                                                                @endif
+                                                                @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven > $now)
+                                                                    <tr class="table-info">
+                                                                @endif
+                                                                <td>{{$ppago->ppago_nrocuota}}</td>
+                                                                <td>{{$ppago->ppago_fechaven}}</td>
+                                                                <td>{{$ppago->ppago_montocuota}}</td>
+                                                                <td>{{$ppago->ppago_saldocuota}}</td>
+                                                                @if($ppago->ppago_saldocuota==0)
+                                                                    <td>Pagado.</td>
+                                                                @endif
+                                                                @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven < $now)
+                                                                    <td>Con retraso.</td>
+                                                                @endif
+                                                                @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven > $now)
+                                                                    <td>Pendiente.</td> 
+                                                                @endif
+
+
+                                                                        </tr>
+                                                            @endforeach
+                                                        @else
+                                                            <div class="alert alert-danger" role="alert">
+                                                                No tiene Cuotas que pagar.
+                                                            </div>
+                                                        @endif
+                                                        </tbody>
+                                                </table>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
-                                    <input type="text" name="paso" hidden="" value="2">
-                                    <button class="btn btn-primary fuse-ripple-ready" onclick="iralpaso3();">Siguiente</button>
-                                </form>
-                            </div>
-                            <div class="preview" id="div3" hidden="">
-                                <form action="/gerencia/pabellon/nicho/comprar">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlSelect2">Example multiple select</label>
-                                        <select multiple="" class="form-control" id="exampleFormControlSelect2">
-                                            <option>tercero</option> 
-                                        </select>
-                                    </div>
-                                    <input type="text" name="paso" hidden="" value="3">
-                                    <button class="btn btn-primary fuse-ripple-ready">Submit</button>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-2"></div>
             </div>
-        </div>
-    </div>
 </div>
+
 <!-- CONTENT -->
 
 @endsection
