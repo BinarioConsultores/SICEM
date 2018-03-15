@@ -44,15 +44,20 @@ class NichoController extends Controller
         $now = Carbon::now(); 
         $nicho = Nicho::findOrFail($request->get('nicho_id'));
         $usuarios = User::where('tipo','administrador')->get();
-        $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->orderBy('cont_fecha','DESC')->get()[0];
-        $difunto  = Difunto::where('dif_id',$contrato->dif_id)->get()[0];
-        $solicitante = Solicitante::where('sol_id',$contrato->sol_id)->get()[0];
-        $CSExtras = CSExtra::where('cont_id',$contrato->cont_id)->get();
-        if ($nicho->nicho_est == "libre") {
+        if ($nicho->nicho_est == "libre")
+        {
             return view('gerencia.nicho.comprar',['nicho'=>$nicho, 'usuarios'=>$usuarios]);
         }
-        return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now]);
-
+        if ($nicho->nicho_est == "tramite")
+        {
+            return view('gerencia.nicho.tramite');
+        }
+        else
+        {
+            $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->orderBy('cont_fecha','DESC')->get()[0];
+            $planpagos = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->orderBy('ppago_fechaven')->get();
+            return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now,'planpagos'=>$planpagos]); 
+        }
     }
 
     public function getVerNichoAdmin(Request $request)

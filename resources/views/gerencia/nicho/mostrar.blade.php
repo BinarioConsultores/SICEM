@@ -8,7 +8,6 @@
         $("#div1").attr("hidden","true");
         $("#primero").attr("class","col-4 bs-wizard-step complete");
         $("#segundo").attr("class","col-4 bs-wizard-step active");
-
     }
     function iralpaso3(){
         $("#div2").removeAttr( "hidden" )
@@ -33,11 +32,11 @@
                 <div class="header p-6 bg-primary text-auto">
                     <span class="h3">Información de Nicho</span>
                 </div>
-                <div class="demo-sidebar">
+                <div class="demo-sidebar m-2 ">
                     <ul class="nav flex-column">
                         <li class="subheader">Menú</li>
                         <li class="nav-item">
-                            <a class="nav-link">Sidenav Item 1</a>
+                            <a  href="/createC?nicho_id={{$nicho->nicho_id}}" class=""><button type="button" class="btn btn-info">Constancia <i class="icon-arrow-down-bold-box"></i></button> </a>
                         </li>
                         <md-divider></md-divider>
                         <li class="nav-item">
@@ -52,7 +51,7 @@
                         <button type="button" class="sidebar-toggle-button btn btn-icon d-block d-lg-none mr-2" data-fuse-bar-toggle="demo-sidebar">
                             <i class="icon icon-menu"></i>
                         </button>
-                        <span class="h3">Nicho {{$nicho->nicho_nro}} {{$nicho->nicho_id}} </span>
+                        <span class="h3">Nicho {{$nicho->nicho_nro}}</span>
                     </div>
                 </div>
                 <div class="page-content-card">
@@ -95,13 +94,6 @@
                                                         <div class=" mb-6">
                                                             <div class="title font-weight-bold mb-1">Fecha de Sepultura</div>
                                                             <div class="info">{{$contrato->cont_diffechsep}}</div>
-                                                        </div>
-                                                        
-
-                                                        <div class="info-line">
-                                                            <!-- <div class="title font-weight-bold mb-1">About Me</div> -->
-                                                            <!-- <div class="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eget pharetra felis, sed ullamcorper dui. Sed et elementum neque. Vestibulum pellente viverra ultrices. Etiam justo augue, vehicula ac -->
-                                                                <!-- gravida a, interdum sit amet nisl. Integer vitae nisi id nibh dictum mollis in vitae tortor.</div> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -209,16 +201,23 @@
                                                                                 <span class="column-title">Descripcion</span>
                                                                             </div>
                                                                         </th>
+                                                                        <th class="secondary-text">
+                                                                            <div class="table-header">
+                                                                                <span class="column-title">Autorizacion</span>
+                                                                            </div>
+                                                                        </th>
 
                                                                     </tr>
                                                                 </thead>
                                                                 <tr>
                                                                     @php
-                                                                    $a = 1
+                                                                    $cont = 1
                                                                     @endphp
-                                                                    @foreach($contrato->CSExtras as $cse)
-                                                                       <td>{{$a++}}</td>
-                                                                        <td>{{$cse->ServicioExtra->sextra_desc}}</td> 
+                                                                    @foreach($contrato->CSExtras as $CSExtra)
+                                                                       <td>{{$cont++}}</td>
+                                                                        <td>{{$CSExtra->ServicioExtra->sextra_desc}}</td>
+                                                                        <td><a href="/createA?nicho_id={{$nicho->nicho_id}}"><button type="button" class="btn btn-info">Descargar<i class="icon-arrow-down-bold-box"></i></button></a></td> 
+
                                                                     @endforeach
                                                                     
                                                                 </tr>
@@ -276,9 +275,9 @@
 
                                                             </tr>
                                                         </thead>
-                                                        @if(sizeof($contrato->Convenio->PlanPagos)>0)
+                                                        @if(sizeof($planpagos)>0)
                                                         <tbody>                  
-                                                            @foreach ($contrato->Convenio->PlanPagos as $ppago)
+                                                            @foreach ($planpagos as $ppago)
                                                                 @if($ppago->ppago_saldocuota==0)
                                                                     <tr class="table-success">
                                                                 @endif
@@ -293,17 +292,20 @@
                                                                 <td>{{$ppago->ppago_montocuota}}</td>
                                                                 <td>{{$ppago->ppago_saldocuota}}</td>
                                                                 @if($ppago->ppago_saldocuota==0)
-                                                                    <td>Pagado.</td>
+                                                                    <td><i class="icon-check-all"></td>
                                                                 @endif
                                                                 @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven < $now)
-                                                                    <td>Con retraso.</td>
+                                                                    <td><i class="icon-clock-alert"></td>
                                                                 @endif
                                                                 @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven > $now)
-                                                                    <td>Pendiente.</td> 
+                                                                    <td><i class="icon-check"></td> 
                                                                 @endif
-
-
-                                                                        </tr>
+                                                                @if($ppago->ppago_nrocuota==0)
+                                                                  <td>Cuota Inicial</td>
+                                                                @else
+                                                                  <td>Cuota Mensual</td>
+                                                                @endif
+                                                                </tr>
                                                             @endforeach
                                                         @else
                                                             <div class="alert alert-danger" role="alert">

@@ -30,6 +30,9 @@ class HomeController extends Controller
             if (Auth::user()->tipo=='gerencia') {
                 return view('homegerencia');
             }
+            if (Auth::user()->tipo=='caja') {
+                return view('homecaja');
+            }
             else{
                 $this->guard()->logout();
             }

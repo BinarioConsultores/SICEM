@@ -119,25 +119,25 @@
                                     <div class="row">
                                         <ul class="nav flex-column">
                                             <li class="subheader"><h4>Leyenda</h4></li>
-                                            <li class="nav-item">
-                                                <div class="row">
-                                                    <table>
-                                                        <tr>
-                                                            <td><div class="square-libre"></div></td>
-                                                            <td><span>Nicho Libre</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><div class="square-ocupado"></div></td>
-                                                            <td><span>Nicho Ocupado</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><div class="square-tramite"></div></td>
-                                                            <td><span>Nicho en trámite</span></td>
-                                                        </tr>
-                                                        
-                                                    </table>
-                                                </div>
-                                            </li>
+                                                <li class="nav-item">
+                                                    <div class="row">
+                                                        <table>
+                                                            <tr>
+                                                                <td><div class="square-libre"></div></td>
+                                                                <td><span>Nicho Libre</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><div class="square-ocupado"></div></td>
+                                                                <td><span>Nicho Ocupado</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><div class="square-tramite"></div></td>
+                                                                <td><span>Nicho en trámite</span></td>
+                                                            </tr>
+                                                            
+                                                        </table>
+                                                    </div>
+                                                </li>
 
                                         </ul>
                                     </div>

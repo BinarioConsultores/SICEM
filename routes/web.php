@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 /*Route::resourceVerbs([
     'create' => 'crear',
-    'edit' => 'editar',
+    'edit' => 'editar', 
 ]);*/
 
 
@@ -52,6 +52,23 @@ Route::post('/gerencia/pabellon/nichos','PabellonController@postVerNichos');
 
 Route::get('/gerencia/pabellon/nicho','NichoController@getVerNicho');
 Route::post('/gerencia/pabellon/nicho/comprar','ContratoController@postComprarNicho');
+Route::get('/gerencia/pabellon/nicho/comprar','ContratoController@postComprarNicho');
+Route::get('/createC','DocumentoController@createConstancia');
+Route::get('/createA','DocumentoController@createAutorizacion');
+Route::get('/createN','DocumentoController@createNotificacion');
+Route::get('/createPDF','DocumentoController@createPDF');
+//Deudas
+Route::get('/gerencia/Deudas','PlanPagoController@getIndex');
+Route::get('/gerencia/Deudas/Detalles','PlanPagoController@getDetalleDeuda');
+//Caja
+Route::get('/caja','CajaController@getIndex');
+Route::post('/caja/buscar','ContratoController@postBuscar');									
+
+//--Pruebas
+Route::get('/prueba','PruebaController@index');
+
+
+
 
 //AJAX
 Route::get('/ajax/get/ObtenerPabellonesPorCementerio','PabellonController@getAjaxObtenerPabellonesPorCementerio');

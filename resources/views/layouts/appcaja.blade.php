@@ -90,16 +90,9 @@
                             <li class="nav-item">
                                 <a class="nav-link ripple fuse-ripple-ready" href="/gerencia/gestion" data-url="apps-mail.html">
                                     <i class="icon s-4 icon-calendar-today"></i>
-                                    <span>Gestión</span>
+                                    <span>Pagos</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link ripple fuse-ripple-ready" href="/gerencia/Deudas" data-url="apps-mail.html">
-                                    <i class="icon s-4 icon-account-alert"></i>
-                                    <span>Deudas Vencidas</span>
-                                </a>
-                            </li>
-
                         </ul>
                     </div>
                 </div>
