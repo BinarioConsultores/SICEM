@@ -72,3 +72,5 @@ Route::get('/prueba','PruebaController@index');
 
 //AJAX
 Route::get('/ajax/get/ObtenerPabellonesPorCementerio','PabellonController@getAjaxObtenerPabellonesPorCementerio');
+Route::get('/ajax/get/ObtenerSolicitantesPorNombre','SolicitanteController@getAjaxObtenerSolicitantesPorNombre');
+Route::get('/ajax/get/ObtenerSolicitantesPorDNI','SolicitanteController@getAjaxObtenerSolicitantesPorDNI');

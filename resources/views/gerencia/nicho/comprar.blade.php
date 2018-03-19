@@ -2,7 +2,7 @@
 
 @section('javascript')
 <script type="text/javascript">
-
+    var today = 0;
     $(document).ready( function() {
         var now = new Date();
         var month = (now.getMonth() + 1);               
@@ -11,7 +11,7 @@
             month = "0" + month;
         if (day < 10) 
             day = "0" + day;
-        var today = now.getFullYear() + '-' + month + '-' + day;
+        today = now.getFullYear() + '-' + month + '-' + day;
         $('#cont_fecha').val(today);
         $('#cont_fecha1').val(today);
     });
@@ -29,7 +29,7 @@
 
 
     function iralpaso2(){
-        $("#div2").removeAttr( "hidden" )
+        $("#div2").removeAttr( "hidden" );
         $("#div1").attr("hidden","true");
         $("#primero").attr("class","col-4 bs-wizard-step complete");
         $("#segundo").attr("class","col-4 bs-wizard-step active");
@@ -44,10 +44,198 @@
         $("#segundo").attr("class","col-4 bs-wizard-step complete");
         $("#tercero").attr("class","col-4 bs-wizard-step active");
     }
-    
-    document.getElementById("cont_fecha").innerHTML = Date();
-    document.getElementById("cont_fecha1").innerHTML = Date();
 
+    
+
+    $(function() {
+        $("#busca_sol_nombre").on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                var sol_nombre = $(this).val();
+
+                var request = $.ajax({
+                    url: '/ajax/get/ObtenerSolicitantesPorNombre',
+                    type: 'GET',
+                    data: { sol_nombre: sol_nombre} ,
+                    contentType: 'application/json; charset=utf-8',
+                });
+
+                request.done(function(data) {
+                    if (data.length == 0) {
+                        $('#listSol').empty();
+                        $('#listSol').attr("hidden","hidden");
+                        $('#listSol').append($('<option>', { 
+                            value: 0,
+                            text: "No se encontraron registros",
+                        }));                     
+                    }
+                    else{
+                        $('#listSol').empty();
+                        $('#listSol').removeAttr("hidden");
+                        $.each(data, function(index,solicitante){
+                            $('#listSol').append($('<option>', { 
+                                value: solicitante.sol_id,
+                                text: solicitante.sol_nombre + " (" + solicitante.sol_dni + ")",
+                                sol_dni: solicitante.sol_dni,
+                                sol_dir: solicitante.sol_dir,
+                                sol_nombre: solicitante.sol_nombre,
+                                sol_telefono: solicitante.sol_telefono,
+                            }));
+                        });
+                    }           
+                });
+            }
+        });
+    });
+
+    $(function() {
+        $("#busca_sol_dni").on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                var sol_dni = $(this).val();
+
+                var request = $.ajax({
+                    url: '/ajax/get/ObtenerSolicitantesPorDNI',
+                    type: 'GET',
+                    data: { sol_dni: sol_dni} ,
+                    contentType: 'application/json; charset=utf-8'
+                });
+
+                request.done(function(data) {
+                    if (data.length == 0) {
+                        $('#listSol').empty();
+                        $('#listSol').attr("hidden","hidden");
+                        $('#listSol').append($('<option>', { 
+                            value: 0,
+                            text: "No se encontraron registros"
+                        }));                     
+                    }
+                    else{
+                        $('#listSol').empty();
+                        $('#listSol').removeAttr("hidden");
+                        $.each(data, function(index,solicitante){
+                            $('#listSol').append($('<option>', { 
+                                value: solicitante.sol_id,
+                                text: solicitante.sol_nombre + " (" + solicitante.sol_dni + ")",
+                                sol_dni: solicitante.sol_dni,
+                                sol_dir: solicitante.sol_dir,
+                                sol_nombre: solicitante.sol_nombre,
+                                sol_telefono: solicitante.sol_telefono,
+                            }));
+                        });
+                    }
+                });
+            }
+        });
+    });
+    
+    $(function() {
+        $('#listSol').change(function() {
+            var sol_id = $(this).val();
+            $('#sol_nombre').focus();
+            $('#sol_nombre').attr('value',$('option:selected', this).attr('sol_nombre')).change();
+            $('#sol_nombre').attr('readonly',true).change();
+
+            $('#sol_telefono').focus();
+            $('#sol_telefono').attr('value',$('option:selected', this).attr('sol_telefono')).change();
+            $('#sol_telefono').attr('readonly',true).change();
+
+            $('#sol_dir').focus();
+            $('#sol_dir').attr('value',$('option:selected', this).attr('sol_dir')).change();
+            $('#sol_dir').attr('readonly',true).change();
+
+            $('#sol_dni').focus();
+            $('#sol_dni').attr('value',$('option:selected', this).attr('sol_dni')).change();
+            
+            $('#sol_dni').attr('readonly',true).change();
+
+            $('#solselected').attr('value',sol_id).change();
+        }); 
+    });
+
+    $(function(){
+        $("#btnLimpiar").click( function(){
+            
+            $('#solselected').attr('value','0').change();
+            $('#sol_nombre').attr('readonly',false).change();
+            $('#sol_telefono').attr('readonly',false).change();
+            $('#sol_dir').attr('readonly',false).change();
+            $('#sol_dni').attr('readonly',false).change();
+
+            $('#sol_nombre').attr('value','').change();
+            $('#sol_telefono').attr('value','').change();
+            $('#sol_dir').attr('value','').change();
+            $('#sol_dni').attr('value','').change();
+            $('#frmSol').trigger("reset");
+            }
+        );
+    });
+
+    $(function(){
+        $("#btnCalcular").click( function(){
+            $('#calculado').empty();
+            var dia_hoy = new Date().getDate();
+            var fecha_hoy = new Date();
+            var mes_hoy = new Date().getMonth()+1;
+            var ano_hoy = new Date().getFullYear();
+            var xcost_nicho = $("#cont_monto").val();
+            var xcuota_ini = $("#conv_cuotaini").val();
+            var xnro_cuotas = $("#conv_nrocuota").val();
+            var xpagototal=xcost_nicho - xcuota_ini;
+            var xresiduo=xpagototal%xnro_cuotas;
+            var xmontocomun=(xpagototal-xresiduo)/xnro_cuotas;
+            if(xresiduo>0){
+                xpricuota=xmontocomun+1;
+            }
+            else{
+                xpricuota=xmontocomun;
+            }
+            var table = $("<table border=0 cellpadding=5 cellspacing=5 align='center'></table>");
+            table.append("<tr bgcolor='#2196F3'> <td><font color='#ffffff'><strong>Nro de cuotas</strong></font></td> <td><font color='#ffffff'><strong>FECHA</strong></font></TD> <td><font color='#ffffff'><strong>S/.</strong></font></td></tr>'");
+            table.append("<tr bgcolor='#FFE5B3'><th>Cuota Inicial: </th> <td>" + today + "</td><td>  "+xcuota_ini+"</td></tr>");
+            
+            var dia_hoyX = dia_hoy;
+            mes_hoy=mes_hoy+1;
+            var fila = "";
+            for(var j=1; j<=xnro_cuotas; j++) 
+            {
+                fila = "<tr bgcolor='#FFE5B3'>";
+                fila+= "<th>"+j+" Cuota</th>"; 
+                if(mes_hoy>12){   
+                    mes_hoy=1;
+                    ano_hoy=ano_hoy+1;
+                }
+                if ((dia_hoy== 31) &&(mes_hoy==4 || mes_hoy==6 || mes_hoy==9 || mes_hoy==11 )) 
+                    dia_hoyX = 30;
+                if( mes_hoy == 2 && dia_hoy>27){
+                    if ((dia_hoy==29 || dia_hoy==30 || dia_hoy==31) &&  ((ano_hoy % 4 == 0) && !(ano_hoy % 100 == 0 && ano_hoy % 400!= 0)))
+                        dia_hoyX = 29;
+                    else 
+                        dia_hoyX = 28;
+                }   
+                if (mes_hoy <10)
+                    fila+= "<th>"+ano_hoy+"-0"+mes_hoy+'-'+dia_hoyX+"</th>";
+                else 
+                    fila+= "<th>"+ano_hoy+'-'+mes_hoy+'-'+dia_hoyX+"</th>";    
+                    
+                if(j<=xresiduo)
+                    fila+= "<td>"+Math.round(xpricuota)+"</td>";
+                else      
+                    fila+= "<td>"+Math.round(xmontocomun)+"</td>";
+                
+                dia_hoyX = dia_hoy;
+                mes_hoy=mes_hoy+1;    
+                fila+= "</tr>";
+                table.append(fila);
+            }
+
+            $('#calculado').append(table);
+
+            
+
+
+        });
+    });
+    
+    
 
 </script>
 @endsection
@@ -133,9 +321,9 @@
                                         {{Session::get('paso')}}
                                     </div>
                                 @endif
-                                @if (Session::has('solicitante'))
+                                @if (Session::has('solicitante.existe'))
                                     <div class="alert alert-success" role="alert">
-                                        {{Session::get('solicitante')}}
+                                        {{Session::get('solicitante.existe')}}
                                     </div>
                                 @endif
                                 @if (Session::has('difunto'))
@@ -153,40 +341,75 @@
       <!-- CONTENT -->
         <div class="page-content p-6">
             <div class="row" id="div1">
-                <div class="col-3"></div>
-                <div class="col-6" id="div1">
+                <div class="col-4">
                     <div class="example">
                         <div class="profile-box latest-activity card">
                             <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
                                 
-                                    <div class="title h6">Datos del Solicitante</div>
+                                <div class="title h6">Buscar un Solicitante</div>
+                                <div class="more text-muted">Busca un Solicitante</div>
+                            </header>
+
+                            <div class="content activities p-4">
                                 
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                                <div class="form-group col-12">
+                                    <input type="text" class="form-control" name="busca_sol_nombre" id="busca_sol_nombre"  placeholder="Nombre de Solicitante a buscar">
+                                    <label for="busca_sol_nombre"><i class="icon-magnify"></i> Nombre de Solicitante a buscar</label>
+                                </div>
+                                <div class="form-group col-12">
+                                    <input title="Ingrese un D.N.I. válido" type="text" class="form-control" name="sol_dni" id="busca_sol_dni"  placeholder="Ingrese el DNI a buscar">
+                                    <label for="sol_dni"><i class="icon-account-card-details"></i> D.N.I. a buscar</label>
+                                </div>
+                                <div class="form-group" id="divListSol">
+                                    <label for="listSol">Seleccione un Solicitante</label>
+                                    <select multiple="" class="form-control" id="listSol">
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-8" id="div1">
+                    <div class="example">
+                        <div class="profile-box latest-activity card">
+                            <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4"> 
+                                <div class="title h6">Registrar los datos del Solicitante</div>
                                 <div class="more text-muted">Registro</div>
                             </header>
 
                             <div class="content activities p-4">
-                                <form action="/gerencia/pabellon/nicho/comprar" method="POST">
+                                <form action="/gerencia/pabellon/nicho/comprar" method="POST" id="frmSol">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="sol_nombre" id="NombreSolicitante"  placeholder="Nombre de Solicitante" required="">
-                                        <label for="NombreSolicitante">Nombre de Solicitante</label>
+                                        <input type="text" class="form-control" name="sol_nombre" id="sol_nombre"  placeholder="Nombre de Solicitante" required>
+                                        <label for="sol_nombre">Nombre de Solicitante</label>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="sol_telefono"  id="TelefonoSolicitante"  placeholder="Ingrese su Telefono" required="">
-                                        <label for="TelefonoSolicitante">Telefono</label>
+                                        <input type="text" class="form-control" name="sol_telefono"  id="sol_telefono"  placeholder="Ingrese su Telefono" required>
+                                        <label for="sol_telefono">Telefono</label>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="sol_dir"  id="DirSolicitante"  placeholder="Ingrese su Direccion" required="">
-                                        <label for="DirSolicitante">Direccion</label>
+                                        <input type="text" class="form-control" name="sol_dir"  id="sol_dir"  placeholder="Ingrese su Direccion" required>
+                                        <label for="sol_dir">Direccion</label>
                                     </div>
                                     <div class="form-group">
-                                        <input pattern=".{8,8}" required title="Ingrese un D.N.I. válido" type="text" class="form-control" name="sol_dni" id="DNISolicitante"  placeholder="Ingrese su DNI" required="">
-                                        <label for="DirSolicitante">DNI</label>
+                                        <input pattern=".{8,8}" required title="Ingrese un D.N.I. válido" type="text" class="form-control" name="sol_dni" id="sol_dni"  placeholder="Ingrese su DNI">
+                                        <label for="sol_dni">DNI</label>
                                     </div>
+                                    
+                                    <input type="text" class="form-control" name="solselected" id="solselected" value="0" readonly hidden>
+                                        
                                     <div class="row">
                                         <div class="col-6" align="left">
                                             <div class="form-group">
-                                                <button type="button" class="btn btn-danger fuse-ripple-ready">Cancelar <i class="icon-cancel"></i></button>
+                                                <button type="button" id="btnLimpiar" class="btn btn-info fuse-ripple-ready">Editar Campos <i class=""></i></button>
                                             </div>
                                         </div>
                                         <div class="col-6" align="right">
@@ -218,6 +441,7 @@
                             <div class="content activities p-4">
                                 <form action="/gerencia/pabellon/nicho/comprar" method="POST">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="dif_nom" id="dif_nom"  placeholder="Nombre del Difunto" required="">
                                         <label for="dif_nom">Nombre del Difunto</label>
@@ -227,7 +451,7 @@
                                         <label for="dif_ape">Apellido del Difunto</label>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="dif_dni" id="dif_dni"  placeholder="DNI. del Difunto" required="">
+                                        <input pattern=".{8,8}" type="text" class="form-control" name="dif_dni" id="dif_dni"  placeholder="DNI. del Difunto" required="">
                                         <label for="dif_dni">DNI. del Difunto</label>
                                     </div>
                                     <div class="form-group">
@@ -337,13 +561,13 @@
                                     </div>
                                     <div class="form-group col-3">
                                             <label  for="cont_monto">Precio de Nicho</label>
-                                            <input class="form-control " type="text" name="cont_monto" value="{{$nicho->nicho_precio}}" required="" >
+                                            <input class="form-control " type="text" id="cont_monto" name="cont_monto" value="{{$nicho->nicho_precio}}" required="" >
                                     </div>
                                     <div class="form-group col-1">
                                             <label for="cont_precio">(S/).</label>                     
                                     </div>
                                     <div class="form-group col-4">
-                                        <label for="cont_tiempo" >Duración del contrato</label>
+                                        <label for="cont_tiempo" >Duración del contrato (años)</label>
                                         <input type="number" class="form-control" id="cont_tiempo" value="25" name="cont_tiempo" required="">
                                     </div>
                                     
@@ -351,7 +575,7 @@
                                  <div class="row">
                                     <div class="form-group col-4">
                                         <label for="cont_tipopago">Tipo de Pago</label>  
-                                        <input  class="form-control" type="text" name="cont_tipopago" value="credito" required="">
+                                        <input  class="form-control" type="text" name="cont_tipopago" value="credito" required="" readonly="">
                                            
                                     </div>
                                     <div class="form-group col-4">
@@ -399,7 +623,7 @@
                                             <div class="row">
                                                 <div class="form-group col">
                                                     <label  for="conv_cuotaini">Cuota Inicial</label>
-                                                    <input class="form-control " type="text" name="conv_cuotaini"  required="">
+                                                    <input class="form-control " type="text" name="conv_cuotaini" id="conv_cuotaini" required="">
                                                 </div>
                                                 <div class="form-group col">
                                                     <label for="conv_cuotaini">(S/).</label>
@@ -416,6 +640,13 @@
                                                         <option value="3">3</option>
                                                         <option value="4">4</option>
                                                         <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -430,7 +661,7 @@
                                         <button  type="" class="btn btn-danger fuse-ripple-ready">Atras<i class="icon-arrow-left"></i></button>
                                     </div>
                                     <div class="form-group col-4">
-                                        <button  type="" class="btn btn-primary fuse-ripple-ready">Calcular Cuotas</button>
+                                        <label type="" class="btn btn-primary fuse-ripple-ready" id="btnCalcular">Calcular Cuotas</label>
                                     </div>
                                     <div class="form-group col-4">
                                         <button  type="submit" class="btn btn-primary fuse-ripple-ready">Registrar</button>
@@ -447,8 +678,8 @@
                         <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
                             <div class="title h6">Calculadora de Pagos</div>
                         </header>
-
-
+                        <div class="content activities p-1" id="calculado">
+                        </div>
                     </div>
                 </div>
             </div>
