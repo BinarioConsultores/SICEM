@@ -60,7 +60,80 @@
 </head>
 </head>
 <body>
-  @yield('conten')
+  @yield('content')
 </body>
 </html>
 ?>
+<div class="col-md-3 col-md-offset-0">
+        <div class="panel panel-default">
+            <div class="panel-heading">Búsqueda</div>
+            <div class="panel-body">
+                    <form class="form-horizontal" role="form" method="POST" action="/validado/producto">
+                        <input type="hidden" name="_token" value="Vf2LWVSqFdimJ4Q6WFm76uaIlM8egDkTVlQyFzSf">
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Código</label>
+                            <div class="col-md-8 col-md-offset-1">
+                                <input type="text" class="form-control text-uppercase" name="prod_cod">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Descripción</label>
+                            <div class="col-md-8 col-md-offset-1">
+                                <input type="text" class="form-control text-uppercase" name="prod_desc">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Exonerado</label>
+                            <div class="col-md-8 col-md-offset-1">
+                                <input type="radio" checked="checked" class="radio-inline" name="prod_exo" value="A">Ambos
+                                <input type="radio" class="radio-inline" name="prod_exo" value="SI">Sí
+                                <input type="radio" class="radio-inline" name="prod_exo" value="NO">No
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Familia</label>
+                            <div class="col-md-8 col-md-offset-1">
+                                <select name="fam_id" class="form-control text-uppercase">
+                                    <option value="0">Elija Familia</option>
+                                                                           <option value="1">FAM1</option>
+                                                                    </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Categoría</label>
+                            <div class="col-md-8 col-md-offset-1">
+                                <select name="cat_id" class="form-control text-uppercase">
+                                    <option value="0">Elija Categoría</option>
+                                                                           <option value="1">CAT1</option>
+                                                                    </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Unidad</label>
+                            <div class="col-md-8 col-md-offset-1">
+                                <select name="um_id" class="form-control text-uppercase">
+                                    <option value="0">Elija Unidad</option>
+                                                                           <option value="2">KILO</option>
+                                                                           <option value="1">TONELADA</option>
+                                                                    </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-md-3 col-md-offset-2">
+                                <button type="submit" name="buscar" value="buscar" class="btn btn-default">
+                                    <img src="/images/buscar.png" title="BUSCAR">
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-md-offset-2">
+                                <button type="submit" name="imprimir" value="imprimir" class="btn btn-default">
+                                    <img src="/images/imprimir.png" title="IMPRIMIR">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>

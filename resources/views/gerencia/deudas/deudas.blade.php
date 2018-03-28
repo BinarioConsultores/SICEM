@@ -30,7 +30,7 @@
                                 <div class="source-preview-wrapper">
                                     <div class="preview">
                                         <div class="preview-elements">
-                                           <table id="sample-data-table" class="table table-inverse">
+                                            <table id="sample-data-table" class="table table-inverse">
                                                 <thead>
                                                     <tr>
                                                         <th class="secondary-text">
@@ -67,25 +67,22 @@
                                                 </thead>
                                                 
                                                 @if(sizeof($planpagos)>0)
-                                                    @php
-                                                    $cont = 1
-                                                    @endphp
-                                                <tbody>
-                                                    <tr>                 
-                                                    @foreach($planpagos as $planpago)
-                                                        <td>{{$cont++}}</td>
-                                                        <td>{{$planpago->ppago_fechaven}}</td>
-                                                        <td>{{$planpago->ppago_nrocuota}}</td>    
-                                                        <td>{{$planpago->ppago_montocuota}}</td>
-                                                        <td>{{$planpago->Convenio->Contrato->Solicitante->sol_nombre}}</td>
-                                                        <td><a href="/gerencia/Deudas/Detalles?conv_id={{$planpago->Convenio->conv_id}}"><button class="btn btn-alert">Detalles</button></a></td>       
+                                                <tbody>                
+                                                    @foreach($planpagos as $key=>$planpago)
+                                                        <tr>
+                                                            <td>{{++$key}}</td>
+                                                            <td>{{$planpago->ppago_fechaven}}</td>
+                                                            <td>{{$planpago->ppago_nrocuota}}</td>    
+                                                            <td>{{$planpago->ppago_montocuota}}</td>
+                                                            <td>{{$planpago->Convenio->Contrato[0]->Solicitante->sol_nombre}}</td>
+                                                            <td><a href="/gerencia/deudas/detalles?conv_id={{$planpago->Convenio->conv_id}}"><button class="btn btn-info">Detalles</button></a></td>
+                                                        </tr>   
                                                     @endforeach
                                                 @else
                                                     <div class="alert alert-success" role="alert">
                                                         No tiene Deudores.
                                                     </div>
                                                 @endif
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                             <script type="text/javascript">

@@ -21,7 +21,7 @@
 <style type="text/css">
    .deuda-pagada {
 
-    background: #7DBE72;
+    background: #D2FFBD;
     border: 1px;
     width: 2em;
     -webkit-border-radius: 5px 5px 5px 5px;
@@ -30,7 +30,7 @@
     margin-right: 2px;
     }
     .deuda-vencida {
-    background: #E5594D;
+    background: #FFA6A2;
     border: 1px;
     width: 2em;
     -webkit-border-radius: 5px 5px 5px 5px;
@@ -39,7 +39,7 @@
     margin-right: 2px;
     }
     .pendiente {
-    background: #7DBEFF;
+    background: #C7E3FF;
     border: 1px;
     width: 2em;
     -webkit-border-radius: 5px 5px 5px 5px;
@@ -141,7 +141,7 @@
                             </div>
                             <div class="content p-4">
                                 <table  class="table table-hover">
-                                    <thead>
+                                    <thead align="center">
                                         <tr>
                                             <th class="secondary-text">
                                                 <div class="table-header">
@@ -173,11 +173,9 @@
                                                     <span class="column-title">Descripcion</span>
                                                 </div>
                                             </th>
-                                            
-
                                         </tr>
                                     </thead>
-                                    <tbody>                  
+                                    <tbody align="center">                  
                                         @foreach ($planpago as $ppago)
                                             @if($ppago->ppago_saldocuota==0)
                                                 <tr class="deuda-pagada">
@@ -193,13 +191,13 @@
                                             <td>{{$ppago->ppago_montocuota}}</td>
                                             <td>{{$ppago->ppago_saldocuota}}</td>
                                             @if($ppago->ppago_saldocuota==0)
-                                                <td><i class="icon-check-all"></i></td>
+                                                <td>Pagado <i class="icon-check-all"></i></td>
                                             @endif
                                             @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven < $now)
-                                                <td><i class="icon-clock-alert"></i></td>
+                                                <td>Atrasado <i class="icon-clock-alert"></i></td>
                                             @endif
                                             @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven > $now)
-                                                <td><i class="icon-clock"></i></td> 
+                                                <td>Pendiente <i class="icon-clock"></i></td> 
                                             @endif
                                             @if($ppago->ppago_nrocuota==0)
                                               <td>Cuota Inicial</td>

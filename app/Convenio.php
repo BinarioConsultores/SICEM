@@ -20,6 +20,7 @@ class Convenio extends Model
   }
   public function Contrato()
   {
-      return $this->belongsTo('sicem\Contrato','conv_id');
+      return $this->hasMany('sicem\Contrato','conv_id');
   }
+  
 }

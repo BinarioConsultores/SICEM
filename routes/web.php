@@ -58,11 +58,12 @@ Route::get('/createA','DocumentoController@createAutorizacion');
 Route::get('/createN','DocumentoController@createNotificacion');
 Route::get('/createPDF','DocumentoController@createPDF');
 //Deudas
-Route::get('/gerencia/Deudas','PlanPagoController@getIndex');
-Route::get('/gerencia/Deudas/Detalles','PlanPagoController@getDetalleDeuda');
+Route::get('/gerencia/deudas','PlanPagoController@getIndex');
+Route::get('/gerencia/deudas/detalles','PlanPagoController@getDetalleDeuda');
 //Caja
 Route::get('/caja','CajaController@getIndex');
-Route::post('/caja/buscar','ContratoController@postBuscar');									
+Route::post('/caja/buscar','ContratoController@postBuscar');
+Route::get('/caja/buscar/detalles','PlanPagoController@getDetallePagos');		
 
 //--Pruebas
 Route::get('/prueba','PruebaController@index');
@@ -74,3 +75,4 @@ Route::get('/prueba','PruebaController@index');
 Route::get('/ajax/get/ObtenerPabellonesPorCementerio','PabellonController@getAjaxObtenerPabellonesPorCementerio');
 Route::get('/ajax/get/ObtenerSolicitantesPorNombre','SolicitanteController@getAjaxObtenerSolicitantesPorNombre');
 Route::get('/ajax/get/ObtenerSolicitantesPorDNI','SolicitanteController@getAjaxObtenerSolicitantesPorDNI');
+Route::get('/ajax/get/ObtenerContratos','ContratoController@postBuscar');

@@ -98,6 +98,7 @@ class ContratoController extends Controller
                  * Si el paso es 3, guardamos el contrato como tal
                  */
                 if ($request->get('paso')==3) {
+                
                     $this->validate($request, [
                         'cont_fecha' => 'required',
                         'cont_tipopago' => 'required',
@@ -109,9 +110,14 @@ class ContratoController extends Controller
                         'cont_estado' => 'required',
                         'nicho_id' => 'required',
                         'usu_id_auto' => 'required',
-                        'conv_cuotaini' => 'required',
-                        'conv_nrocuota' => 'required',
                     ]);
+
+                    if ($request->get('cont_tipopago') == 'credito'){
+                        if (!$request->has('conv_cuotaini') && !$request->has('conv_nrocuota')){
+                            return view('gerencia.nicho.comprar',['nicho'=>$nicho,'usuarios'=>$usuarios])->with('error','Debe enviar los datos con cuota inicial y un número de cuotas');
+                        }
+                    }
+
                     $contrato = new Contrato();
 
                     /**
@@ -148,9 +154,9 @@ class ContratoController extends Controller
                          */
                         $contrato->cont_fecha = $request->get('cont_fecha');
                         $contrato->cont_tipopago = $request->get('cont_tipopago');
-                        $contrato->cont_concepto = $request->get('cont_concepto');
+                        $contrato->cont_concepto = $request->get('cont_concepto'); 
                         $contrato->cont_tipouso = $request->get('cont_tipouso');
-                        $contrato->cont_tiempo = $request->get('cont_tiempo');
+                        $contrato->cont_tiempo = $request->get('cont_tiempo'); 
                         $contrato->cont_monto = $request->get('cont_monto');
                         $contrato->cont_estado = "tramite";
                         $contrato->cont_diffechsep = $request->get('cont_diffechsep');
@@ -167,27 +173,18 @@ class ContratoController extends Controller
                                 $convenio->conv_cuotaini = $request->get('conv_cuotaini');
                                 $convenio->conv_nrocuota = $request->get('conv_nrocuota');
                                 
-                                if ($convenio->save()) {
+                                if ($convenio->save()){
                                     $contrato->conv_id = $convenio->conv_id;
-                                    /**
-                                     * Si el convenio es correctamente creado, procedemos a llenar la tabla plan pago con los 
-                                     * pagos y el siguiente algoritmo
-                                     */
-                                    /**
-                                     * El subtotal es el pago total del nicho menos la cuota inicial.
-                                     *
-                                     * @var        integer
-                                     */
+                                    $contrato->save();
+
                                     $subtotal = 0;
                                     $subtotal=$contrato->cont_monto - $convenio->conv_cuotaini;
                                     $residuo=$subtotal%$convenio->conv_nrocuota;
                                     $cuotamensual=($subtotal-$residuo)/$convenio->conv_nrocuota;
-                                    if($residuo>0)
-                                    {
+                                    if($residuo>0){
                                         $xpricuota=$cuotamensual+1;
                                     }
-                                    else
-                                    {
+                                    else{
                                         $xpricuota=$cuotamensual;
                                     }
 
@@ -205,8 +202,7 @@ class ContratoController extends Controller
                                     $planPago->conv_id = $convenio->conv_id;
                                     $planPago->save();
 
-                                    for($j=1; $j<=$convenio->conv_nrocuota; $j++) 
-                                    {
+                                    for($j=1; $j<=$convenio->conv_nrocuota; $j++){
                                         $planPago = new PlanPago();
                                         $planPago->ppago_nrocuota = $j;
                                          
@@ -274,7 +270,6 @@ class ContratoController extends Controller
 
                                 }
                             }
-                            
                             if ($contrato->save()) {
                                 self::borrarSesion();
                                 return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('creado', 'Nicho Reservado de Manera Correcta');
@@ -295,7 +290,7 @@ class ContratoController extends Controller
         session()->forget('paso');
         session()->forget('solicitante');
     }
-    
+
     public function postBuscar(Request $request)
     {
       $this->validate($request, [
@@ -303,8 +298,9 @@ class ContratoController extends Controller
         ]);
 
         $busqueda = $request->get('busqueda'); 
-        $contrato = \DB::select("SELECT c.* from t_contrato c,t_solicitante s, t_difunto d WHERE (c.sol_id = s.sol_id AND c.dif_id = d.dif_id) AND (s.sol_nombre LIKE '%$busqueda%' OR s.sol_dni LIKE '%$busqueda%' OR d.dif_nom LIKE '%$busqueda%' OR  d.dif_ape LIKE '%$busqueda%' OR d.dif_dni LIKE '%$busqueda%')");
-        $contratos = Contrato::hydrate($contrato);
+        $contratos = \DB::select("SELECT c.*,s.*,d.* from t_contrato c,t_solicitante s, t_difunto d WHERE (c.sol_id = s.sol_id AND c.dif_id = d.dif_id) AND (s.sol_nombre LIKE '%$busqueda%' OR s.sol_dni LIKE '%$busqueda%' OR d.dif_nom LIKE '%$busqueda%' OR  d.dif_ape LIKE '%$busqueda%' OR d.dif_dni LIKE '%$busqueda%')");
+        
         return $contratos;
     }
 }
+

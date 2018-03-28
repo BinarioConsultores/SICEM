@@ -30,13 +30,15 @@
         <div class="page-content-wrapper">
             <aside class="page-sidebar" data-fuse-bar="demo-sidebar" data-fuse-bar-media-step="md">
                 <div class="header p-6 bg-primary text-auto">
-                    <span class="h3">Información de Nicho</span>
+                    <span class="h3">{{$nicho->Pabellon->Cementerio->cement_nom}}</span><br>
+                    <span class="h5">{{$nicho->Pabellon->pab_nom}}</span><br>
+                    <span class="h6">Nicho Nro. {{$nicho->nicho_nro}}</span>
                 </div>
                 <div class="demo-sidebar m-2 ">
                     <ul class="nav flex-column">
                         <li class="subheader">Menú</li>
                         <li class="nav-item">
-                            <a  href="/createC?nicho_id={{$nicho->nicho_id}}" class=""><button type="button" class="btn btn-info">Constancia <i class="icon-arrow-down-bold-box"></i></button> </a>
+                            <a  href="/createC?nicho_id={{$nicho->nicho_id}}" class="btn btn-info">Constancia <i class="icon-arrow-down-bold-box"></i></button> </a>
                         </li>
                         <md-divider></md-divider>
                         <li class="nav-item">
@@ -51,7 +53,7 @@
                         <button type="button" class="sidebar-toggle-button btn btn-icon d-block d-lg-none mr-2" data-fuse-bar-toggle="demo-sidebar">
                             <i class="icon icon-menu"></i>
                         </button>
-                        <span class="h3">Nicho {{$nicho->nicho_nro}}</span>
+                        <span class="h3">Información del Nicho</span>
                     </div>
                 </div>
                 <div class="page-content-card">
@@ -64,7 +66,7 @@
                                                      <header class="h6 bg-secondary text-auto p-4">
                                                         <div class="title">Información de Contrato</div>
                                                     </header>
-                                                    <div class="content  p-4">
+                                                    <div class="content p-4">
                                                         <div class=" mb-6">
                                                             <div class="title font-weight-bold mb-1">Fecha de Contrato</div>
                                                             <div class="info">{{$contrato->cont_fecha}}</div>

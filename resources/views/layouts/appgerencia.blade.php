@@ -94,7 +94,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link ripple fuse-ripple-ready" href="/gerencia/Deudas" data-url="apps-mail.html">
+                                <a class="nav-link ripple fuse-ripple-ready" href="/gerencia/deudas" data-url="apps-mail.html">
                                     <i class="icon s-4 icon-account-alert"></i>
                                     <span>Deudas Vencidas</span>
                                 </a>

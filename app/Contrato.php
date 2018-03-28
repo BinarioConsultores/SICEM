@@ -36,7 +36,7 @@ class Contrato extends Model
   }
   public function Convenio()
   {
-      return $this->hasOne('sicem\Convenio','conv_id');
+      return $this->belongsTo('sicem\Convenio','conv_id');
   }
   public function Difunto()
   {
