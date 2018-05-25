@@ -20,12 +20,8 @@ use Illuminate\Http\Request;
 ]);*/
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
-
+Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin/cementerio/crear','CementerioController@getCrear');
@@ -46,6 +42,8 @@ Route::post('/admin/pabellon/postCambiarPrecioFila','PabellonController@postCamb
 
 Route::get('/admin/pabellon/nicho','NichoController@getVerNichoAdmin');
 
+Route::post('/admin/solicitante/editar','SolicitanteController@postEditarSolicitante');
+
 
 Route::get('/gerencia/gestion','GerenciaController@getIndex');
 Route::post('/gerencia/pabellon/nichos','PabellonController@postVerNichos');
@@ -53,17 +51,28 @@ Route::post('/gerencia/pabellon/nichos','PabellonController@postVerNichos');
 Route::get('/gerencia/pabellon/nicho','NichoController@getVerNicho');
 Route::post('/gerencia/pabellon/nicho/comprar','ContratoController@postComprarNicho');
 Route::get('/gerencia/pabellon/nicho/comprar','ContratoController@postComprarNicho');
+Route::post('/gerencia/pabellon/nicho/solicitarsextra','ContratoController@postSolicitarSextra');
+
+Route::get('/gerencia/busqueda','GerenciaController@getBusqueda');
+
 Route::get('/createC','DocumentoController@createConstancia');
 Route::get('/createA','DocumentoController@createAutorizacion');
 Route::get('/createN','DocumentoController@createNotificacion');
 Route::get('/createPDF','DocumentoController@createPDF');
+Route::get('/createContrato','DocumentoController@createContrato');
 //Deudas
 Route::get('/gerencia/deudas','PlanPagoController@getIndex');
 Route::get('/gerencia/deudas/detalles','PlanPagoController@getDetalleDeuda');
+Route::post('/gerencia/contrato/eliminar','ContratoController@postEliminarContrato');
+
+
 //Caja
 Route::get('/caja','CajaController@getIndex');
 Route::post('/caja/buscar','ContratoController@postBuscar');
-Route::get('/caja/buscar/detalles','PlanPagoController@getDetallePagos');		
+Route::get('/caja/buscar/detalles','PlanPagoController@getDetallePagos');
+Route::get('/caja/pagospendientes','CajaController@getPagosPendientes');
+Route::post('/caja/pagospendientes/pagar','CajaController@postPagarPagosPendientes');
+
 
 //--Pruebas
 Route::get('/prueba','PruebaController@index');
@@ -76,3 +85,8 @@ Route::get('/ajax/get/ObtenerPabellonesPorCementerio','PabellonController@getAja
 Route::get('/ajax/get/ObtenerSolicitantesPorNombre','SolicitanteController@getAjaxObtenerSolicitantesPorNombre');
 Route::get('/ajax/get/ObtenerSolicitantesPorDNI','SolicitanteController@getAjaxObtenerSolicitantesPorDNI');
 Route::get('/ajax/get/ObtenerContratos','ContratoController@postBuscar');
+
+
+Route::get('/exito', function(){
+	return view('caja.compraexitosa');
+});

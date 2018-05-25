@@ -10,11 +10,11 @@
 
     <!-- STYLESHEETS -->
     <style type="text/css">
-            [fuse-cloak],
-            .fuse-cloak {
-                display: none !important;
-            }
-        </style>
+        [fuse-cloak],
+        .fuse-cloak {
+            display: none !important;
+        }
+    </style>
     <!-- Icons.css -->
     <link type="text/css" rel="stylesheet" href="{{asset('assets/icons/fuse-icon-font/style.css')}}">
     <!-- Animate.css -->
@@ -85,16 +85,16 @@
                         <ul class="nav flex-column custom-scrollbar" id="sidenav" data-children=".nav-item">
 
                             <li class="subheader">
-                                <span>Gestión</span>
+                                <span>Caja</span>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link ripple fuse-ripple-ready" href="/gerencia/gestion" data-url="apps-mail.html">
+                                <a class="nav-link ripple fuse-ripple-ready" href="/home" data-url="apps-mail.html">
                                     <i class="icon s-4 icon-calendar-today"></i>
-                                    <span>Pagos</span>
+                                    <span>Búsqueda para Pagos</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link ripple fuse-ripple-ready" href="/gerencia/gestion" data-url="apps-mail.html">
+                                <a class="nav-link ripple fuse-ripple-ready" href="/caja/pagospendientes" data-url="apps-mail.html">
                                     <i class="icon s-4 icon-calendar-today"></i>
                                     <span>Ordenes de Pago</span>
                                 </a>

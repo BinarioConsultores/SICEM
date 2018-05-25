@@ -100,9 +100,6 @@ function setCementerioModal(btn){
         </div>
 
 
-
-
-
 		@if (Session::has('creado'))
 		    <div class="alert alert-success" role="alert">
 		        {{Session::get('creado')}}
@@ -132,7 +129,6 @@ function setCementerioModal(btn){
                             <div class="source-preview-wrapper">
                                 <div class="preview">
                                     <div class="preview-elements">
-
                                         <table id="sample-data-table" class="table">
                                             <thead>
                                                 <tr>

@@ -12,7 +12,9 @@ use sicem\Contrato;
 use sicem\Convenio;
 use sicem\PlanPago;
 use sicem\Pabellon;
+use sicem\CSExtra;
 use sicem\User;
+use sicem\ServicioExtra;
 
 class ContratoController extends Controller
 {
@@ -36,8 +38,81 @@ class ContratoController extends Controller
        
         
     }
-    public function postComprarNicho(Request $request)
-    {
+
+    public function postEliminarContrato(Request $request){
+        $this->validate($request, [
+            'cont_id' => 'required',
+        ]);
+        $contrato = Contrato::findOrFail($request->get('cont_id'));
+
+        if ($contrato->cont_tipopago == "credito") {
+            \DB::transaction(function() use ($contrato){
+                $cont_id = $contrato->cont_id;
+                $sol_id = $contrato->sol_id;
+                $dif_id = $contrato->dif_id;
+                $conv_id = $contrato->conv_id;
+                $contrato->delete();
+                $planPagos = PlanPago::where('conv_id',$conv_id)->delete();
+                if (Contrato::where('cont_id','!=',$cont_id)->where('sol_id',$sol_id)->count() == 0) {
+                    Solicitante::where('sol_id',$sol_id)->delete();
+                }
+                if (Contrato::where('cont_id','!=',$cont_id)->where('dif_id',$dif_id)->count() == 0) {
+                    Difunto::where('dif_id',$dif_id)->delete();
+                }
+                $nicho = $contrato->Nicho;
+                $nicho->nicho_est = 'libre';
+                $nicho->save();
+                Convenio::where('conv_id',$conv_id)->delete();
+                
+            });
+        }else{
+            if ($contrato->cont_tipopago == "contado") {
+
+                \DB::transaction(function() use ($contrato){
+                    
+                    $cont_id = $contrato->cont_id;
+                    $sol_id = $contrato->sol_id;
+                    $dif_id = $contrato->dif_id;
+                    $contrato->delete();
+                    if (Contrato::where('cont_id','!=',$cont_id)->where('sol_id',$sol_id)->count() == 0) {
+                        Solicitante::where('sol_id',$sol_id)->delete();
+                    }
+                    if (Contrato::where('cont_id','!=',$cont_id)->where('dif_id',$dif_id)->count() == 0) {
+                        Difunto::where('dif_id',$dif_id)->delete();
+                    }
+                    $nicho = $contrato->Nicho;
+                    $nicho->nicho_est = 'libre';
+                    $nicho->save();
+                    
+
+                });  
+            }
+        }
+
+        return "queda!";
+
+    }
+
+    public function postSolicitarSextra(Request $request){
+        $this->validate($request, [
+            'cont_id' => 'required',
+            'sextra_id' => 'required',
+        ]);
+
+        $contrato = Contrato::findOrFail($request->get('cont_id'));
+        $sextra = ServicioExtra::findOrFail($request->get('sextra_id'));
+        $csextra = new CSExtra();
+        $csextra->cont_id = $contrato->cont_id;
+        $csextra->sextra_id = $sextra->sextra_id;
+        $csextra->bolde_id = 1;
+        $csextra->save();
+        return redirect()->action(
+            'NichoController@getVerNicho', ['nicho_id' => $contrato->Nicho->nicho_id]
+        );
+
+    }
+
+    public function postComprarNicho(Request $request){
         $this->validate($request, [
             'nicho_id' => 'required',
             'paso' => 'required',
@@ -47,6 +122,12 @@ class ContratoController extends Controller
         /**
          * Si el paso es 1, debemos guardar en SESION, los datos del solicitante
          */
+        
+        if ($request->get('paso')==0) {
+            session()->forget('difunto');
+        }
+
+
         if ($request->get('paso')==1) {
             $this->validate($request, [
                 'sol_nombre' => 'required',

@@ -299,6 +299,7 @@ class PabellonController extends Controller
   	}
 
     public function getVerNichos(Request $request){
+
       $pab_id=$request->get('pab_id');
       $pabellon = Pabellon::find($pab_id);
       $nrofil = $pabellon->pab_nrofil;
@@ -317,9 +318,14 @@ class PabellonController extends Controller
     }
 
     public function postVerNichos(Request $request){
-       $this->validate($request, [
+
+      $this->validate($request, [
         'pab_id' => 'required',
       ]);
+
+      session()->forget('difunto');
+      session()->forget('paso');
+      session()->forget('solicitante');
        
       $pab_id=$request->get('pab_id');
       $pabellon = Pabellon::find($pab_id);

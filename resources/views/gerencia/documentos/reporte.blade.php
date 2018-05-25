@@ -6,11 +6,10 @@
     <title>Reporte de pagos</title>
   </head>
 <body style="font-family: 'Calibri';">
-	<img src="https://cdn.elgrupoinformatico.com/Noticias/2017/12/jaja-inocentes-550x312.jpg" style="opacity: 0.5; width: 10%;height: 10%;">
-	<img src="https://cdn.elgrupoinformatico.com/Noticias/2017/12/jaja-inocentes-550x312.jpg" style="opacity: 0.5; width: 10%;height: 10%;" align="right">
+	<img src="{{asset('assets/images/logo_documento.png')}}" style="opacity: 0.5; width: 10%;height: 10%;">
 	<p align='center'><strong>REPORTE DE PAGOS</strong> </p><br />
 	<table  style="font-family: Lucida Sans Unicode, Lucida Grande, Sans-Serif;
-    font-size: 12px;    margin: 45px;     width: 300px; text-align: left;    border-collapse: collapse;">
+    font-size: 12px;    margin: 45px;     width: 300px; text-align: left;  ">
 		<thead>
 			<th>Nombre Difunto:</th><td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}}</td><tr></tr>
 			<th>Nro. de Nicho:</th><td>{{$contrato->Nicho->nicho_nro}}</td><tr></tr>
@@ -38,13 +37,13 @@
 			<tr></tr>
 			@foreach ($planpago as $ppago)
                 @if($ppago->ppago_saldocuota==0)
-                    <tr style='background: #6CBE65;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
+                    <tr style='background: #D2FFBD;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
                 @endif
                 @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven < $now)
-                    <tr style='background: #FF9F9B;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
+                    <tr style='background: #FFA6A2;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
                 @endif
                 @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven > $now)
-                    <tr style='background: #71B2FF;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
+                    <tr style='background: #C7E3FF;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
                 @endif
                 <td>{{$ppago->ppago_nrocuota}}</td>
                 <td>{{$ppago->ppago_fechaven}}</td>

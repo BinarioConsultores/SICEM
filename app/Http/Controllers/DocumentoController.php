@@ -50,6 +50,16 @@ class DocumentoController extends Controller
         $contrato = Contrato::where('conv_id',$conv_id)->get()[0];
         return view('gerencia.documentos.notificacion',['planpago'=>$planpago,'now'=>$now,'contrato'=>$contrato]);
     }
+    public function createContrato(Request $request)
+    {
+        $this->validate($request, [
+            'cont_id' => 'required',
+        ]);
+        $now = Carbon::now();
+        $cont_id=$request->get('cont_id');
+        $contrato = Contrato::findOrFail($cont_id);
+        return view('gerencia.documentos.contrato',['now'=>$now,'contrato'=>$contrato]);
+    }
     public function createPDF(Request $request)
     {
       $this->validate($request, [
@@ -62,11 +72,12 @@ class DocumentoController extends Controller
 
       if($request->has('conv_id')){
           // Set extra option
-          PDF::setOptions(['dpi' => 150, 'defaultFont' => 'Times New Roman']);
+          PDF::setOptions(['dpi' => 150, 'defaultFont' => 'Arial']);
           // pass view file
           $pdf = PDF::loadView('gerencia.documentos.reporte',['planpago'=> $planpago,'now'=>$now,'contrato'=>$contrato]);
           // download pdf
-          return $pdf->download('pdfview.pdf');
+          $archivo = "ReportePagos-".$contrato->Solicitante->sol_nombre.".pdf";
+          return $pdf->download($archivo);
         }
        
     }

@@ -95,7 +95,7 @@
   </head>
   
   <body style="font-family: 'Calibri';">
-      <img src="{{asset('assets/images/logo.png')}}">
+      <img src="{{asset('assets/images/logo_documento.png')}}">
       <p align='right'> LA ENCARGADA DEL DEPARTAMENTO DE REGISTRO CIVIL Y CEMENTERIOS DE LA MUNICIPALIDAD DISTRITAL DE SACHACA:</p><br />
       <p align='right'> <strong>  {{ Auth::user()->name }}</strong> </p> <br>
       <p align='center'><strong>DEJA CONSTANCIA:</strong> </p><br />

@@ -1,36 +1,5 @@
 @extends('layouts.appgerencia')
-@section('javascript')
-<script language="javascript" type="text/javascript">
-    //this code handles the F5/Ctrl+F5/Ctrl+R
-    document.onkeydown = checkKeycode
-    function checkKeycode(e) {
-        var keycode;
-        if (window.event)
-            keycode = window.event.keyCode;
-        else if (e)
-            keycode = e.which;
 
-        // Mozilla firefox
-        if ($.browser.mozilla) {
-            if (keycode == 116 ||(e.ctrlKey && keycode == 82)) {
-                if (e.preventDefault)
-                {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-            }
-        } 
-        // IE
-        else if ($.browser.msie) {
-            if (keycode == 116 || (window.event.ctrlKey && keycode == 82)) {
-                window.event.returnValue = false;
-                window.event.keyCode = 0;
-                window.status = "Refresh is disabled";
-            }
-        }
-    }
-</script>
-@endsection
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/pabellon.css')}}">
 <style type="text/css">
@@ -136,77 +105,72 @@
 		@endif
         <!-- CONTENT -->
         <div class="page-content p-6">
-            <div class="content" align="center">
-                <div class="row">
-                    <div class="col-2">
-                        <div class="example">
-                            <div class="source-preview-wrapper">
-                                <div class="preview" >
+            <div class="row">
+                <div class="col-2">
+                    <div class="profile-box latest-activity card">
+                        <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                            <div class="title">Leyenda</div>
+                            <div class="more text-muted">Indicadores</div>
+                        </header>
+                        <div class="content activities p-4">
+                            <ul class="nav flex-column p-4">
+                                <li class="nav-item">
                                     <div class="row">
-                                        <ul class="nav flex-column">
+                                        <table>
+                                            <tr>
+                                                <td><div class="square-libre"></div></td>
+                                                <td><span>Nicho Libre</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><div class="square-ocupado"></div></td>
+                                                <td><span>Nicho Ocupado</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><div class="square-tramite"></div></td>
+                                                <td><span>Nicho en trámite</span></td>
+                                            </tr>
 
-                                            <li class="subheader"><h4>Leyenda</h4></li>
-                                            <li class="nav-item">
-                                                <div class="row">
-                                                    <table>
-                                                        <tr>
-                                                            <td><div class="square-libre"></div></td>
-                                                            <td><span>Nicho Libre</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><div class="square-ocupado"></div></td>
-                                                            <td><span>Nicho Ocupado</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><div class="square-tramite"></div></td>
-                                                            <td><span>Nicho en trámite</span></td>
-                                                        </tr>
-
-                                                    </table>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-10" >
-                        <div class="example" >
-                            <div class="source-preview-wrapper">
-                                <div class="preview"  style="overflow: scroll">
-                                    <div class="row">                                               
-                                        <table class="pabellon" >
-                                            <?php 
-                                                $flagPrecio = true;
-                                            ?>
-                                            @for($i=1;$i<=$pabellon->pab_nrofil;$i++)
-                                                <tr>
-                                                    <?php $flagPrecio = true; ?>
-                                                @for($j=1;$j<=$pabellon->pab_nrocol;$j++)
-                                                    <td>
-                                                        <form action="/gerencia/pabellon/nicho/" method="get">
-                                                            <input type="hidden" name="nicho_id" value="{{$nichos[$i-1][$j-1]->nicho_id}}">
-                                                            @if($nichos[$i-1][$j-1]->nicho_est=="ocupado")
-                                                                <button type="submit"  class="ocupado" data-toggle="tooltip" data-placement="top" data-original-title="ocupado"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
-                                                                <?php $flagPrecio = false; ?>
-                                                            @else
-                                                                @if($nichos[$i-1][$j-1]->nicho_est=="libre")
-                                                                    <button type="submit"  class="libre" data-toggle="tooltip" data-placement="top" data-original-title="Libre | S/.{{$nichos[$i-1][$j-1]->nicho_precio}}"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
-                                                                @else
-                                                                    <button type="submit"  class="tramite" data-toggle="tooltip" data-placement="top" data-original-title="En Trámite"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
-                                                                @endif
-                                                            @endif
-                                                        </form>
-                                                    </td>
-                                                @endfor
-                                                </tr>
-                                            @endfor
                                         </table>
                                     </div>
-                                </div>
-                            </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-10" >
+                    <div class="profile-box latest-activity card" >
+                        <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                            <div class="title">Pabellon</div>
+                            <div class="more text-muted">Disposición de Nichos</div>
+                        </header>
+                        <div class="content activities p-4" style="overflow: scroll">
+                            <table class="pabellon">
+                                <?php 
+                                    $flagPrecio = true;
+                                ?>
+                                @for($i=1;$i<=$pabellon->pab_nrofil;$i++)
+                                    <tr>
+                                        <?php $flagPrecio = true; ?>
+                                    @for($j=1;$j<=$pabellon->pab_nrocol;$j++)
+                                        <td>
+                                            <form action="/gerencia/pabellon/nicho/" method="get">
+                                                <input type="hidden" name="nicho_id" value="{{$nichos[$i-1][$j-1]->nicho_id}}">
+                                                @if($nichos[$i-1][$j-1]->nicho_est=="ocupado")
+                                                    <button type="submit"  class="ocupado" data-toggle="tooltip" data-placement="top" data-original-title="ocupado"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                    <?php $flagPrecio = false; ?>
+                                                @else
+                                                    @if($nichos[$i-1][$j-1]->nicho_est=="libre")
+                                                        <button type="submit"  class="libre" data-toggle="tooltip" data-placement="top" data-original-title="Libre | S/.{{$nichos[$i-1][$j-1]->nicho_precio}}"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                    @else
+                                                        <button type="submit"  class="tramite" data-toggle="tooltip" data-placement="top" data-original-title="En Trámite"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                    @endif
+                                                @endif
+                                            </form>
+                                        </td>
+                                    @endfor
+                                    </tr>
+                                @endfor
+                            </table>
                         </div>
                     </div>
                 </div>

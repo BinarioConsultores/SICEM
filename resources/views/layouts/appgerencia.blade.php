@@ -99,6 +99,12 @@
                                     <span>Deudas Vencidas</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link ripple fuse-ripple-ready" href="/gerencia/busqueda" data-url="apps-mail.html">
+                                    <i class="icon s-4 icon icon-magnify"></i>
+                                    <span>Búsqueda Avanzada</span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>

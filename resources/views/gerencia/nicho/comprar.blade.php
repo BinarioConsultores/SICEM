@@ -56,6 +56,9 @@
     $(function() {
         $("#busca_sol_nombre").on('keyup', function (e) {
             if (e.keyCode == 13) {
+                if ($(this).val()=="") {
+                    return;
+                }
                 var sol_nombre = $(this).val();
                 $('#infoListSol').empty();
                 $('#infoListSol').append("<img align='center' src='{{asset('assets/images/cargandop.gif')}}'>");
@@ -98,6 +101,9 @@
 
     $(function() {
         $("#busca_sol_dni").on('keyup', function (e) {
+            if ($(this).val()=="") {
+                return;
+            }
             if (e.keyCode == 13) {
                 var sol_dni = $(this).val();
                 $('#infoListSol').empty();
@@ -226,17 +232,20 @@
                 else{
                     xpricuota=xmontocomun;
                 }
-                var table = $("<table border=0 cellpadding=5 cellspacing=5 align='center'></table>");
-                table.append("<tr bgcolor='#2196F3'> <td><font color='#ffffff'><strong>Nro de cuotas</strong></font></td> <td><font color='#ffffff'><strong>FECHA</strong></font></TD> <td><font color='#ffffff'><strong>S/.</strong></font></td></tr>'");
-                table.append("<tr bgcolor='#FFE5B3'><th>Cuota Inicial: </th> <td>" + today + "</td><td>  "+xcuota_ini+"</td></tr>");
+                var table = $("<table class='table table-striped'></table>");
+                
+                table.append("<thead><tr><th>Nro de cuotas</th> <th>FECHA</th> <th>S/.</th></tr></thead>'");
+                table.append("<tbody>");
+                table.append("<tr><td>Cuota Inicial: </td> <td>" + today + "</td><td>  "+xcuota_ini+"</td></tr>");
+                
                 
                 var dia_hoyX = dia_hoy;
                 mes_hoy=mes_hoy+1;
                 var fila = "";
                 for(var j=1; j<=xnro_cuotas; j++) 
                 {
-                    fila = "<tr bgcolor='#B0D9F3'>";
-                    fila+= "<th>"+j+" Cuota</th>"; 
+                    fila = "<tr>";
+                    fila+= "<td>"+j+" Cuota</td>"; 
                     if(mes_hoy>12){   
                         mes_hoy=1;
                         ano_hoy=ano_hoy+1;
@@ -250,9 +259,9 @@
                             dia_hoyX = 28;
                     }   
                     if (mes_hoy <10)
-                        fila+= "<th>"+ano_hoy+"-0"+mes_hoy+'-'+dia_hoyX+"</th>";
+                        fila+= "<td>"+ano_hoy+"-0"+mes_hoy+'-'+dia_hoyX+"</td>";
                     else 
-                        fila+= "<th>"+ano_hoy+'-'+mes_hoy+'-'+dia_hoyX+"</th>";    
+                        fila+= "<td>"+ano_hoy+'-'+mes_hoy+'-'+dia_hoyX+"</td>";    
                         
                     if(j<=xresiduo)
                         fila+= "<td>"+Math.round(xpricuota)+"</td>";
@@ -264,6 +273,7 @@
                     fila+= "</tr>";
                     table.append(fila);
                 }
+                table.append("</tbody>");
 
                 $('#calculado').append(table);
             }
@@ -282,7 +292,7 @@
     <div class="doc data-table-doc page-layout simple full-width">
         <!-- HEADER -->
         <div class="page-header bg-secondary text-auto p-6 row no-gutters align-items-center justify-content-between">
-            <h2 class="doc-title" id="content">Nicho {{$nicho->nicho_nro}}</h2>
+            <h2 class="doc-title" id="content">Nicho {{$nicho->nicho_nro}} Libre: Proceso de Compra</h2>
         </div>
 
         @if (Session::has('creado'))
@@ -320,9 +330,7 @@
                 <div class="col-12">
                     <div class="row">
                         <div class="container">
-                    
                             <div class="row bs-wizard" style="border-bottom:0;">
-                                
                                 <div class="col-3 bs-wizard-step active" id="primero">
                                   <div class="text-center bs-wizard-stepnum">Paso 1</div>
                                   <div class="progress"><div class="progress-bar"></div></div>
@@ -351,21 +359,21 @@
                                   <div class="bs-wizard-info text-center">Resumen de la compra en general</div>
                                 </div>
                             </div>
-                             @if (Session::has('paso'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{Session::get('paso')}}
-                                    </div>
-                                @endif
-                                @if (Session::has('solicitante.existe'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{Session::get('solicitante.existe')}}
-                                    </div>
-                                @endif
-                                @if (Session::has('difunto'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{Session::get('difunto')}}
-                                    </div>
-                                @endif
+                            @if (Session::has('paso'))
+                                <div class="alert alert-success" role="alert">
+                                    {{Session::get('paso')}}
+                                </div>
+                            @endif
+                            @if (Session::has('solicitante.existe'))
+                                <div class="alert alert-success" role="alert">
+                                    {{Session::get('solicitante.existe')}}
+                                </div>
+                            @endif
+                            @if (Session::has('difunto'))
+                                <div class="alert alert-success" role="alert">
+                                    {{Session::get('difunto')}}
+                                </div>
+                            @endif
                         </div>    
                     </div>
                 </div> 
@@ -402,8 +410,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-1" style="text-align: center; vertical-align: middle;">
+                    
+                      <h1>ó</h1>
+                    
+                </div>
 
-                <div class="col-8" id="div1">
+                <div class="col-7" id="div1">
                     <div class="profile-box latest-activity card">
                         <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4"> 
                             <div class="title h6">Registrar los datos del Solicitante</div>
@@ -451,7 +464,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3"></div>
             </div>
 
             <div class="row" id="div2" hidden="">

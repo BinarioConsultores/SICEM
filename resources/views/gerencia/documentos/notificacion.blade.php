@@ -95,8 +95,7 @@
   
   <body style="font-family: 'Calibri';">
 
-<img src='' height='180' width='140'>
-<img src="" height="350" width="435">
+<img src="{{asset('assets/images/logo_documento.png')}}">
 
 <p style='text-align:justify' align='left' align='justify'>La que suscribe, {{ Auth::user()->name }}, encargada del Departamento de Registro Civil y Cementerios"
 <strong> NOTIFICA A:</strong></p> 
@@ -141,13 +140,13 @@
       <tbody>                  
           @foreach ($planpago as $ppago)
               @if($ppago->ppago_saldocuota==0)
-                  <tr style='background: #7DBE72;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
+                  <tr style='background: #D2FFBD;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
               @endif
               @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven < $now)
-                  <tr style='background: #E5594D;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
+                  <tr style='background: #FFA6A2;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
               @endif
               @if($ppago->ppago_saldocuota>0 && $ppago->ppago_fechaven > $now)
-                  <tr style='background: #7DBEFF;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
+                  <tr style='background: #C7E3FF;border: 1px;width: 2em;-webkit-border-radius: 5px 5px 5px 5px; border-radius: 7px 7px 7px 7px; height: 2em;margin-right: 2px;'>
               @endif
               <td>{{$ppago->ppago_nrocuota}}</td>
               <td>{{$ppago->ppago_fechaven}}</td>

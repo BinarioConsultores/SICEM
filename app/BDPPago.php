@@ -8,11 +8,12 @@ class BDPPago extends Model
 {
   protected $table = 't_bdppago';
   protected $primaryKey = 'bdpp_id';
-  protected $fillable = [
-        'created_at', 'updated_at'
-  ];
+ 
   protected $fillable = [
         'ppago_id', 'bolde_id', 
+  ];
+  protected $hidden = [
+        'created_at', 'updated_at'
   ];
   public function PlanPago()
   {

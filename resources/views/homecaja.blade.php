@@ -4,7 +4,7 @@
     
     $(function() {
 
-        var table = $("<table  id='sample-data-table'class='table'>");
+        var table = $("<table class='table'>");
         table.append("<thead><tr><th class='secondary-text'> <div class='table-header'><span>Nombre de Solicitante</span></div></th><th class='secondary-text'> <div class='table-header'><span>Nombre de Difunto</span> </div></th><th class='secondary-text'> <div class='table-header'><span>Tipo de Pago </span></div></th><th class='secondary-text'> <div class='table-header'><span>Tipo de Uso</span></div></th><th class='secondary-text'><div class='table-header'><span>Fecha de Contrato</span></div></th><th class='secondary-text'><div class='table-header'> <span>Acciones </span></th></div> </tr></thead>");
         var tbody = $('<tbody>'); 
         $("#busqueda").on('keyup', function (e) {
@@ -97,15 +97,15 @@
                                         <div class="source-preview-wrapper">
                                             <div class="preview">
                                                 <div class="row">
-                                                        <div class="col-1"></div>
-                                                        <div class="form-group p-7  col-6" id="nombre_div" >
-                                                          <label for="sol_nombre" class="form-label">Ingrese datos del solicitante o del difunto</label>
-                                                          <input type="text" class="form-control" name="busqueda"  id="busqueda" placeholder="Nombre,DNI">
-                                                        </div>
-                                                        <div class="form-group p-12 col-5">
-                                                            <button type="submit" class="btn btn-primary m-1">Buscar</button>
-                                                        </div>
+                                                    <div class="col-1"></div>
+                                                    <div class="form-group p-7  col-6" id="nombre_div" >
+                                                      <label for="sol_nombre" class="form-label">Ingrese datos del solicitante o del difunto</label>
+                                                      <input type="text" class="form-control" name="busqueda"  id="busqueda" placeholder="Nombre,DNI">
                                                     </div>
+                                                    <div class="form-group p-12 col-5">
+                                                        <button type="submit" class="btn btn-primary m-1">Buscar</button>
+                                                    </div>
+                                                </div>
 
                                             </div>
                                         </div>
@@ -122,9 +122,7 @@
                                         <div class="description">
                                             <div class="description-text">
                                                 <header class="h6 bg-secondary text-auto p-4">
-                                                    <div class="title"><span id="span"></span></div>
-                                                   
-                                                    
+                                                    <div class="title"><span id="span"></span></div> 
                                                 </header>
                                             </div>
                                         </div>

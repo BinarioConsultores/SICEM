@@ -18,6 +18,11 @@ class GerenciaController extends Controller
         return view('gestion.gestion',['cementerios'=>$cementerios]);
     }
 
+    public function getBusqueda()
+    {
+        return view('gerencia.busqueda');
+    }
+
     public function missingMethod($parameters=array()){
       abort(404);
     }

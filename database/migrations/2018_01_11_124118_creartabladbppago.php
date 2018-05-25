@@ -13,8 +13,8 @@ class Creartabladbppago extends Migration
      */
     public function up()
     {
-        Schema::create('t_dbppago', function (Blueprint $table) {
-            $table->increments('dbpp_id');
+        Schema::create('t_bdppago', function (Blueprint $table) {
+            $table->increments('bdpp_id');
             $table->integer('ppago_id')->unsigned();
             $table->integer('bolde_id')->unsigned();
             $table->foreign('ppago_id')->references('ppago_id')->on('t_planpago');
@@ -30,6 +30,6 @@ class Creartabladbppago extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_dbppago');
+        Schema::dropIfExists('t_bdppago');
     }
 }
