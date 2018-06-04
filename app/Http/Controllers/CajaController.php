@@ -33,66 +33,67 @@ class CajaController extends Controller
     	$csextras = $request->get('csextras');
     	$boleta = new Boleta($request->all());
     	if ($boleta->save()) {
-    		if (sizeof($contratos)>0) {
-    			foreach ($contratos as $i => $cont_id){
-		    		$contrato = new Contrato();
-		    		$contrato = Contrato::findOrFail($cont_id);
-		    		
-		    		$nicho = Nicho::findOrFail($contrato->Nicho->nicho_id);
-		    		if ($contrato->cont_tipopago == "contado") {
-		    			$boletadetalle = new BoletaDetalle();
-		    			$boletadetalle->bolde_concepto = "Compra de nicho al contado";
-		    			$boletadetalle->bolde_monto = $contrato->cont_monto;
-		    			$boletadetalle->bol_id = $boleta->bol_id;
-		    			$boletadetalle->save();
-		    			$contrato->cont_estado = "realizado";
-		    			$nicho->nicho_est = "ocupado";
-		    			$nicho->save();
-		    			$contrato->save();
-		    		}
-		    		else{
-		    			if ($contrato->cont_tipopago == "credito") {
-		    				$boletadetalle = new BoletaDetalle();
-			    			$boletadetalle->bolde_concepto = "Compra de nicho al credito - Cuota inicial";
-			    			$boletadetalle->bolde_monto = $contrato->Convenio->conv_cuotaini;
+    		if ($request->has('contratos')) {
+	    		if (sizeof($contratos)>0) {
+	    			foreach ($contratos as $i => $cont_id){
+			    		$contrato = new Contrato();
+			    		$contrato = Contrato::findOrFail($cont_id);
+			    		
+			    		$nicho = Nicho::findOrFail($contrato->Nicho->nicho_id);
+			    		if ($contrato->cont_tipopago == "contado") {
+			    			$boletadetalle = new BoletaDetalle();
+			    			$boletadetalle->bolde_concepto = "Compra de nicho al contado";
+			    			$boletadetalle->bolde_monto = $contrato->cont_monto;
 			    			$boletadetalle->bol_id = $boleta->bol_id;
 			    			$boletadetalle->save();
-
-			    			$planpago = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->where('ppago_nrocuota','0')->get()[0];
-			    			$planpago->ppago_saldocuota = 0;
-			    			$planpago->save();
-
-			    			$bdppago = new BDPPago();
-			    			$bdppago->ppago_id = $planpago->ppago_id;			    			
-			    			$bdppago->bolde_id = $boletadetalle->bolde_id;
-			    			$bdppago->save();
-			    			
 			    			$contrato->cont_estado = "realizado";
 			    			$nicho->nicho_est = "ocupado";
-		    				$nicho->save();
+			    			$nicho->save();
 			    			$contrato->save();
-		    			}
-		    		}
-		    	}
+			    		}
+			    		else{
+			    			if ($contrato->cont_tipopago == "credito") {
+			    				$boletadetalle = new BoletaDetalle();
+				    			$boletadetalle->bolde_concepto = "Compra de nicho al credito - Cuota inicial";
+				    			$boletadetalle->bolde_monto = $contrato->Convenio->conv_cuotaini;
+				    			$boletadetalle->bol_id = $boleta->bol_id;
+				    			$boletadetalle->save();
+
+				    			$planpago = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->where('ppago_nrocuota','0')->get()[0];
+				    			$planpago->ppago_saldocuota = 0;
+				    			$planpago->save();
+
+				    			$bdppago = new BDPPago();
+				    			$bdppago->ppago_id = $planpago->ppago_id;			    			
+				    			$bdppago->bolde_id = $boletadetalle->bolde_id;
+				    			$bdppago->save();
+
+				    			$contrato->cont_estado = "realizado";
+				    			$nicho->nicho_est = "ocupado";
+			    				$nicho->save();
+				    			$contrato->save();
+			    			}
+			    		}
+			    	}
+	    		}
     		}
-    		
-	    	if (sizeof($csextras)>0) {
-	    		foreach ($csextras as $j => $csextra_id){
-		    		$csextra = new CSExtra();
-		    		$csextra = CSExtra::findOrFail($csextra_id);
-	    			$boletadetalle = new BoletaDetalle();
-	    			$boletadetalle->bolde_concepto = "Servicio de ".$csextra->ServicioExtra->sextra_desc;
-	    			$boletadetalle->bolde_monto = $csextra->ServicioExtra->sextra_costo;
-	    			$boletadetalle->bol_id = $boleta->bol_id;
-	    			$boletadetalle->save();
-	    			$csextra->bolde_id = $boletadetalle->bolde_id;
-	    			$csextra->save();
-		    	}	
-	    	}
+    		if ($request->has('csextras')) {
+    			if (sizeof($csextras)>0) {
+		    		foreach ($csextras as $j => $csextra_id){
+			    		$csextra = new CSExtra();
+			    		$csextra = CSExtra::findOrFail($csextra_id);
+		    			$boletadetalle = new BoletaDetalle();
+		    			$boletadetalle->bolde_concepto = "Servicio de ".$csextra->ServicioExtra->sextra_desc;
+		    			$boletadetalle->bolde_monto = $csextra->ServicioExtra->sextra_costo;
+		    			$boletadetalle->bol_id = $boleta->bol_id;
+		    			$boletadetalle->save();
+		    			$csextra->bolde_id = $boletadetalle->bolde_id;
+		    			$csextra->save();
+			    	}	
+		    	} 
+			}  
+	    	
     	}
-
     	return view('caja.compraexitosa');
-		
     }
-
 }
