@@ -42,7 +42,9 @@ Route::post('/admin/pabellon/postCambiarPrecioFila','PabellonController@postCamb
 
 Route::get('/admin/pabellon/nicho','NichoController@getVerNichoAdmin');
 
+Route::post('/admin/nicho/imagen/editar','NichoController@postEditarImagenNicho');
 Route::post('/admin/solicitante/editar','SolicitanteController@postEditarSolicitante');
+Route::post('/admin/difunto/editar','DifuntoController@postEditarDifunto');
 
 
 Route::get('/gerencia/gestion','GerenciaController@getIndex');
@@ -51,6 +53,9 @@ Route::post('/gerencia/pabellon/nichos','PabellonController@postVerNichos');
 Route::get('/gerencia/pabellon/nicho','NichoController@getVerNicho');
 Route::post('/gerencia/pabellon/nicho/comprar','ContratoController@postComprarNicho');
 Route::get('/gerencia/pabellon/nicho/comprar','ContratoController@postComprarNicho');
+Route::get('/gerencia/pabellon/nicho/comprar/atras1/{nicho_id}','ContratoController@getAtras1');
+Route::get('/gerencia/pabellon/nicho/comprar/atras2/{nicho_id}','ContratoController@getAtras2');
+
 Route::post('/gerencia/pabellon/nicho/solicitarsextra','ContratoController@postSolicitarSextra');
 
 Route::get('/gerencia/busqueda','GerenciaController@getBusqueda');

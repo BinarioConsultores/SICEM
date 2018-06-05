@@ -44,14 +44,14 @@
             <h2 class="doc-title" id="content">Pabellon -> {{$pabellon->pab_nom}}</h2>
         </div>
 		 
-		@if (Session::has('creado'))
+		@if (!empty($creado))
 		    <div class="alert alert-success" role="alert">
-		        {{Session::get('creado')}}
+		        {{$creado}}
 		    </div>
 		@endif
-		@if (Session::has('editado'))
+		@if (!empty($editado))
 		    <div class="alert alert-success" role="alert">
-                {{Session::get('editado')}}
+                {{$editado}}
             </div>
             <script type="text/javascript">
                 $(function () {
@@ -98,11 +98,13 @@
                 </ul>
             </div>
         @endif
-		@if (Session::has('eliminado'))
+		@if (!empty($eliminado))
 		    <div class="alert alert-success" role="alert">
-		        {{Session::get('eliminado')}}
+		        {{$eliminado}}
 		    </div>
 		@endif
+
+
         <!-- CONTENT -->
         <div class="page-content p-6">
             <div class="row">

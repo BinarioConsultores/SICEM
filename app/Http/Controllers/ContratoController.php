@@ -88,8 +88,8 @@ class ContratoController extends Controller
                 });  
             }
         }
-
-        return "queda!";
+        return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('eliminado', 'Contrado Eliminado de Manera Correcta');
+        //return view('caja.compraexitosa');
 
     }
 
@@ -361,8 +361,25 @@ class ContratoController extends Controller
             }
         }
         
-        return view('gerencia.nicho.comprar',['nicho'=>$nicho,'usuarios',$usuarios]);
+        return view('gerencia.nicho.comprar',['nicho'=>$nicho,'usuarios'=>$usuarios]);
         
+    }
+
+    public function getAtras1($nicho_id){
+        $usuarios = User::where('tipo','administrador')->get();
+        $nicho = Nicho::findOrFail($nicho_id);
+        session()->forget('solicitante');
+        session()->forget('difunto');
+        session(['paso' => 0]);
+        return view('gerencia.nicho.comprar',['nicho'=>$nicho,'usuarios'=>$usuarios]);
+    }
+
+    public function getAtras2($nicho_id){
+        $usuarios = User::where('tipo','administrador')->get();
+        $nicho = Nicho::findOrFail($nicho_id);
+        session()->forget('difunto');
+        session(['paso' => 1]);
+        return view('gerencia.nicho.comprar',['nicho'=>$nicho,'usuarios'=>$usuarios]);
     }
 
     public function borrarSesion()

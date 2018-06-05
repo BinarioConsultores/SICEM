@@ -76,7 +76,7 @@ class PabellonController extends Controller
               $nicho->nicho_col = $j;
               $nicho->nicho_est = "libre";
               $nicho->nicho_precio="0.00";
-              $nicho->nicho_pathimag="pathima";
+              $nicho->nicho_pathimag="default.jpg";
               $nicho->pab_id = $pabellon->pab_id;
               $nicho->save();
               $cont++;
@@ -98,7 +98,7 @@ class PabellonController extends Controller
                 $nicho->nicho_col = $j;
                 $nicho->nicho_est = "libre";
                 $nicho->nicho_precio="0.00";
-                $nicho->nicho_pathimag="pathima";
+                $nicho->nicho_pathimag="default.jpg";
                 $nicho->pab_id = $pabellon->pab_id;
                 $nicho->save();
                 $cont=$cont+$nrofil;
@@ -120,7 +120,7 @@ class PabellonController extends Controller
                   $nicho->nicho_col = $j;
                   $nicho->nicho_est = "libre";
                   $nicho->nicho_precio="0.00";
-                  $nicho->nicho_pathimag="pathima";
+                  $nicho->nicho_pathimag="default.jpg";
                   $nicho->pab_id = $pabellon->pab_id;
                   $nicho->save();
                   $cont=$cont+$nrofil;
@@ -142,7 +142,7 @@ class PabellonController extends Controller
                     $nicho->nicho_col = $j;
                     $nicho->nicho_est = "libre";
                     $nicho->nicho_precio="0.00";
-                    $nicho->nicho_pathimag="pathima";
+                    $nicho->nicho_pathimag="default.jpg";
                     $nicho->pab_id = $pabellon->pab_id;
                     $nicho->save();
                     $cont=$cont-1;
@@ -164,7 +164,7 @@ class PabellonController extends Controller
                       $nicho->nicho_col = $j;
                       $nicho->nicho_est = "libre";
                       $nicho->nicho_precio="0.00";
-                      $nicho->nicho_pathimag="pathima";
+                      $nicho->nicho_pathimag="default.jpg";
                       $nicho->pab_id = $pabellon->pab_id;
                       $nicho->save();
                       $cont=$cont-$nrofil;
@@ -186,7 +186,7 @@ class PabellonController extends Controller
                         $nicho->nicho_col = $j;
                         $nicho->nicho_est = "libre";
                         $nicho->nicho_precio="0.00";
-                        $nicho->nicho_pathimag="pathima";
+                        $nicho->nicho_pathimag="default.jpg";
                         $nicho->pab_id = $pabellon->pab_id;
                         $nicho->save();
                         $cont--;
@@ -209,7 +209,7 @@ class PabellonController extends Controller
                           $nicho->nicho_col = $j;
                           $nicho->nicho_est = "libre";
                           $nicho->nicho_precio="0.00";
-                          $nicho->nicho_pathimag="pathima";
+                          $nicho->nicho_pathimag="default.jpg";
                           $nicho->pab_id = $pabellon->pab_id;
                           $nicho->save();
                           $cont++;
@@ -234,7 +234,7 @@ class PabellonController extends Controller
                             $nicho->nicho_col = $j;
                             $nicho->nicho_est = "libre";
                             $nicho->nicho_precio="0.00";
-                            $nicho->nicho_pathimag="pathima";
+                            $nicho->nicho_pathimag="default.jpg";
                             $nicho->pab_id = $pabellon->pab_id;
                             $nicho->save();
                             if(($nrofil-($i-1))%2==0)
@@ -262,7 +262,7 @@ class PabellonController extends Controller
                               $nicho->nicho_col = $j;
                               $nicho->nicho_est = "libre";
                               $nicho->nicho_precio="0.00";
-                              $nicho->nicho_pathimag="pathima";
+                              $nicho->nicho_pathimag="default.jpg";
                               $nicho->pab_id = $pabellon->pab_id;
                               $nicho->save();
                               if(($nrofil-($i-1))%2!=0)
@@ -282,7 +282,7 @@ class PabellonController extends Controller
                             $nicho->nicho_col = -1;
                             $nicho->nicho_est = "libre";
                             $nicho->nicho_precio="0.00";
-                            $nicho->nicho_pathimag="pathima";
+                            $nicho->nicho_pathimag="default.jpg";
                             $nicho->pab_id = $pabellon->pab_id;
                             $nicho->save();
                           }

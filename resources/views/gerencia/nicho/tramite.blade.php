@@ -147,7 +147,7 @@ $('#sample-data-table').DataTable({
                                                             <td>{{$contrato->cont_estado}}</td>
                                                             <td>{{$contrato->cont_tipouso}}</td>
                                                             <td>{{$contrato->cont_tiempo}} años.</td>
-                                                            <td>{{$contrato->cont_fecha + 25}}</td>
+                                                            <td>{{Carbon\Carbon::createFromFormat('Y-m-d',$contrato->cont_fecha)->addYears($contrato->cont_tiempo)->format('Y-m-d')}}</td>
                                                             <td>{{$contrato->cont_diffechsep}}</td>
                                                         </tr>
                                                     </tbody>

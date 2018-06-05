@@ -78,4 +78,41 @@ class NichoController extends Controller
         
         return view('nicho.mostrar',['nicho'=>$nicho]);
     }
+
+    public function postEditarImagenNicho(Request $request){
+        $nicho = Nicho::findOrFail($request->get('nicho_id'));
+        $imagen = $request->file('nicho_pathimag');
+      
+        $nombre = $nicho->nicho_id.".".$imagen->guessExtension();
+        $nicho->nicho_pathimag = $nicho->nicho_id.".".$imagen->guessExtension();
+        $nicho->save();
+        if ($imagen->guessExtension() == 'png') {
+            $original = imagecreatefrompng($imagen);
+        }
+        if ($imagen->guessExtension() == 'jpeg') {
+            $original = imagecreatefromjpeg($imagen);
+        }
+              
+              
+        $ancho_original = imagesx($original);
+        $alto_original = imagesy($original);
+
+        $ancho_nuevo = 240;
+        $alto_nuevo = round($ancho_nuevo * $alto_original / $ancho_original);
+
+        $copia =imagecreatetruecolor($ancho_nuevo , $alto_nuevo);
+
+        imagecopyresampled($copia, $original, 0,0,0,0, $ancho_nuevo, $alto_nuevo, $ancho_original, $alto_original);
+
+        imagejpeg($copia , public_path()."/assets/images/nicho/".$nombre, 100);
+
+        $now = Carbon::now();
+
+        $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->where('cont_estado','<>','fenecido')->get()[0];
+        $serviciosextra = \DB::select("SELECT * FROM t_servicioextra WHERE t_servicioextra.sextra_id NOT IN (SELECT cs.sextra_id FROM t_csextra cs WHERE cs.cont_id = '$contrato->cont_id')");
+        
+        $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->orderBy('cont_fecha','DESC')->get()[0];
+        $planpagos = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->orderBy('ppago_fechaven')->get();
+        return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now,'planpagos'=>$planpagos,'serviciosextra'=>$serviciosextra])->with('editado', 'Imagen editada exitósamente');
+    }
 }

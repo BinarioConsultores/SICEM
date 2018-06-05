@@ -279,6 +279,85 @@
             }
         });
     });
+
+    $(function(){
+        $("#conv_nrocuota").change( function(){
+            $('#calculado').empty();
+            var dia_hoy = new Date().getDate();
+            var fecha_hoy = new Date();
+            var mes_hoy = new Date().getMonth()+1;
+            var ano_hoy = new Date().getFullYear();
+            var xcost_nicho = $("#cont_monto").val();
+            var xcuota_ini = $("#conv_cuotaini").val();
+            var xnro_cuotas = $("#conv_nrocuota").val();
+            var xpagototal=xcost_nicho - xcuota_ini;
+            var xresiduo=xpagototal%xnro_cuotas;
+            var xmontocomun=(xpagototal-xresiduo)/xnro_cuotas;
+
+            if(xcuota_ini+1 == 1 || xcuota_ini<1){
+                $('#calculado').append("<div class='alert alert-danger m-4' role='alert'>Tiene que colocar una cuota inicial y el monto debe ser entero.</div>");
+            }else{
+                if(xresiduo>0){
+                    xpricuota=xmontocomun+1;
+                }
+                else{
+                    xpricuota=xmontocomun;
+                }
+                var table = $("<table class='table table-striped'></table>");
+                
+                table.append("<thead><tr><th>Nro de cuotas</th> <th>FECHA</th> <th>S/.</th></tr></thead>'");
+                table.append("<tbody>");
+                table.append("<tr><td>Cuota Inicial: </td> <td>" + today + "</td><td>  "+xcuota_ini+"</td></tr>");
+                
+                
+                var dia_hoyX = dia_hoy;
+                mes_hoy=mes_hoy+1;
+                var fila = "";
+                for(var j=1; j<=xnro_cuotas; j++) 
+                {
+                    fila = "<tr>";
+                    fila+= "<td>"+j+" Cuota</td>"; 
+                    if(mes_hoy>12){   
+                        mes_hoy=1;
+                        ano_hoy=ano_hoy+1;
+                    }
+                    if ((dia_hoy== 31) &&(mes_hoy==4 || mes_hoy==6 || mes_hoy==9 || mes_hoy==11 )) 
+                        dia_hoyX = 30;
+                    if( mes_hoy == 2 && dia_hoy>27){
+                        if ((dia_hoy==29 || dia_hoy==30 || dia_hoy==31) &&  ((ano_hoy % 4 == 0) && !(ano_hoy % 100 == 0 && ano_hoy % 400!= 0)))
+                            dia_hoyX = 29;
+                        else 
+                            dia_hoyX = 28;
+                    }   
+                    if (mes_hoy <10)
+                        fila+= "<td>"+ano_hoy+"-0"+mes_hoy+'-'+dia_hoyX+"</td>";
+                    else 
+                        fila+= "<td>"+ano_hoy+'-'+mes_hoy+'-'+dia_hoyX+"</td>";    
+                        
+                    if(j<=xresiduo)
+                        fila+= "<td>"+Math.round(xpricuota)+"</td>";
+                    else      
+                        fila+= "<td>"+Math.round(xmontocomun)+"</td>";
+                    
+                    dia_hoyX = dia_hoy;
+                    mes_hoy=mes_hoy+1;    
+                    fila+= "</tr>";
+                    table.append(fila);
+                }
+                table.append("</tbody>");
+
+                $('#calculado').append(table);
+            }
+        });
+    });
+
+    $(function(){
+        $("#btnAtras2").click( function(){
+            
+            iralpaso2();
+            }
+        );
+    });
     
     
 
@@ -503,7 +582,7 @@
                                     <div class="row">
                                         <div class="col-6" align="left">
                                             <div class="form-group">
-                                                <button type="button" class="btn btn-danger fuse-ripple-ready">Atras <i class="icon-arrow-left"></i></button>
+                                                <a href="/gerencia/pabellon/nicho/comprar/atras1/{{$nicho->nicho_id}}" class="btn btn-danger fuse-ripple-ready">Atras <i class="icon-arrow-left"></i></a>
                                             </div>
                                         </div>
                                         <div class="col-6" align="right">
@@ -638,7 +717,7 @@
                                 <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
                                 <div class="row">
                                     <div class="form-group col-4">
-                                        <button  type="" class="btn btn-danger fuse-ripple-ready">Atras<i class="icon-arrow-left"></i></button>
+                                        <a href="/gerencia/pabellon/nicho/comprar/atras2/{{$nicho->nicho_id}}" class="btn btn-danger fuse-ripple-ready">Atras<i class="icon-arrow-left"></i></a>
                                     </div>
                                     <div class="form-group col-4">
                                         <label type="" class="btn btn-primary fuse-ripple-ready" id="btnCalcular" hidden="">Calcular Cuotas</label>

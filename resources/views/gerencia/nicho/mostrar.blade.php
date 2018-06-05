@@ -92,6 +92,32 @@
             </div>
         </div>
 
+        <div class="modal fade" id="editarImgNichoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar imagen del Nicho</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="/admin/nicho/imagen/editar" enctype="multipart/form-data">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="nicho_id" value="{{$contrato->nicho_id}}">
+                            <div class="form-group">
+                                <input type="file" class="form-control" name="nicho_pathimag" id="nicho_pathimag" >
+                                <label for="nicho_pathimag"></label>
+                            </div>
+                            <button type="submit" class="submit-button btn btn-block btn-secondary my-4 mx-auto fuse-ripple-ready" data-toggle="modal" data-target="#editarImgNichoModal">Guardar Archivo</button>
+
+                            <button type="button" class="submit-button btn btn-block btn-danger my-4 mx-auto fuse-ripple-ready" data-dismiss="modal">Cancelar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="editarSolicitanteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -123,6 +149,49 @@
                                 <label for="sol_dni"><i class="icon-account-card-details"></i> DNI</label>
                             </div>
                             <button type="submit" class="submit-button btn btn-block btn-secondary my-4 mx-auto fuse-ripple-ready" data-toggle="modal" data-target="#editarSolicitanteModal">Guardar Cambios</button>
+
+                            <button type="button" class="submit-button btn btn-block btn-danger my-4 mx-auto fuse-ripple-ready" data-dismiss="modal">Cancelar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editarDifuntoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar los datos del Difunto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="/admin/difunto/editar">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="dif_id" value="{{$contrato->dif_id}}">
+                            <input type="hidden" name="nicho_id" value="{{$contrato->nicho_id}}">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="dif_nom" id="dif_nom"  placeholder="Nombre del Difunto" required value="{{$contrato->Difunto->dif_nom}}">
+                                <label for="dif_nom"><i class="icon-account-box"></i> Nombre del Difunto</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="dif_ape" id="dif_ape"  placeholder="Apellido del Difunto" required value="{{$contrato->Difunto->dif_ape}}">
+                                <label for="dif_ape"><i class="icon-account-box"></i> Apellido del Difunto</label>
+                            </div>
+                            <div class="form-group">
+                                <input pattern=".{8,8}" type="text" class="form-control" name="dif_dni" id="dif_dni"  placeholder="DNI. del Difunto" required value="{{$contrato->Difunto->dif_dni}}">
+                                <label for="dif_dni"><i class="icon-account-card-details"></i> DNI. del Difunto</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="date" class="form-control" name="dif_fechadef" id="dif_fechadef"  placeholder="Fecha de defunción" required value="{{$contrato->Difunto->dif_fechadef}}">
+                                <label for="dif_fechadef"><i class="icon-calendar"></i> Fecha de defunción</label>
+                            </div>
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" name="dif_obser" id="dif_obser"  placeholder="Ejm: Pendiente copia de Dni." required value="{{$contrato->Difunto->dif_obser}}" >Sin Observaciones</textarea>
+                                <label for="dif_obser"><i class="icon-comment-text-outline"></i> Observaciones</label>
+                            </div>
+                            <button type="submit" class="submit-button btn btn-block btn-secondary my-4 mx-auto fuse-ripple-ready" data-toggle="modal" data-target="#editarDifuntoModal">Guardar Cambios</button>
 
                             <button type="button" class="submit-button btn btn-block btn-danger my-4 mx-auto fuse-ripple-ready" data-dismiss="modal">Cancelar</button>
                         </form>
@@ -163,14 +232,14 @@
                     </div>
                 </div>
                 <div class="page-content-card">
-                    @if (Session::has('creado'))
+                    @if (!empty($creado))
                         <div class="alert alert-success" role="alert">
-                            {{Session::get('creado')}}
+                            {{$creado}}
                         </div>
                     @endif
-                    @if (Session::has('editado'))
+                    @if (!empty($editado))
                         <div class="alert alert-success" role="alert">
-                            {{Session::get('editado')}}
+                            {{$editado}}
                         </div>
                     @endif
                     @if (Session::has('error'))
@@ -178,15 +247,15 @@
                             {{Session::get('error')}}
                         </div>
                     @endif
-                    @if (Session::has('eliminado'))
+                    @if (!empty($eliminado))
                         <div class="alert alert-success" role="alert">
-                            {{Session::get('eliminado')}}
+                            {{$eliminado}}
                         </div>
                     @endif
                     <div class="toolbar p-6">Información General</div>
                     <div class="page-content p-6">
                         <div class="row">
-                            <div class="col-9">
+                            <div class="col-md-9">
                                 <div class="example"> 
                                     <div class="card m-1">
                                          <header class="h6 bg-secondary text-auto p-4">
@@ -232,7 +301,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-3">
                                 <div class="example">
                                     <div class=" card m-1">
                                         <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
@@ -243,22 +312,20 @@
                                             </div>
                                         </header>
                                         <div class="content">
-                                            <div class="content row no-gutters p-2">
-                                                <div class="col-3"></div>
-                                                <div class="col-6">
-                                                    <img class="w-100" src="/assets/images/nicho/{{$nicho->nicho_pathimag}}">
+                                            <div class="table-responsive">
+                                                <div class="col-md-12 p-2">
+                                                    <img src="/assets/images/nicho/{{$nicho->nicho_pathimag}}">
                                                 </div>
-                                                <div class="col-3">
-                                                    <button class="btn btn-secondary btn-fab btn-sm fuse-ripple-ready align-items-bottom"><i class="icon-pencil"></i></button>
-                                                </div>
+                                                <button type="button" class="btn btn-secondary pull-right fuse-ripple-ready" data-toggle="modal" data-target="#editarImgNichoModal" onclick=""><i class="icon-pencil"></i></button>
                                             </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>                          
                         </div>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <div class="example">
                                     <div class="card m-1"> 
                                         <header class="h6 bg-secondary text-auto p-4">
@@ -288,14 +355,14 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <button class="btn btn-secondary btn-fab btn-sm fuse-ripple-ready align-items-bottom"><i class="icon-pencil"></i></button>
+                                                <button type="button" class="btn btn-secondary pull-right fuse-ripple-ready" data-toggle="modal" data-target="#editarDifuntoModal" onclick=""><i class="icon-pencil"></i></button>
                                             </div>                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <div class="example">
                                     <div class="card m-1">
                                         <header class="h6 bg-secondary text-auto p-4">
@@ -332,7 +399,7 @@
                         </div>
                         <div class="row">
                             
-                            <div class="col-12">
+                            <div class="col-md-12">
                                 <div class="example">
                                     <div class=" card m-1"> 
                                         <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
@@ -401,7 +468,7 @@
                     </div>
                     <div class="page-content p-6">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-md-4">
                                 <div class="profile-box latest-activity card">
                                     <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
                                         <div class="title">Leyenda</div>
@@ -428,7 +495,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-8">
+                            <div class="col-md-8">
                                 <div class="example"> 
                                     <div class="card m-1">   
                                         <header class="h6 bg-secondary text-auto p-4">
