@@ -77,7 +77,7 @@ Route::post('/caja/buscar','ContratoController@postBuscar');
 Route::get('/caja/buscar/detalles','PlanPagoController@getDetallePagos');
 Route::get('/caja/pagospendientes','CajaController@getPagosPendientes');
 Route::post('/caja/pagospendientes/pagar','CajaController@postPagarPagosPendientes');
-
+Route::post('/caja/pagoscuotas/pagar','CajaController@postPagarCuotas');
 
 //--Pruebas
 Route::get('/prueba','PruebaController@index');
@@ -89,7 +89,8 @@ Route::get('/prueba','PruebaController@index');
 Route::get('/ajax/get/ObtenerPabellonesPorCementerio','PabellonController@getAjaxObtenerPabellonesPorCementerio');
 Route::get('/ajax/get/ObtenerSolicitantesPorNombre','SolicitanteController@getAjaxObtenerSolicitantesPorNombre');
 Route::get('/ajax/get/ObtenerSolicitantesPorDNI','SolicitanteController@getAjaxObtenerSolicitantesPorDNI');
-Route::get('/ajax/get/ObtenerContratos','ContratoController@postBuscar');
+
+Route::get('/ajax/get/ObtenerContratosPagar','ContratoController@postBuscar');
 
 
 Route::get('/exito', function(){

@@ -16,6 +16,8 @@
 		<div class="page-header bg-secondary text-auto p-6 row no-gutters align-items-center justify-content-between">
             <h2 class="doc-title" id="content">Deudas por cobrar.</h2>
         </div>
+
+
         <div class="page-content p-12">
             <div class="content container">
                 <div class="row">

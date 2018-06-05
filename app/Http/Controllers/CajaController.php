@@ -22,6 +22,48 @@ class CajaController extends Controller
     	$contratos = Contrato::where('cont_estado','tramite')->get();
     	return view('caja.pagospendientes',['contratos'=>$contratos, 'csextras'=>$csextras]);
     }
+    public function postPagarCuotas(Request $request){
+    	$this->validate($request, [
+            'bol_nro' => 'required',
+            'bol_dni' => 'required',
+            'bol_nom' => 'required',
+            'bol_fecha' => 'required',
+        ]);
+
+    	$conv_id = $request->get('conv_id');
+        
+        if ($request->has('ppagos')) {
+        	\DB::transaction(function() use ($request){
+	    		$boleta = new Boleta($request->all());
+	        	$boleta->save();
+	        	$ppagos = $request->get('ppagos');
+
+	        	foreach ($ppagos as $i => $ppago_id) {
+	        		$planpago = PlanPago::findOrFail($ppago_id);
+	        		$planpago->ppago_saldocuota = 0;
+	        		$planpago->save();
+
+	        		$boletadetalle = new BoletaDetalle();
+	        		$boletadetalle->bolde_concepto = 'Pago de Cuota';
+	        		$boletadetalle->bolde_monto = $planpago->ppago_montocuota;
+	        		$boletadetalle->bol_id = $boleta->bol_id;
+	        		$boletadetalle->save();
+
+	        		$bdppago = new BDPPago();
+	        		$bdppago->ppago_id = $planpago->ppago_id;
+	        		$bdppago->bolde_id = $boletadetalle->bolde_id;
+	        		$bdppago->save();
+
+	        	}
+			});
+        }
+        else{
+    		return "error, los pagos no pudieron ser procesados - contacte al administrador del sistema";    	
+        }
+    	
+      return redirect('/caja/buscar/detalles?conv_id='.$conv_id, ['exito','Las cuotas fueron pagadas de manera exitosa!']);
+        
+    }
     public function postPagarPagosPendientes(Request $request){
     	$this->validate($request, [
             'bol_nro' => 'required',

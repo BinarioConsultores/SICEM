@@ -42037,6 +42037,10 @@ input[type=checkbox][disabled] ~ .form-check-description {
 .text-orange-300 {
     color: #FFB74D !important
 }
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
 
 .border-orange-300 {
     border-color: #FFB74D !important

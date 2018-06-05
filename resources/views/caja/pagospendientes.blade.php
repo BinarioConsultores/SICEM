@@ -39,7 +39,7 @@
                                 .append($('<tr>')
                                     .append($('<td>'+ (j) +'</td><td> Orden de Servicio</td><td>'+concepto+'</td><td>S/. '+sextra_costo+'</td>')));
                             $('#items').append($("<input type='text' name='csextras[]' value='"+csextra_id+"' hidden/>"));
-                        
+
                         }
                         else{
                             if (checkboxes[i].getAttribute("cont_id") != 0 && checkboxes[i].getAttribute("csextra_id") == 0) {
@@ -65,7 +65,6 @@
                     }
                 }
                 if (vacio) {
-
                     $('#btnPagar').attr('hidden','hidden');    
                 }
             }
@@ -145,7 +144,7 @@
                                     <label for="bol_nom" class="col-form-label">Nombres y Apellidos</label>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <input type="date" class="form-control" id="bol_fecha" name="bol_fecha" placeholder="Apartment, studio, or floor">
+                                    <input type="date" class="form-control" id="bol_fecha" name="bol_fecha" >
                                     <label for="bol_fecha" class="col-form-label">Fecha de Pago</label>
                                 </div>
                             </div>

@@ -4,32 +4,42 @@
     
     $(function() {
 
-        var table = $("<table class='table'>");
-        table.append("<thead><tr><th class='secondary-text'> <div class='table-header'><span>Nombre de Solicitante</span></div></th><th class='secondary-text'> <div class='table-header'><span>Nombre de Difunto</span> </div></th><th class='secondary-text'> <div class='table-header'><span>Tipo de Pago </span></div></th><th class='secondary-text'> <div class='table-header'><span>Tipo de Uso</span></div></th><th class='secondary-text'><div class='table-header'><span>Fecha de Contrato</span></div></th><th class='secondary-text'><div class='table-header'> <span>Acciones </span></th></div> </tr></thead>");
-        var tbody = $('<tbody>'); 
+        var table = $("<table class='table table-striped table-responsive'>");
+        table.append("<thead><tr><th> Nombre de Solicitante</th><th> DNI: Solicitante</th><th> Nombre de Difunto</th><th> DNI: Difunto </th><th> Tipo de Pago </th><th> Tipo de Uso</th><th>Fecha de Contrato</th><th>Acciones </th></tr></thead>");
+        var tbody = $('<tbody>');
+
         $("#busqueda").on('keyup', function (e) {
 
             if (e.keyCode == 13) {
-                
                 var busqueda = $(this).val();
+                if (busqueda.trim() == '') {
+                    return;
+                }
+
+                $('#cargando').removeAttr('hidden');
+                $('#cargando').append("<img align='center' src='{{asset('assets/images/cargandop.gif')}}'>");
+                $('#contenedor').attr('hidden','');
+                $('#sinResultados').attr('hidden','');
+
                 var request = $.ajax({
-                    url: '/ajax/get/ObtenerContratos',
+                    url: '/ajax/get/ObtenerContratosPagar',
                     type: 'GET',
                     data: { busqueda: busqueda} ,
                     contentType: 'application/json; charset=utf-8'
                 });
 
                 request.done(function(data) {
-                        $('#contenedor').removeAttr('hidden');
+                    $('#cargando').empty();
+                    $('#cargando').attr('hidden','');
                     if (data.length == 0) {
-                        tbody.empty();
+                        $('#contenedor').attr('hidden','');
                         $('#mostrarContratos').empty();
-                        tbody.append($('<tr>', {
-                            text: "No se encontraron resultados."
-                        }));   
-                        tbody.append('</tr>');                
+                        $('#buscado').text(busqueda);
+                        $('#sinResultados').removeAttr('hidden');              
                     }
                     else{
+                        $('#sinResultados').attr('hidden','');
+                        $('#contenedor').removeAttr('hidden');
                         tbody.empty();
                         $('#span').empty();
                         $('#span').append($('<span>', {
@@ -39,7 +49,11 @@
                             tbody.append('<tr>');
                             tbody.append($('<td>',{text: contrato.sol_nombre,}));
                             tbody.append('</td>');
-                            tbody.append($('<td>',{text: contrato.dif_nom,}));
+                            tbody.append($('<td>',{text: contrato.sol_dni,}));
+                            tbody.append('</td>');
+                            tbody.append($('<td>',{text: contrato.dif_nom + ' ' + contrato.dif_ape,}));
+                            tbody.append('</td>');
+                            tbody.append($('<td>',{text: contrato.dif_dni,}));
                             tbody.append('</td>');
                             tbody.append($('<td>',{text: contrato.cont_tipopago,}));
                             tbody.append('</td>');
@@ -47,12 +61,11 @@
                             tbody.append('</td>');
                             tbody.append($('<td>',{text: contrato.cont_fecha,}));
                             tbody.append('</td>');
-                            tbody.append("<a  href='/caja/buscar/detalles?conv_id="+contrato.conv_id+"'><button type='button' class='btn btn-success'>Ver Detalles <i class='icon-information-outline'></i></button> </a>");
+                            tbody.append("<a href='/caja/buscar/detalles?conv_id="+contrato.conv_id+"'><button type='button' class='btn btn-secondary'>Ver <i class='icon-eye'></i></button> </a>");
                             tbody.append('<tr>');
                         });
                         
                         tbody.append('</tbody></table>');
-
                     }
                     table.append(tbody);
                     $('#mostrarContratos').append(table);
@@ -81,58 +94,44 @@
                 <div class="page-content p-12">
                     <div class="content container">
                         <div class="row">
-                    <!-- FORM CONTROLS -->
-                            <div class="col-md-2">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="example">
-                                    <div class="card">
-                                        <div class="description">
-                                            <div class="description-text">
-                                                <header class="h6 bg-secondary text-auto p-4">
-                                                    <div class="title">Ingrese los datos solicitados</div>
-                                                </header>
-                                            </div>
-                                        </div>
-                                        <div class="source-preview-wrapper">
-                                            <div class="preview">
-                                                <div class="row">
-                                                    <div class="col-1"></div>
-                                                    <div class="form-group p-7  col-6" id="nombre_div" >
-                                                      <label for="sol_nombre" class="form-label">Ingrese datos del solicitante o del difunto</label>
-                                                      <input type="text" class="form-control" name="busqueda"  id="busqueda" placeholder="Nombre,DNI">
-                                                    </div>
-                                                    <div class="form-group p-12 col-5">
-                                                        <button type="submit" class="btn btn-primary m-1">Buscar</button>
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                    
+                            <div class="col-md-6 col-centered">
+                                <div class="profile-box latest-activity card">
+                                    <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4"> 
+                                        <div class="title h6">Ingrese los datos solicitados</div>
+                                        <div class="more text-muted">Ingrese Nombre, Dni o Apellido</div>
+                                    </header>
+                                    <div class="content activities p-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="busqueda" id="busqueda"  placeholder="Nombre de Solicitante" required>
+                                            <label for="busqueda"><i class="icon-account-box"></i>Ingrese datos del solicitante o del difunto</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 col-centered" id="contenedor"  hidden="">
+                                <div class="profile-box latest-activity card">
+                                    <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4"> 
+                                        <div class="title h6"><span id="span"></span></div>
+                                    </header>
+                                    <div class="content activities p-4" id="mostrarContratos">
+
+                                    </div>                                    
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-12" id="contenedor"  hidden="">
-                                <div class="example">
-                                    <div class="card">
-                                        <div class="description">
-                                            <div class="description-text">
-                                                <header class="h6 bg-secondary text-auto p-4">
-                                                    <div class="title"><span id="span"></span></div> 
-                                                </header>
-                                            </div>
-                                        </div>
-                                        <div class="source-preview-wrapper">
-                                            <div class="preview" id="mostrarContratos">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                        <div class="row" id="sinResultados" hidden="">
+                            <div class="col-12">
+                                <h3 style="text-align: center;"> =( ... No se encontraron resultados para: <span id="buscado"></span></h3>
                             </div>
+                        </div>
+                        <div class="row" id="cargando">
+                            
                         </div>
                     </div>
                 </div>
