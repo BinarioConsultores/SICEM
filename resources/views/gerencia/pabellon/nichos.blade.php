@@ -31,6 +31,15 @@
     height: 2em;
     margin-right: 2px;
     }
+    .square-traslado {
+    background: #5898FF;
+    border: 1px;
+    width: 2em;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 7px 7px 7px 7px;
+    height: 2em;
+    margin-right: 2px;
+    }
     
 </style>
 @endsection
@@ -130,6 +139,10 @@
                                             <tr>
                                                 <td><div class="square-tramite"></div></td>
                                                 <td><span>Nicho en trámite</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><div class="square-traslado"></div></td>
+                                                <td><span>Nicho trasladado</span></td>
                                             </tr>
 
                                         </table>

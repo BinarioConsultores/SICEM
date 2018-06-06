@@ -214,10 +214,25 @@
                         <li class="nav-item">
                             <a  href="/createC?nicho_id={{$nicho->nicho_id}}" class="btn btn-secondary ml-5">Constancia <i class="icon-arrow-down-bold-box"></i> </a>
                         </li>
-                        <md-divider class="mb-5"> </md-divider>
-                        <li class="nav-item">
-                            <a  href="/createC?nicho_id={{$nicho->nicho_id}}" class="btn btn-secondary ml-5">Trasladar  <i class="icon-move-resize-variant"></i> </a>
-                        </li>
+                        <?php $flag = 0; ?>
+                        @if(sizeof($planpagos)>0)
+                            @foreach ($planpagos as $ppago)
+                                @if($ppago->ppago_saldocuota==0)
+                                    <?php $flag = $flag + 1; ?>
+                                @endif
+                            @endforeach
+                            @if($flag == sizeof($planpagos))
+                                <md-divider class="mb-5"> </md-divider>
+                                <li class="nav-item">
+                                    <a href="/gerencia/pabellon/nicho/traslado/{{$contrato->cont_id}}" class="btn btn-secondary ml-5">Trasladar  <i class="icon-move-resize-variant"></i> </a>
+                                </li>
+                            @endif
+                        @else
+                            <md-divider class="mb-5"> </md-divider>
+                            <li class="nav-item">
+                                <a href="/gerencia/pabellon/nicho/traslado/{{$contrato->cont_id}}" class="btn btn-secondary ml-5">Trasladar  <i class="icon-move-resize-variant"></i> </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </aside>
@@ -242,9 +257,9 @@
                             {{$editado}}
                         </div>
                     @endif
-                    @if (Session::has('error'))
+                    @if (!empty($error))
                         <div class="alert alert-danger" role="alert">
-                            {{Session::get('error')}}
+                            {{$error}}
                         </div>
                     @endif
                     @if (!empty($eliminado))
