@@ -3,40 +3,46 @@
 <script type="text/javascript">
     
     $(function() {
-        var responsive = $("<div class='table-responsive'>");
-        var table = $("<table id='dataTable' class='table'>");
-        table.append("<thead><tr><th class='secondary-text'> <div class='table-header'><span>Nombre de Solicitante</span></div></th><th class='secondary-text'> <div class='table-header'><span>DNI de Solicitante</span></div></th><th class='secondary-text'> <div class='table-header'><span>Nombre de Difunto</span> </div></th><th class='secondary-text'> <div class='table-header'><span>DNI de Difunto</span> </div></th><th class='secondary-text'> <div class='table-header'><span>Tipo de Pago </span></div></th><th class='secondary-text'> <div class='table-header'><span>Tipo de Uso</span></div></th><th class='secondary-text'><div class='table-header'><span>Fecha de Contrato</span></div></th><th class='secondary-text'><div class='table-header'> <span>Acciones </span></th></div> </tr></thead>");
 
-        var tbody = $('<tbody>'); 
+        var table = $("<table class='table table-striped table-responsive'>");
+        table.append("<thead><tr><th> Nombre de Solicitante</th><th> DNI: Solicitante</th><th> Nombre de Difunto</th><th> DNI: Difunto </th><th> Tipo de Pago </th><th> Tipo de Uso</th><th>Fecha de Contrato</th><th>Acciones </th></tr></thead>");
+        var tbody = $('<tbody>');
+
         $("#busqueda").on('keyup', function (e) {
 
             if (e.keyCode == 13) {
-                $('#mostrarContratos').append("<img align='center' src='{{asset('assets/images/cargandop.gif')}}'>");
                 var busqueda = $(this).val();
+                if (busqueda.trim() == '') {
+                    return;
+                }
+
+                $('#cargando').removeAttr('hidden');
+                $('#cargando').append("<img align='center' src='{{asset('assets/images/cargandop.gif')}}'>");
+                $('#contenedor').attr('hidden','');
+                $('#sinResultados').attr('hidden','');
+
                 var request = $.ajax({
-                    url: '/ajax/get/ObtenerContratos',
+                    url: '/ajax/get/ObtenerContratosPagar',
                     type: 'GET',
                     data: { busqueda: busqueda} ,
                     contentType: 'application/json; charset=utf-8'
                 });
 
                 request.done(function(data) {
-                    $('#mostrarContratos').empty();
-                    $('#contenedor').removeAttr('hidden');
+                    $('#cargando').empty();
+                    $('#cargando').attr('hidden','');
                     if (data.length == 0) {
-                        tbody.empty();
+                        $('#contenedor').attr('hidden','');
                         $('#mostrarContratos').empty();
-                        $('#mostrarContratos').text("No se encontraron resultados para la búsqueda");
-                        $('#titulo').empty();
-                        $('#titulo').append($('<titulo>', {
-                            text: "Resultados Obtenidos para: "+busqueda
-                        }));            
+                        $('#buscado').text(busqueda);
+                        $('#sinResultados').removeAttr('hidden');              
                     }
                     else{
+                        $('#sinResultados').attr('hidden','');
+                        $('#contenedor').removeAttr('hidden');
                         tbody.empty();
-                        $('#mostrarContratos').empty();
-                        $('#titulo').empty();
-                        $('#titulo').append($('<titulo>', {
+                        $('#span').empty();
+                        $('#span').append($('<span>', {
                             text: "Resultados Obtenidos para: "+busqueda
                         }));  
                         $.each(data, function(index,contrato){
@@ -60,11 +66,15 @@
                         });
                         
                         tbody.append('</tbody></table>');
-                        table.append(tbody);
-                        responsive.append(table);
-                        $('#mostrarContratos').append(responsive);
                     }
+                    table.append(tbody);
+                    $('#mostrarContratos').append(table);
+                    $('#sample-data-table').DataTable({
+                    responsive: true
+                    });
                 });
+
+                
             }
         });
           
@@ -74,70 +84,60 @@
 @endsection
 @section('content')
 <div class="content">
-    <div class="doc forms-doc page-layout simple full-width">
-        <div class="page-header bg-secondary text-auto p-6 row no-gutters align-items-center justify-content-between">
-            <h2 class="doc-title" id="content">Realice la Búsqueda de Solicitantes y Difuntos.</h2>
-        </div>
-        <div class="page-content p-12">
-            <div class="content container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="example">
-                            <div class="card">
-                                <div class="description">
-                                    <div class="description-text">
-                                        <header class="h6 bg-secondary text-auto p-4">
-                                            <div class="title">Formulario de Búsqueda</div>
-                                        </header>
-                                    </div>
-                                </div>
-                                <div class="source-preview-wrapper">
-                                    <div class="preview">
-                                        <div class="row">
-                                            <div class="col-1"></div>
-                                            <div class="form-group col-10" id="nombre_div" >
-                                              <label for="busqueda" class="form-label">Ingrese el Nombre, Apellido o DNI del Solicitante o del Difunto</label>
-                                              <input type="text" class="form-control" name="busqueda"  id="busqueda" placeholder="Ejemplo: Juan ó 47040061">
-                                            </div>
-                                            <div class="col-1"></div>
+        @if (session('status'))
+            <strong>{{ session('status') }}</strong>         
+        @endif
+            <div class="doc forms-doc page-layout simple full-width">
+                <div class="page-header bg-secondary text-auto p-6 row no-gutters align-items-center justify-content-between">
+                    <h2 class="doc-title" id="content">Realice la busqueda para realizar pago.</h2>
+                </div>
+                <div class="page-content p-12">
+                    <div class="content container">
+                        <div class="row">
+                    
+                            <div class="col-md-6 col-centered">
+                                <div class="profile-box latest-activity card">
+                                    <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4"> 
+                                        <div class="title h6">Ingrese los datos solicitados</div>
+                                        <div class="more text-muted">Ingrese Nombre, Dni o Apellido</div>
+                                    </header>
+                                    <div class="content activities p-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="busqueda" id="busqueda"  placeholder="Nombre de Solicitante" required>
+                                            <label for="busqueda"><i class="icon-account-box"></i>Ingrese datos del solicitante o del difunto</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
-                    </div>
-                </div>
 
-                <div class="divider mb-10"></div>
+                        <div class="row">
+                            <div class="col-md-12 col-centered" id="contenedor"  hidden="">
+                                <div class="profile-box latest-activity card">
+                                    <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4"> 
+                                        <div class="title h6"><span id="span"></span></div>
+                                    </header>
+                                    <div class="content activities p-4" id="mostrarContratos">
 
-                <div class="row">
-                    <div class="col-12" id="contenedor">
-                        <div class="example">
-                            <div class="card">
-                                <div class="description">
-                                    <div class="description-text">
-                                        <header class="h6 bg-secondary text-auto p-4">
-                                            <div class="title"><span id="titulo">Resultados de la Búsqueda</span></div> 
-                                        </header>
-                                    </div>
+                                    </div>                                    
                                 </div>
-                                <div class="preview m-10" id="mostrarContratos">
-                                    Ingrese el texto a buscar en el formulario de arriba.
-                                </div>                            
                             </div>
+                        </div>
+
+                        <div class="row" id="sinResultados" hidden="">
+                            <div class="col-12">
+                                <h3 style="text-align: center;"> =( ... No se encontraron resultados para: <span id="buscado"></span></h3>
+                            </div>
+                        </div>
+                        <div class="row" id="cargando">
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@endsection
-@section('javascriptFinal')
-    <script type="text/javascript">
-        $('#dataTable').DataTable({
-            responsive: true
-        });
-    </script>
+
 @endsection
