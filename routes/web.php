@@ -57,6 +57,9 @@ Route::get('/gerencia/pabellon/nicho/comprar/atras2/{nicho_id}','ContratoControl
 
 Route::get('/gerencia/pabellon/nicho/traslado/{cont_id}','ContratoController@getTraslado');
 
+Route::get('/gerencia/pabellon/nicho/trasladar','ContratoController@postTrasladarDifunto');
+Route::post('/gerencia/pabellon/nicho/trasladar','ContratoController@postTrasladarDifunto');
+
 Route::post('/gerencia/pabellon/nicho/solicitarsextra','ContratoController@postSolicitarSextra');
 
 Route::get('/gerencia/busqueda','GerenciaController@getBusqueda');

@@ -399,8 +399,8 @@ class ContratoController extends Controller
                 session(['solicitante.existe' => "si"]);
                 session(['solicitante.sol_id' => $request->get('solselected')]);  
             }
-            session(['paso' => 1]);
-            return view('gerencia.nicho.comprar',['contrato'=>$contrato,'nicho'=>$nicho,'usuarios'=>$usuarios]);
+            session(['pasot' => 1]);
+            return view('gerencia.nicho.trasladar', ['contrato'=>$contrato,'nicho'=>$nicho,'usuarios'=>$usuarios]);
             
         }else {
             /**

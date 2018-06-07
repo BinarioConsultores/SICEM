@@ -14,11 +14,18 @@
         today = now.getFullYear() + '-' + month + '-' + day;
         $('#cont_fecha').val(today);
         $('#cont_fecha1').val(today);
-        $('#dif_fechadef').val(today);
-        $('#dif_fechadef').focus();
-        $('#dif_fechadef').blur();
-        $('#dif_obser').focus();
-        $('#dif_obser').blur();
+        
+        //BLOQUEAMOS LOS CAMPOS DE SOLICITANTE PARA QUE NO SEAN CAMBIADOS
+        $('#sol_nombre').focus();
+        $('#sol_nombre').attr('readonly',true).change();
+        $('#sol_telefono').focus();
+        $('#sol_telefono').attr('readonly',true).change();
+        $('#sol_dir').focus();
+        $('#sol_dir').attr('readonly',true).change();
+        $('#sol_dni').focus();
+        $('#sol_dni').attr('readonly',true).change();
+
+
 
     });
 
@@ -34,8 +41,8 @@
     }
 
     function iralpaso0(){
-        $("#primero").attr("class","col-3 bs-wizard-step active");
-        $("#segundo").attr("class","col-3 bs-wizard-step disabled");
+        $("#primero").attr("class","col-6 bs-wizard-step active");
+        $("#segundo").attr("class","col-6 bs-wizard-step disabled");
         $("#div1").removeAttr("hidden");
         $("#div3").attr("hidden","true");
 
@@ -43,13 +50,10 @@
 
     }
     function iralpaso1(){
-        $("#div2").removeAttr( "hidden" );
         $("#div3").removeAttr( "hidden" );
         $("#div1").attr("hidden","true");
-        $("#div2").attr("hidden","true");
-        $("#primero").attr("class","col-3 bs-wizard-step complete");
-        $("#segundo").attr("class","col-3 bs-wizard-step complete");
-        $("#tercero").attr("class","col-3 bs-wizard-step active");
+        $("#primero").attr("class","col-6 bs-wizard-step complete");
+        $("#segundo").attr("class","col-6 bs-wizard-step active");
     }
 
     
@@ -468,23 +472,23 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="sol_nombre" id="sol_nombre"  placeholder="Nombre de Solicitante" required>
+                                    <input type="text" class="form-control" name="sol_nombre" id="sol_nombre"  placeholder="Nombre de Solicitante" required value="{{$contrato->Solicitante->sol_nombre}}">
                                     <label for="sol_nombre"><i class="icon-account-box"></i> Nombre de Solicitante</label>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="sol_telefono"  id="sol_telefono"  placeholder="Ingrese su Telefono" required>
+                                    <input type="text" class="form-control" name="sol_telefono"  id="sol_telefono"  placeholder="Ingrese su Telefono" required value="{{$contrato->Solicitante->sol_telefono}}">
                                     <label for="sol_telefono"><i class="icon-cellphone-android"></i> Telefono</label>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="sol_dir"  id="sol_dir"  placeholder="Ingrese su Direccion" required>
+                                    <input type="text" class="form-control" name="sol_dir"  id="sol_dir"  placeholder="Ingrese su Direccion" required value="{{$contrato->Solicitante->sol_dir}}">
                                     <label for="sol_dir"><i class="icon-map-marker-radius"></i> Direccion</label>
                                 </div>
                                 <div class="form-group">
-                                    <input pattern=".{8,8}" required title="Ingrese un D.N.I. válido" type="text" class="form-control" name="sol_dni" id="sol_dni"  placeholder="Ingrese su DNI">
+                                    <input pattern=".{8,8}" required title="Ingrese un D.N.I. válido" type="text" class="form-control" name="sol_dni" id="sol_dni"  placeholder="Ingrese su DNI" value="{{$contrato->Solicitante->sol_dni}}">
                                     <label for="sol_dni"><i class="icon-account-card-details"></i> DNI</label>
                                 </div>
                                 
-                                <input type="text" class="form-control" name="solselected" id="solselected" value="0" readonly hidden>
+                                <input type="text" class="form-control" name="solselected" id="solselected" value="{{$contrato->Solicitante->sol_id}}" readonly hidden>
                                     
                                 <div class="row">
                                     <div class="col-6" align="left">
@@ -494,7 +498,7 @@
                                     </div>
                                     <div class="col-6" align="right">
                                         <div class="form-group">
-                                            <input type="text" name="paso"  hidden="" value="1">
+                                            <input type="text" name="paso"  hidden="" value="0">
                                             <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
                                             <button  type="submit" class="btn btn-primary fuse-ripple-ready">Siguiente <i class="icon-arrow-right"></i></button>
                                         </div>    
@@ -513,7 +517,7 @@
                             <div class="title h6">Compra al Credito</div>
                         </header>
                         <div class="content activities p-4"> 
-                            <form action="/gerencia/pabellon/nicho/comprar" method="POST">
+                            <form action="/gerencia/pabellon/nicho/trasladar" method="POST">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                 <div class="row">
@@ -547,7 +551,7 @@
 
                                     <div class="form-group col-4">
                                         <label for="cont_concepto"><i class="icon-notification-clear-all"></i> Concepto</label> 
-                                        <input class="form-control" type="text" name="cont_concepto" value="concepto" readonly="" required="">
+                                        <input class="form-control" type="text" name="cont_concepto" value="traslado" readonly="" required="">
                                               
                                     </div>
                                     <div class="form-group col-4">
@@ -562,7 +566,7 @@
                                         <input class="form-control" type="date" name="cont_fecha" id="cont_fecha1" readonly="" required="">    
                                     </div>
                                     <div class="form-group col-4">
-                                        <label  for="cont_diffechsep"><i class="icon-church"></i> Fecha de Sepultura</label>
+                                        <label  for="cont_diffechsep"><i class="icon-church"></i> Fecha de Traslado</label>
                                         <input class="form-control" type="date" name="cont_diffechsep" id="cont_diffechsep" required="" required="">
                                     </div>
                                     <div class="form-group col-4">
@@ -627,7 +631,7 @@
                                         <label type="" class="btn btn-primary fuse-ripple-ready" id="btnCalcular" hidden="">Calcular Cuotas</label>
                                     </div>
                                     <div class="form-group col-4">
-                                        <button  type="submit" class="btn btn-primary fuse-ripple-ready">Registrar</button>
+                                        <button  type="submit" class="btn btn-primary fuse-ripple-ready">Trasladar</button>
                                     </div>
                                </div>
                             </form>

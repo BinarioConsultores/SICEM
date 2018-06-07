@@ -73,7 +73,7 @@ class NichoController extends Controller
         else
         {
             if ($nicho->nicho_est == "libre"){
-                $contrato = Contrato::where('cont_id',session('contrato'));
+                $contrato = Contrato::findOrFail(session('contrato'));
                 session(['pasot' => 0]);
                 return view('gerencia.nicho.trasladar', ['contrato'=>$contrato,'nicho'=>$nicho,'usuarios'=>$usuarios]);
             }
