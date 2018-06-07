@@ -500,6 +500,7 @@
                                         <div class="form-group">
                                             <input type="text" name="paso"  hidden="" value="0">
                                             <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
+                                            <input type="text" name="cont_id" value="{{ $contrato->cont_id}}" hidden="">
                                             <button  type="submit" class="btn btn-primary fuse-ripple-ready">Siguiente <i class="icon-arrow-right"></i></button>
                                         </div>    
                                     </div>
@@ -514,7 +515,7 @@
                 <div class="col-8" id="opcionCredito">
                     <div class="example">
                         <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
-                            <div class="title h6">Compra al Credito</div>
+                            <div class="title h6">Elija el Tipo de Pago</div>
                         </header>
                         <div class="content activities p-4"> 
                             <form action="/gerencia/pabellon/nicho/trasladar" method="POST">
@@ -621,8 +622,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="text" name="paso"  hidden="" value="3">
+                                <input type="text" name="paso"  hidden="" value="1">
                                 <input type="text" name="nicho_id" value="{{$nicho->nicho_id}}" hidden="">
+                                <input type="text" name="cont_id_ant" value="{{ $contrato->cont_id }}" hidden="">
                                 <div class="row">
                                     <div class="form-group col-4">
                                         <a href="/gerencia/pabellon/nicho/comprar/atras2/{{$nicho->nicho_id}}" class="btn btn-danger fuse-ripple-ready">Atras<i class="icon-arrow-left"></i></a>

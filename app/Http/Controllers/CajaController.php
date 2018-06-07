@@ -9,6 +9,7 @@ use sicem\Boleta;
 use sicem\BoletaDetalle;
 use sicem\Nicho;
 use sicem\PlanPago;
+use sicem\Traslado;
 use sicem\BDPPago;
 
 class CajaController extends Controller
@@ -92,6 +93,13 @@ class CajaController extends Controller
 			    			$nicho->nicho_est = "ocupado";
 			    			$nicho->save();
 			    			$contrato->save();
+
+			    			$traslado = Traslado::where('cont_id_nue',$contrato->cont_id)->where('tras_est','ttramite')->get()[0];
+			    			$traslado->tras_est = 'realizado';
+			    			$nicho_antiguo = Nicho::findOrFail($traslado->ContratoAnt->Nicho->nicho_id);
+			    			$nicho_antiguo->nicho_est = 'ltraslado';
+			    			$nicho->save();
+
 			    		}
 			    		else{
 			    			if ($contrato->cont_tipopago == "credito") {
@@ -114,6 +122,12 @@ class CajaController extends Controller
 				    			$nicho->nicho_est = "ocupado";
 			    				$nicho->save();
 				    			$contrato->save();
+
+				    			$traslado = Traslado::where('cont_id_nue',$contrato->cont_id)->where('tras_est','ttramite')->get()[0];
+				    			$traslado->tras_est = 'realizado';
+				    			$nicho_antiguo = Nicho::findOrFail($traslado->ContratoAnt->Nicho->nicho_id);
+				    			$nicho_antiguo->nicho_est = 'ltraslado';
+				    			$nicho->save();
 			    			}
 			    		}
 			    	}

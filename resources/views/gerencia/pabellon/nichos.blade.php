@@ -177,7 +177,11 @@
                                                     @if($nichos[$i-1][$j-1]->nicho_est=="libre")
                                                         <button type="submit"  class="libre" data-toggle="tooltip" data-placement="top" data-original-title="Libre | S/.{{$nichos[$i-1][$j-1]->nicho_precio}}"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
                                                     @else
-                                                        <button type="submit"  class="tramite" data-toggle="tooltip" data-placement="top" data-original-title="En Trámite"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                        @if($nichos[$i-1][$j-1]->nicho_est=="tramite")
+                                                            <button type="submit"  class="tramite" data-toggle="tooltip" data-placement="top" data-original-title="En Trámite"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                        @else
+                                                            <button type="submit"  class="ltraslado" data-toggle="tooltip" data-placement="top" data-original-title="Libre por Traslado"><span>{{$nichos[$i-1][$j-1]->nicho_nro}}</span></button>
+                                                        @endif
                                                     @endif
                                                 @endif
                                             </form>
