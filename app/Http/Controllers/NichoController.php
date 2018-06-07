@@ -14,6 +14,8 @@ use sicem\PlanPago;
 use Carbon\Carbon;
 use sicem\CSExtra;
 use sicem\ServicioExtra;
+use sicem\Traslado;
+use sicem\Pabellon;
 
 
 class NichoController extends Controller
@@ -43,6 +45,7 @@ class NichoController extends Controller
         ]);
         $now = Carbon::now();
         $nicho = Nicho::findOrFail($request->get('nicho_id'));
+        $pabellon = Pabellon::findOrFail($nicho->pab_id);
         
         $usuarios = User::where('tipo','administrador')->get();
         if (!(session()->has('contrato')))
@@ -55,7 +58,7 @@ class NichoController extends Controller
                 $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->where('cont_estado','tramite')->get()[0];
 
                 $planpagos = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->orderBy('ppago_fechaven')->get();
-                return view('gerencia.nicho.tramite',['contrato'=>$contrato,'nicho'=>$nicho,'planpagos'=>$planpagos,'now'=>$now]);
+                return view('gerencia.nicho.tramite',['contrato'=>$contrato,'nicho'=>$nicho,'planpagos'=>$planpagos,'now'=>$now,'pabellon'=>$pabellon]);
             }
             if ($nicho->nicho_est == "ocupado") {
 
@@ -64,10 +67,19 @@ class NichoController extends Controller
                 
                 $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->orderBy('cont_fecha','DESC')->get()[0];
                 $planpagos = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->orderBy('ppago_fechaven')->get();
-                return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now,'planpagos'=>$planpagos,'serviciosextra'=>$serviciosextra]);
+                return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now,'planpagos'=>$planpagos,'serviciosextra'=>$serviciosextra,'pabellon'=>$pabellon]);
             }
-            else{
-                return "Contacte al administrador para ver este nicho";       
+            if ($nicho->nicho_est == "ttramite") {
+                $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->where('cont_estado','realizado')->get()[0];
+                $traslado = Traslado::where(function($q) use($contrato){$q->where('cont_id_ant',$contrato->cont_id)->orwhere('cont_id_nue',$contrato->cont_id);})->where('tras_est','=','ttramite')->get()[0];
+                $contrato_ant = Contrato::findOrFail($traslado->cont_id_ant);
+                $contrato_nue = Contrato::findOrFail($traslado->cont_id_nue);
+
+                $planpagos = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->orderBy('ppago_fechaven')->get();
+                return view('gerencia.nicho.ttramite',['traslado'=>$traslado,'contrato_ant'=>$contrato_ant,'contrato_nue'=>$contrato_nue,'nicho'=>$nicho,'planpagos'=>$planpagos,'now'=>$now,'pabellon'=>$pabellon]);
+            }
+            else {
+                return "Contacte al administrador para ver este nicho";
             }
         }
         else
@@ -85,7 +97,7 @@ class NichoController extends Controller
                 $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->orderBy('cont_fecha','DESC')->get()[0];
                 $planpagos = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->orderBy('ppago_fechaven')->get();
                 session()->forget('contrato');
-                return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now,'planpagos'=>$planpagos,'serviciosextra'=>$serviciosextra])->with('error', "Fallo al realizar el traslado. El nicho escogido no se encuentra disponible. Inténtelo de nuevo");
+                return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now,'planpagos'=>$planpagos,'serviciosextra'=>$serviciosextra,'pabellon'=>$pabellon])->with('error', "Fallo al realizar el traslado. El nicho escogido no se encuentra disponible. Inténtelo de nuevo");
             }
             
         }

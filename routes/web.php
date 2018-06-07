@@ -56,8 +56,8 @@ Route::get('/gerencia/pabellon/nicho/comprar/atras1/{nicho_id}','ContratoControl
 Route::get('/gerencia/pabellon/nicho/comprar/atras2/{nicho_id}','ContratoController@getAtras2');
 
 Route::get('/gerencia/pabellon/nicho/traslado/{cont_id}','ContratoController@getTraslado');
+Route::post('/gerencia/nicho/traslado/eliminar','TrasladoController@postEliminarTraslado');
 
-Route::get('/gerencia/pabellon/nicho/trasladar','ContratoController@postTrasladarDifunto');
 Route::post('/gerencia/pabellon/nicho/trasladar','ContratoController@postTrasladarDifunto');
 
 Route::post('/gerencia/pabellon/nicho/solicitarsextra','ContratoController@postSolicitarSextra');
@@ -82,11 +82,6 @@ Route::get('/caja/buscar/detalles','PlanPagoController@getDetallePagos');
 Route::get('/caja/pagospendientes','CajaController@getPagosPendientes');
 Route::post('/caja/pagospendientes/pagar','CajaController@postPagarPagosPendientes');
 Route::post('/caja/pagoscuotas/pagar','CajaController@postPagarCuotas');
-
-//--Pruebas
-Route::get('/prueba','PruebaController@index');
-
-
 
 
 //AJAX

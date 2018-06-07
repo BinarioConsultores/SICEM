@@ -46,20 +46,20 @@ $('#sample-data-table').DataTable({
 <div class="content">
 
 
-    <div class="modal fade" id="eliminarContratoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="eliminarTrasladoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que desea eliminar el contrato?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que desea eliminar el traslado?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <label>Cuando <strong>elimine</strong> el contrato, se elminarán el difunto, solicitante(de no tener a su cargo otros nichos), se desocupará el nicho y se eliminará cualquier registro de pago que exista en el contrato en mención.</label>
-                    <form method="post" action="/gerencia/contrato/eliminar">
+                    <label>Cuando <strong>elimine</strong> el traslado, se elminarán el contrato nuevo, solicitante(de no tener a su cargo otros nichos), se desocupará el nicho y se eliminará cualquier registro de pago que exista en el contrato en mención. Además, el nicho anterior volverá a su estado inicial </label>
+                    <form method="post" action="/gerencia/nicho/traslado/eliminar">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="cont_id" value="{{$contrato->cont_id}}">
+                        <input type="hidden" name="tras_id" value="{{$traslado->tras_id}}">
                         <input type="hidden" name="pab_id" value="{{$pabellon->pab_id}}">
                     <button type="submit" class="submit-button btn btn-block btn-danger my-4 mx-auto fuse-ripple-ready">ELIMINAR</button>
                     <button type="button" class="submit-button btn btn-block btn-info my-4 mx-auto fuse-ripple-ready" data-dismiss="modal">Cancelar</button>
@@ -92,7 +92,7 @@ $('#sample-data-table').DataTable({
                             Tags
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-danger pull-right fuse-ripple-ready" data-toggle="modal" data-target="#eliminarContratoModal" onclick=""> ELMINAR CONTRATO <i class="icon-delete"></i></button>
+                            <button type="button" class="btn btn-danger pull-right fuse-ripple-ready" data-toggle="modal" data-target="#eliminarTrasladoModal" onclick=""> ELMINAR TRASLADO <i class="icon-delete"></i></button>
                         </li>
 
                     </ul>
@@ -112,7 +112,7 @@ $('#sample-data-table').DataTable({
                     <div class="page-content p-6">
                         <div class="alert alert-danger" role="alert">
                             <h4 class="alert-heading">¡ATENCIÓN! - NICHO SIN PAGOS REGISTRADOS - INFORMACIÓN SOLAMENTE</h4>
-                            <p>Éste nicho se encuentra en trámite, motivo por el cual ninguna acción está permitida hasta cancelar el pago inicial si es convenio o el pago total del nicho en caso la compra sea al contado</p>
+                            <p>Éste nicho se encuentra en trámite de traslado, motivo por el cual ninguna acción está permitida hasta cancelar el pago inicial si es convenio o el pago total del nicho en caso la compra sea al contado</p>
                             <hr>
                             <p class="mb-0">En la parte izquierda, encontrará la opción de <strong>ELIMINAR CONTRATO EN TRÁMITE</strong> en caso de no registrarse el pago en un corto plazo</p>
                         </div>
@@ -121,7 +121,7 @@ $('#sample-data-table').DataTable({
                                 <div class="example"> 
                                     <div class="card m-1">
                                          <header class="h6 bg-secondary text-auto p-4">
-                                            <div class="title">Información de Contrato</div>
+                                            <div class="title">Información de Contrato Antiguo</div>
                                         </header>
                                         <div class="content p-4">
                                             <div class="table-responsive">
@@ -142,14 +142,14 @@ $('#sample-data-table').DataTable({
                                                     <tbody>
                                                         <tr>
                                                             <th scope="row">1</th>
-                                                            <td>{{$contrato->cont_fecha}}</td>
-                                                            <td>{{$contrato->cont_tipopago}}</td>
-                                                            <td>{{$contrato->cont_concepto}}</td>
-                                                            <td>{{$contrato->cont_estado}}</td>
-                                                            <td>{{$contrato->cont_tipouso}}</td>
-                                                            <td>{{$contrato->cont_tiempo}} años.</td>
-                                                            <td>{{Carbon\Carbon::createFromFormat('Y-m-d',$contrato->cont_fecha)->addYears($contrato->cont_tiempo)->format('Y-m-d')}}</td>
-                                                            <td>{{$contrato->cont_diffechsep}}</td>
+                                                            <td>{{$contrato_ant->cont_fecha}}</td>
+                                                            <td>{{$contrato_ant->cont_tipopago}}</td>
+                                                            <td>{{$contrato_ant->cont_concepto}}</td>
+                                                            <td>{{$contrato_ant->cont_estado}}</td>
+                                                            <td>{{$contrato_ant->cont_tipouso}}</td>
+                                                            <td>{{$contrato_ant->cont_tiempo}} años.</td>
+                                                            <td>{{Carbon\Carbon::createFromFormat('Y-m-d',$contrato_ant->cont_fecha)->addYears($contrato_ant->cont_tiempo)->format('Y-m-d')}}</td>
+                                                            <td>{{$contrato_ant->cont_diffechsep}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -207,11 +207,11 @@ $('#sample-data-table').DataTable({
                                                     <tbody>
                                                         <tr>
                                                             <th scope="row">1</th>
-                                                            <td>{{$contrato->Difunto->dif_nom}}</td>
-                                                            <td>{{$contrato->Difunto->dif_ape}}</td>
-                                                            <td>{{$contrato->Difunto->dif_dni}}</td>
-                                                            <td>{{$contrato->Difunto->dif_fechadef}}</td>
-                                                            <td>{{$contrato->Difunto->dif_obser}}</td>
+                                                            <td>{{$contrato_ant->Difunto->dif_nom}}</td>
+                                                            <td>{{$contrato_ant->Difunto->dif_ape}}</td>
+                                                            <td>{{$contrato_ant->Difunto->dif_dni}}</td>
+                                                            <td>{{$contrato_ant->Difunto->dif_fechadef}}</td>
+                                                            <td>{{$contrato_ant->Difunto->dif_obser}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -242,10 +242,150 @@ $('#sample-data-table').DataTable({
                                                     <tbody>
                                                         <tr>
                                                             <th scope="row">1</th>
-                                                            <td>{{$contrato->Solicitante->sol_nombre}}</td>
-                                                            <td>{{$contrato->Solicitante->sol_telefono}}</td>
-                                                            <td>{{$contrato->Solicitante->sol_dir}}</td>
-                                                            <td>{{$contrato->Solicitante->sol_dni}}</td>
+                                                            <td>{{$contrato_ant->Solicitante->sol_nombre}}</td>
+                                                            <td>{{$contrato_ant->Solicitante->sol_telefono}}</td>
+                                                            <td>{{$contrato_ant->Solicitante->sol_dir}}</td>
+                                                            <td>{{$contrato_ant->Solicitante->sol_dni}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="page-content p-6">
+                        <div class="row">
+                            <div class="col-9">
+                                <div class="example"> 
+                                    <div class="card m-1">
+                                         <header class="h6 bg-secondary text-auto p-4">
+                                            <div class="title">Información de Contrato Nuevo</div>
+                                        </header>
+                                        <div class="content p-4">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Fecha de Contrato</th>
+                                                            <th>Tipo de Pago</th>
+                                                            <th>Concepto de Contrato</th>
+                                                            <th>Estado</th>
+                                                            <th>Tipo de Contrato</th>
+                                                            <th>Duración de Contrato</th>
+                                                            <th>Año de fin de Contrato</th>
+                                                            <th>Fecha de Sepultura</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">1</th>
+                                                            <td>{{$contrato_nue->cont_fecha}}</td>
+                                                            <td>{{$contrato_nue->cont_tipopago}}</td>
+                                                            <td>{{$contrato_nue->cont_concepto}}</td>
+                                                            <td>{{$contrato_nue->cont_estado}}</td>
+                                                            <td>{{$contrato_nue->cont_tipouso}}</td>
+                                                            <td>{{$contrato_nue->cont_tiempo}} años.</td>
+                                                            <td>{{Carbon\Carbon::createFromFormat('Y-m-d',$contrato_nue->cont_fecha)->addYears($contrato_nue->cont_tiempo)->format('Y-m-d')}}</td>
+                                                            <td>{{$contrato_nue->cont_diffechsep}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <a  href="/createC?nicho_id={{$nicho->nicho_id}}" class="btn btn-secondary pull-right disabled">Constancia <i class="icon-arrow-down-bold-box"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="example">
+                                    <div class=" card m-1">
+                                        <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+                                            <div class="title h6">Imagen del Nicho</div>
+                                            <div class="more text-muted">
+                                                <span>Imagen</span>
+                                                <span>Referencial</span>
+                                            </div>
+                                        </header>
+                                        <div class="content">
+                                            <div class="content row no-gutters p-2">
+                                                <div class="col-3"></div>
+                                                <div class="col-6">
+                                                    <img class="w-100" src="/assets/images/nicho/{{$nicho->nicho_pathimag}}">
+                                                </div>
+                                                <div class="col-3">
+                                                    <button class="btn btn-secondary btn-fab btn-sm fuse-ripple-ready align-items-bottom disabled"><i class="icon-pencil"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                          
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="example">
+                                    <div class="card m-1"> 
+                                        <header class="h6 bg-secondary text-auto p-4">
+                                            <div class="title">Información de difunto</div>
+                                        </header>
+                                        <div class="content p-4">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Nombre</th>
+                                                            <th>Apellidos</th>
+                                                            <th>Nro. DNI</th>
+                                                            <th>Fecha de Defunción</th>
+                                                            <th>Observaciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">1</th>
+                                                            <td>{{$contrato_nue->Difunto->dif_nom}}</td>
+                                                            <td>{{$contrato_nue->Difunto->dif_ape}}</td>
+                                                            <td>{{$contrato_nue->Difunto->dif_dni}}</td>
+                                                            <td>{{$contrato_nue->Difunto->dif_fechadef}}</td>
+                                                            <td>{{$contrato_nue->Difunto->dif_obser}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="col-6">
+                                <div class="example">
+                                    <div class="card m-1">
+                                        <header class="h6 bg-secondary text-auto p-4">
+                                            <div class="title">Información de Solicitante</div>
+                                        </header>
+                                        <div class="content p-4">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Nombre</th>
+                                                            <th>Telefono</th>
+                                                            <th>Dirección</th>
+                                                            <th>Nro. DNI</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">1</th>
+                                                            <td>{{$contrato_nue->Solicitante->sol_nombre}}</td>
+                                                            <td>{{$contrato_nue->Solicitante->sol_telefono}}</td>
+                                                            <td>{{$contrato_nue->Solicitante->sol_dir}}</td>
+                                                            <td>{{$contrato_nue->Solicitante->sol_dni}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
