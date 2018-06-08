@@ -116,7 +116,7 @@ class TrasladoController extends Controller
             }
         }
 
-        return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('eliminado', 'Contrado Eliminado de Manera Correcta');
+        return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('eliminado', 'Traslado Eliminado de Manera Correcta');
         //return view('caja.compraexitosa');
 
     }

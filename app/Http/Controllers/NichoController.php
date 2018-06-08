@@ -70,7 +70,7 @@ class NichoController extends Controller
                 return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now,'planpagos'=>$planpagos,'serviciosextra'=>$serviciosextra,'pabellon'=>$pabellon]);
             }
             if ($nicho->nicho_est == "ttramite") {
-                $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->where('cont_estado','realizado')->get()[0];
+                $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->get()[0];
                 $traslado = Traslado::where(function($q) use($contrato){$q->where('cont_id_ant',$contrato->cont_id)->orwhere('cont_id_nue',$contrato->cont_id);})->where('tras_est','=','ttramite')->get()[0];
                 $contrato_ant = Contrato::findOrFail($traslado->cont_id_ant);
                 $contrato_nue = Contrato::findOrFail($traslado->cont_id_nue);
