@@ -84,6 +84,17 @@ class CajaController extends Controller
 			    		
 			    		$nicho = Nicho::findOrFail($contrato->Nicho->nicho_id);
 			    		if ($contrato->cont_tipopago == "contado") {
+
+			    			$traslados = Traslado::where('cont_id_nue',$contrato->cont_id)->where('tras_est','ttramite')->get();
+			    			if (sizeof($traslados)>0) {
+			    				$traslado = new Traslado;
+			    				$traslado = $traslados[0];
+			    				$nicho_antiguo = Nicho::findOrFail($traslado->ContratoAnt->Nicho->nicho_id);
+				    			$nicho_antiguo->nicho_est = 'ltraslado';
+				    			$nicho_antiguo->save();
+			    			}
+
+			    			
 			    			$boletadetalle = new BoletaDetalle();
 			    			$boletadetalle->bolde_concepto = "Compra de nicho al contado";
 			    			$boletadetalle->bolde_monto = $contrato->cont_monto;
@@ -94,15 +105,20 @@ class CajaController extends Controller
 			    			$nicho->save();
 			    			$contrato->save();
 
-			    			$traslado = Traslado::where('cont_id_nue',$contrato->cont_id)->where('tras_est','ttramite')->get()[0];
-			    			$traslado->tras_est = 'realizado';
-			    			$nicho_antiguo = Nicho::findOrFail($traslado->ContratoAnt->Nicho->nicho_id);
-			    			$nicho_antiguo->nicho_est = 'ltraslado';
-			    			$nicho->save();
-
 			    		}
 			    		else{
 			    			if ($contrato->cont_tipopago == "credito") {
+
+			    				$traslados = Traslado::where('cont_id_nue',$contrato->cont_id)->where('tras_est','ttramite')->get();
+				    			if (sizeof($traslados)>0) {
+				    				$traslado = new Traslado;
+				    				$traslado = $traslados[0];
+				    				$nicho_antiguo = Nicho::findOrFail($traslado->ContratoAnt->Nicho->nicho_id);
+					    			$nicho_antiguo->nicho_est = 'ltraslado';
+					    			$nicho_antiguo->save();
+				    			}
+
+
 			    				$boletadetalle = new BoletaDetalle();
 				    			$boletadetalle->bolde_concepto = "Compra de nicho al credito - Cuota inicial";
 				    			$boletadetalle->bolde_monto = $contrato->Convenio->conv_cuotaini;
@@ -123,11 +139,7 @@ class CajaController extends Controller
 			    				$nicho->save();
 				    			$contrato->save();
 
-				    			$traslado = Traslado::where('cont_id_nue',$contrato->cont_id)->where('tras_est','ttramite')->get()[0];
-				    			$traslado->tras_est = 'realizado';
-				    			$nicho_antiguo = Nicho::findOrFail($traslado->ContratoAnt->Nicho->nicho_id);
-				    			$nicho_antiguo->nicho_est = 'ltraslado';
-				    			$nicho->save();
+				    			
 			    			}
 			    		}
 			    	}
