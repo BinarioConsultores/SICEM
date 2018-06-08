@@ -554,22 +554,35 @@ class ContratoController extends Controller
                                     $planPago->conv_id = $convenio->conv_id;
                                     $planPago->save();
                                 }
+                                $traslado = new Traslado();
+                                $traslado->tras_fecha = Carbon::now();
+                                $traslado->tras_est = 'ttramite';
+                                $traslado->cont_id_ant = $contrato_antiguo->cont_id;
+                                $traslado->cont_id_nue = $contrato->cont_id;
+                                $traslado->save();
 
                                 $pabellon = new Pabellon();
                                 $pabellon = $nicho->Pabellon;
                                 $nrofil = $pabellon->pab_nrofil;
                                 $nrocol = $pabellon->pab_nrocol;
                                 $nichos[0][0]=0;
-                                $nicho->nicho_est = "tramite";
+                                $nicho->nicho_est = "ttramite";
                                 $nicho->save();
+
+                                $nicho_antiguo = Nicho::findOrFail($contrato_antiguo->nicho_id);
+                                $nicho_antiguo->nicho_est = 'ttramite';
+                                $nicho_antiguo->save();
+
                                 for($i=1;$i<=$nrofil;$i++){
                                     for($j=1;$j<=$nrocol;$j++){
                                       $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pabellon->pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
                                     }
                                 }
-                                
+
+                                session()->forget('pasot');
+                                session()->forget('contrato');
                                 self::borrarSesion();
-                                return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('creado', 'Nicho Reservado de Manera Correcta');
+                                return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('creado', 'Traslado de Difunto reservado de Manera Correcta');
                             }
                         }
                     }
@@ -581,12 +594,7 @@ class ContratoController extends Controller
                         $nichos[0][0]=0;
                         $nicho->nicho_est = "ttramite";
                         $nicho->save();
-                        for($i=1;$i<=$nrofil;$i++){
-                            for($j=1;$j<=$nrocol;$j++){
-                              $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pabellon->pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
-
-                            }
-                        }
+                        
                         if ($contrato->save()) {
 
                             $nicho_antiguo = Nicho::findOrFail($contrato_antiguo->nicho_id);
@@ -600,7 +608,16 @@ class ContratoController extends Controller
                             $traslado->cont_id_nue = $contrato->cont_id;
                             $traslado->save();
 
+                            session()->forget('pasot');
+                            session()->forget('contrato');
                             self::borrarSesion();
+
+                            for($i=1;$i<=$nrofil;$i++){
+                            for($j=1;$j<=$nrocol;$j++){
+                              $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pabellon->pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
+
+                            }
+                        }
                             return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('creado', 'Traslado de Difunto reservado de Manera Correcta');
                         }
                     }
