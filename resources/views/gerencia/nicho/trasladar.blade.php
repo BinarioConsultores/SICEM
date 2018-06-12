@@ -546,7 +546,7 @@
                                         <label for="cont_tipopago"><i class="icon-note-multiple-outline"></i> Tipo de Pago</label>  
                                         <select  class="form-control" name="cont_tipopago" id="cont_tipopago">
                                             <option selected value="contado">Contado</option>
-                                            <option value="credito">Convenio/Crédito</option>
+                                            
                                         </select>     
                                     </div>
 

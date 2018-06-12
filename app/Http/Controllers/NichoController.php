@@ -67,7 +67,9 @@ class NichoController extends Controller
                 
                 $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->orderBy('cont_fecha','DESC')->get()[0];
                 $planpagos = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->orderBy('ppago_fechaven')->get();
-                return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now,'planpagos'=>$planpagos,'serviciosextra'=>$serviciosextra,'pabellon'=>$pabellon]);
+                
+                $tras_flag = $now->diffInYears(new Carbon($contrato->cont_fecha));
+                return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now,'planpagos'=>$planpagos,'serviciosextra'=>$serviciosextra,'pabellon'=>$pabellon,'tras_flag'=>$tras_flag]);
             }
             if ($nicho->nicho_est == "ttramite") {
                 $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->get()[0];

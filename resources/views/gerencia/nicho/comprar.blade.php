@@ -606,7 +606,7 @@
                 <div class="col-8" id="opcionCredito">
                     <div class="example">
                         <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
-                            <div class="title h6">Compra al Credito</div>
+                            <div class="title h6">Elija el Tipo de Pago</div>
                         </header>
                         <div class="content activities p-4"> 
                             <form action="/gerencia/pabellon/nicho/comprar" method="POST">
@@ -643,7 +643,11 @@
 
                                     <div class="form-group col-4">
                                         <label for="cont_concepto"><i class="icon-notification-clear-all"></i> Concepto</label> 
-                                        <input class="form-control" type="text" name="cont_concepto" value="concepto" readonly="" required="">
+                                        <!--<input class="form-control" type="text" name="cont_concepto" value="concepto" readonly="" required="">-->
+                                        <select  class="form-control" name="cont_concepto" id="cont_concepto" required="">
+                                            <option selected value="concepto">Concepto</option>
+                                            <option value="trasladoe">Traslado Externo</option>
+                                        </select>
                                               
                                     </div>
                                     <div class="form-group col-4">

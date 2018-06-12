@@ -215,23 +215,18 @@
                             <a  href="/createC?nicho_id={{$nicho->nicho_id}}" class="btn btn-secondary ml-5">Constancia <i class="icon-arrow-down-bold-box"></i> </a>
                         </li>
                         <?php $flag = 0; ?>
-                        @if(sizeof($planpagos)>0)
+                        @if(sizeof($planpagos)>=0 && $tras_flag >= 1)
                             @foreach ($planpagos as $ppago)
                                 @if($ppago->ppago_saldocuota==0)
                                     <?php $flag = $flag + 1; ?>
                                 @endif
                             @endforeach
-                            @if($flag == sizeof($planpagos))
+                            @if($flag == sizeof($planpagos) && $tras_flag >= 1)
                                 <md-divider class="mb-5"> </md-divider>
                                 <li class="nav-item">
                                     <a href="/gerencia/pabellon/nicho/traslado/{{$contrato->cont_id}}" class="btn btn-secondary ml-5">Trasladar  <i class="icon-move-resize-variant"></i> </a>
                                 </li>
                             @endif
-                        @else
-                            <md-divider class="mb-5"> </md-divider>
-                            <li class="nav-item">
-                                <a href="/gerencia/pabellon/nicho/traslado/{{$contrato->cont_id}}" class="btn btn-secondary ml-5">Trasladar  <i class="icon-move-resize-variant"></i> </a>
-                            </li>
                         @endif
                     </ul>
                 </div>
