@@ -177,7 +177,11 @@
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="dif_ape" id="dif_ape"  placeholder="Apellido del Difunto" required value="{{$contrato->Difunto->dif_ape}}">
-                                <label for="dif_ape"><i class="icon-account-box"></i> Apellido del Difunto</label>
+                                <label for="dif_ape"><i class="icon-account-box"></i> Apellido paterno del Difunto</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="dif_ape2" id="dif_ape2"  placeholder="Apellido del Difunto" required value="{{$contrato->Difunto->dif_ape2}}">
+                                <label for="dif_ape2"><i class="icon-account-box"></i> Apellido materno del Difunto</label>
                             </div>
                             <div class="form-group">
                                 <input pattern=".{8,8}" type="text" class="form-control" name="dif_dni" id="dif_dni"  placeholder="DNI. del Difunto" required value="{{$contrato->Difunto->dif_dni}}">
@@ -353,7 +357,8 @@
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Nombre</th>
-                                                            <th>Apellidos</th>
+                                                            <th>Apellido Paterno</th>
+                                                            <th>Apellido Materno</th>
                                                             <th>Nro. DNI</th>
                                                             <th>Fecha de Defunción</th>
                                                             <th>Observaciones</th>
@@ -364,6 +369,7 @@
                                                             <th scope="row">1</th>
                                                             <td>{{$contrato->Difunto->dif_nom}}</td>
                                                             <td>{{$contrato->Difunto->dif_ape}}</td>
+                                                            <td>{{$contrato->Difunto->dif_ape2}}</td>
                                                             <td>{{$contrato->Difunto->dif_dni}}</td>
                                                             <td>{{$contrato->Difunto->dif_fechadef}}</td>
                                                             <td>{{$contrato->Difunto->dif_obser}}</td>

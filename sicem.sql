@@ -201,6 +201,7 @@ CREATE TABLE `t_difunto` (
   `dif_id` int(10) UNSIGNED NOT NULL,
   `dif_nom` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dif_ape` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dif_ape2` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dif_dni` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dif_fechadef` date NOT NULL,
   `dif_obser` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,

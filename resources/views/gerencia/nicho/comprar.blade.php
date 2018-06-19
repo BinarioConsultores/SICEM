@@ -564,7 +564,11 @@
                                     </div>
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="dif_ape" id="dif_ape"  placeholder="Apellido del Difunto" required="">
-                                        <label for="dif_ape"><i class="icon-account-box"></i> Apellido del Difunto</label>
+                                        <label for="dif_ape"><i class="icon-account-box"></i> Apellido Paterno del Difunto</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="dif_ape2" id="dif_ape2"  placeholder="Apellido del Difunto" required="">
+                                        <label for="dif_ape2"><i class="icon-account-box"></i> Apellido Materno del Difunto</label>
                                     </div>
                                     <div class="form-group">
                                         <input pattern=".{8,8}" type="text" class="form-control" name="dif_dni" id="dif_dni"  placeholder="DNI. del Difunto" required="">

@@ -11,7 +11,7 @@
 	<table  style="font-family: Lucida Sans Unicode, Lucida Grande, Sans-Serif;
     font-size: 12px;    margin: 45px;     width: 300px; text-align: left;  ">
 		<thead>
-			<th>Nombre Difunto:</th><td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}}</td><tr></tr>
+			<th>Nombre Difunto:</th><td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}} {{$contrato->Difunto->dif_ape2}}</td><tr></tr>
 			<th>Nro. de Nicho:</th><td>{{$contrato->Nicho->nicho_nro}}</td><tr></tr>
 			<th>Nombre de solicitante:</th><td>{{$contrato->Solicitante->sol_nombre}}</td><tr></tr>
 			<th>Nombre de Cementerio:</th><td>{{$contrato->Nicho->Pabellon->Cementerio->cement_nom}}</td><tr></tr>

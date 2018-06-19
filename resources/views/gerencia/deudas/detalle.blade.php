@@ -125,7 +125,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}}</td>
+                                        <td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}} {{$contrato->Difunto->dif_ape2}}</td>
                                         <td>{{$contrato->Nicho->nicho_nro}}</td>
                                         <td>{{$contrato->Solicitante->sol_nombre}}</td>
                                         <td>{{$contrato->Nicho->Pabellon->Cementerio->cement_nom}}</td>

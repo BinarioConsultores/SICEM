@@ -21,7 +21,8 @@ use Illuminate\Http\Request;
 
 
 Auth::routes();
-Route::get('/', 'HomeController@index');
+Route::get('/sicem', 'HomeController@index');
+Route::get('/', 'PerukaterController@getBienvenida');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin/cementerio/crear','CementerioController@getCrear');

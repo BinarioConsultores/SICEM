@@ -45,6 +45,8 @@
                                 <div class="col-md-6"><img src="{{asset('assets\images\numeracion\numE.png')}}"></div>
                                 <div class="col-md-6"><img src="{{asset('assets\images\numeracion\numF.png')}}"></div>
                                 <div class="col-md-6"><img src="{{asset('assets\images\numeracion\numG.png')}}"></div>
+                                <div class="col-md-6"><img src="{{asset('assets\images\numeracion\numH.png')}}"></div>
+                                <div class="col-md-6"><img src="{{asset('assets\images\numeracion\numI.png')}}"></div>
                             </div>
                         </div>
                     </div>

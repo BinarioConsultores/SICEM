@@ -178,6 +178,7 @@ class ContratoController extends Controller
                 $this->validate($request, [
                     'dif_nom' => 'required',
                     'dif_ape' => 'required',
+                    'dif_ape2' => 'required',
                     'dif_dni' => 'required',
                     'dif_fechadef' => 'required',
                     'dif_obser' => 'required',
@@ -185,6 +186,7 @@ class ContratoController extends Controller
                 $difunto = new difunto();
                 $difunto->dif_nom = $request->get('dif_nom');
                 $difunto->dif_ape = $request->get('dif_ape');
+                $difunto->dif_ape2 = $request->get('dif_ape2');
                 $difunto->dif_dni = $request->get('dif_dni');
                 $difunto->dif_fechadef = $request->get('dif_fechadef');
                 $difunto->dif_obser = $request->get('dif_obser');
@@ -241,6 +243,7 @@ class ContratoController extends Controller
                     $difunto = new Difunto();
                     $difunto->dif_nom = session('difunto')->dif_nom;
                     $difunto->dif_ape = session('difunto')->dif_ape;
+                    $difunto->dif_ape2 = session('difunto')->dif_ape2;
                     $difunto->dif_dni = session('difunto')->dif_dni;
                     $difunto->dif_fechadef = session('difunto')->dif_fechadef;
                     $difunto->dif_obser = session('difunto')->dif_obser;
@@ -660,7 +663,7 @@ class ContratoController extends Controller
         ]);
 
         $busqueda = $request->get('busqueda'); 
-        $contratos = \DB::select("SELECT c.*,s.*,d.* from t_contrato c,t_solicitante s, t_difunto d WHERE (c.sol_id = s.sol_id AND c.dif_id = d.dif_id) AND (s.sol_nombre LIKE '%$busqueda%' OR s.sol_dni LIKE '%$busqueda%' OR d.dif_nom LIKE '%$busqueda%' OR  d.dif_ape LIKE '%$busqueda%' OR d.dif_dni LIKE '%$busqueda%')");
+        $contratos = \DB::select("SELECT c.*,s.*,d.* from t_contrato c,t_solicitante s, t_difunto d WHERE (c.sol_id = s.sol_id AND c.dif_id = d.dif_id) AND (s.sol_nombre LIKE '%$busqueda%' OR s.sol_dni LIKE '%$busqueda%' OR d.dif_nom LIKE '%$busqueda%' OR  d.dif_ape LIKE '%$busqueda%' OR d.dif_ape2 LIKE '%$busqueda%' OR d.dif_dni LIKE '%$busqueda%')");
         
         return $contratos;
     }

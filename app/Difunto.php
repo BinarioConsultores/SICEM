@@ -12,7 +12,7 @@ class Difunto extends Model
       'created_at', 'updated_at',
   ];
   protected $fillable = [
-        'dif_nom', 'dif_ape','dif_dni','dif_fechadef', 'dif_obser'
+        'dif_nom', 'dif_ape','dif_ape2','dif_dni','dif_fechadef', 'dif_obser'
   ];
   public function Contratos()
   {

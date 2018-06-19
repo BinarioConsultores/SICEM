@@ -250,7 +250,7 @@
                                                     <td>Compra al contado</td>
                                                     <td>S/. {{$contrato->cont_monto}}</td>
                                                     <td>{{$contrato->Solicitante->sol_nombre}}</td>
-                                                    <td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}}</td>
+                                                    <td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}} {{$contrato->Difunto->dif_ape2}}</td>
                                                     <td><label class="custom-control custom-checkbox">
                                                         <input type="checkbox" id="checkItem" class="custom-control-input" cont_id="{{$contrato->cont_id}}" csextra_id="0" onchange="marcarPago();" name="checkItem" cont_tipopago="{{$contrato->cont_tipopago}}" cont_monto="{{$contrato->cont_monto}}">
                                                         <span class="custom-control-indicator fuse-ripple-ready"></span>
@@ -260,7 +260,7 @@
                                                         <td>Compra al crédito | Cuota inicial</td>   
                                                         <td>S/. {{$contrato->Convenio->conv_cuotaini}}</td>
                                                         <td>{{$contrato->Solicitante->sol_nombre}}</td>
-                                                        <td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}}</td>
+                                                        <td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}} {{$contrato->Difunto->dif_ape2}}</td>
                                                         <td><label class="custom-control custom-checkbox">
                                                             <input type="checkbox" id="checkItem" class="custom-control-input" cont_id="{{$contrato->cont_id}}" csextra_id="0" onchange="marcarPago();" name="checkItem" cont_tipopago="{{$contrato->cont_tipopago}}" cont_monto="{{$contrato->Convenio->conv_cuotaini}}">
                                                             <span class="custom-control-indicator fuse-ripple-ready"></span>
@@ -283,7 +283,7 @@
                                                     <td>S/. {{$csextra->ServicioExtra->sextra_costo}}</td> 
                                                     
                                                     <td>{{$csextra->Contrato->Solicitante->sol_nombre}}</td>
-                                                    <td>{{$csextra->Contrato->Difunto->dif_nom}} {{$csextra->Contrato->Difunto->dif_ape}}</td>
+                                                    <td>{{$csextra->Contrato->Difunto->dif_nom}} {{$csextra->Contrato->Difunto->dif_ape}} {{$contrato->Difunto->dif_ape2}}</td>
                                                     <td>
                                                         <label class="custom-control custom-checkbox">
                                                         <input type="checkbox" id="checkItem" class="custom-control-input" cont_id="0" csextra_id="{{$csextra->csextra_id}}" onchange="marcarPago();" name="checkItem" cont_tipopago="{{$contrato->cont_tipopago}}" cont_monto="{{$csextra->Contrato->cont_monto}}" concepto="{{$csextra->ServicioExtra->sextra_desc}}" sextra_costo="{{$csextra->ServicioExtra->sextra_costo}}">

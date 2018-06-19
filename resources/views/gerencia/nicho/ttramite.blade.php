@@ -198,7 +198,8 @@ $('#sample-data-table').DataTable({
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Nombre</th>
-                                                            <th>Apellidos</th>
+                                                            <th>Apellido Paterno</th>
+                                                            <th>Apellido Materno</th>
                                                             <th>Nro. DNI</th>
                                                             <th>Fecha de Defunción</th>
                                                             <th>Observaciones</th>
@@ -209,6 +210,7 @@ $('#sample-data-table').DataTable({
                                                             <th scope="row">1</th>
                                                             <td>{{$contrato_ant->Difunto->dif_nom}}</td>
                                                             <td>{{$contrato_ant->Difunto->dif_ape}}</td>
+                                                            <td>{{$contrato_ant->Difunto->dif_ape2}}</td>
                                                             <td>{{$contrato_ant->Difunto->dif_dni}}</td>
                                                             <td>{{$contrato_ant->Difunto->dif_fechadef}}</td>
                                                             <td>{{$contrato_ant->Difunto->dif_obser}}</td>
@@ -338,7 +340,8 @@ $('#sample-data-table').DataTable({
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Nombre</th>
-                                                            <th>Apellidos</th>
+                                                            <th>Apellido Paterno</th>
+                                                            <th>Apellido Materno</th>
                                                             <th>Nro. DNI</th>
                                                             <th>Fecha de Defunción</th>
                                                             <th>Observaciones</th>
@@ -349,6 +352,7 @@ $('#sample-data-table').DataTable({
                                                             <th scope="row">1</th>
                                                             <td>{{$contrato_nue->Difunto->dif_nom}}</td>
                                                             <td>{{$contrato_nue->Difunto->dif_ape}}</td>
+                                                            <td>{{$contrato_nue->Difunto->dif_ape2}}</td>
                                                             <td>{{$contrato_nue->Difunto->dif_dni}}</td>
                                                             <td>{{$contrato_nue->Difunto->dif_fechadef}}</td>
                                                             <td>{{$contrato_nue->Difunto->dif_obser}}</td>

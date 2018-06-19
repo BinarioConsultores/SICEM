@@ -76,7 +76,7 @@
                                                             <td>{{$planpago->ppago_fechaven}}</td>
                                                             <td>{{$planpago->ppago_nrocuota}}</td>    
                                                             <td>{{$planpago->ppago_montocuota}}</td>
-                                                            <td>{{$planpago->Convenio->Contrato[0]->Solicitante->sol_nombre}}</td>
+                                                            <td>{{$planpago->Convenio->Contratos[0]->Solicitante->sol_nombre}}</td>
                                                             <td><a href="/gerencia/deudas/detalles?conv_id={{$planpago->Convenio->conv_id}}"><button class="btn btn-info">Detalles</button></a></td>
                                                         </tr>   
                                                     @endforeach

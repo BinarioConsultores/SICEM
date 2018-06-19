@@ -99,7 +99,7 @@
       <p align='right'> LA ENCARGADA DEL DEPARTAMENTO DE REGISTRO CIVIL Y CEMENTERIOS DE LA MUNICIPALIDAD DISTRITAL DE SACHACA:</p><br />
       <p align='right'> <strong>  {{ Auth::user()->name }}</strong> </p> <br>
       <p align='center'><strong>DEJA CONSTANCIA:</strong> </p><br />
-      <p align='justify' style='text-align:justify'> Que en el cementerio Municipal de {{$contrato->Nicho->Pabellon->Cementerio->cement_nom}}, se encuentran sepultados los restos mortales de quien en vida fue: <strong>{{$contrato->Difunto->dif_nom}}  {{$contrato->Difunto->dif_ape}}, </strong> en el nicho Nro. <strong>{{$contrato->Nicho->nicho_nro}} </strong>de la <strong>{{$contrato->Nicho->nicho_fila}} </strong>fila del Pabellón <strong>{{$contrato->Nicho->Pabellon->pab_nom}}, </strong> sepultada el día <?php echo $dia; ?>  de <?php echo $mesf; ?> del <?php echo $año; ?>.</p><br />
+      <p align='justify' style='text-align:justify'> Que en el cementerio Municipal de {{$contrato->Nicho->Pabellon->Cementerio->cement_nom}}, se encuentran sepultados los restos mortales de quien en vida fue: <strong>{{$contrato->Difunto->dif_nom}}  {{$contrato->Difunto->dif_ape}}  {{$contrato->Difunto->dif_ape2}}, </strong> en el nicho Nro. <strong>{{$contrato->Nicho->nicho_nro}} </strong>de la <strong>{{$contrato->Nicho->nicho_fila}} </strong>fila del Pabellón <strong>{{$contrato->Nicho->Pabellon->pab_nom}}, </strong> sepultada el día <?php echo $dia; ?>  de <?php echo $mesf; ?> del <?php echo $año; ?>.</p><br />
       <p align='right' style='text-align:justify'>SE EXPIDE LA PRESENTE CONSTANCIA A SOLICITUD DE LA PARTE INTERESADA, Y PARA LOS FINES QUE DETERMINE.</p>
       <p align='right'> Arequipa, {{$now->day}} de <?php echo $mes; ?> del {{$now->year}}.</p>
   </body>

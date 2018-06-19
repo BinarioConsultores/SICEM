@@ -17,6 +17,7 @@ class Creartabladifunto extends Migration
             $table->increments('dif_id');
             $table->string('dif_nom');
             $table->string('dif_ape');
+            $table->string('dif_ape2');
             $table->string('dif_dni');
             $table->date('dif_fechadef');
             $table->string('dif_obser');

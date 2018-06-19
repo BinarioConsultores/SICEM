@@ -39,6 +39,7 @@ class DifuntoController extends Controller
             'dif_dni' => 'required',
             'dif_nom' => 'required',
             'dif_ape' => 'required',
+            'dif_ape2' => 'required',
             'dif_fechadef' => 'required',
             'dif_obser' => 'required',
             'nicho_id' => 'required',

@@ -18,7 +18,7 @@ class Convenio extends Model
   {
       return $this->hasMany('sicem\PlanPago','conv_id');
   }
-  public function Contrato()
+  public function Contratos()
   {
       return $this->hasMany('sicem\Contrato','conv_id');
   }

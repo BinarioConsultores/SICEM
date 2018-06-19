@@ -51,7 +51,7 @@
                             tbody.append('</td>');
                             tbody.append($('<td>',{text: contrato.sol_dni,}));
                             tbody.append('</td>');
-                            tbody.append($('<td>',{text: contrato.dif_nom + ' ' + contrato.dif_ape,}));
+                            tbody.append($('<td>',{text: contrato.dif_nom + ' ' + contrato.dif_ape + ' ' + contrato.dif_ape2,}));
                             tbody.append('</td>');
                             tbody.append($('<td>',{text: contrato.dif_dni,}));
                             tbody.append('</td>');
