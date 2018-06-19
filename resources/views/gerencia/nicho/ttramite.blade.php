@@ -92,7 +92,7 @@ $('#sample-data-table').DataTable({
                             Tags
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-danger pull-right fuse-ripple-ready" data-toggle="modal" data-target="#eliminarTrasladoModal" onclick=""> ELMINAR TRASLADO <i class="icon-delete"></i></button>
+                            <button type="button" class="btn btn-danger pull-right fuse-ripple-ready" data-toggle="modal" data-target="#eliminarTrasladoModal" onclick=""> ELIMINAR TRASLADO <i class="icon-delete"></i></button>
                         </li>
 
                     </ul>
