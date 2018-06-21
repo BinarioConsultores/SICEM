@@ -198,9 +198,8 @@
                             <div class="more text-muted">Seleccione los ítems que desee pagar</div>
                         </header>
                         <div class="content activities p-4" id="contenedorprincipal">
-                            @if(sizeof($contratos) > 0)
-                                <button id="btnPagar" hidden="hidden" type="button" class="btn btn-info pull-right fuse-ripple-ready" data-toggle="modal" data-target="#boletaModal">Pagar Items Seleccionados <i class="icon-file-plus"></i>
-                            </button>
+                            @if(sizeof($contratos) > 0 || sizeof($csextras) > 0 )
+                                <button id="btnPagar" hidden="hidden" type="button" class="btn btn-info pull-right fuse-ripple-ready" data-toggle="modal" data-target="#boletaModal">Pagar Items Seleccionados <i class="icon-file-plus"></i></button>
                                 <table id="sample-data-table" class="table">
                                     <thead>
                                         <tr>
@@ -242,34 +241,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($contratos as $i => $contrato)
-                                            <tr>
-                                                <td>{{++$i}}</td>
-                                                <td>Compra Nicho</td>
-                                                @if($contrato->cont_tipopago == "contado")
-                                                    <td>Compra al contado</td>
-                                                    <td>S/. {{$contrato->cont_monto}}</td>
-                                                    <td>{{$contrato->Solicitante->sol_nombre}}</td>
-                                                    <td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}} {{$contrato->Difunto->dif_ape2}}</td>
-                                                    <td><label class="custom-control custom-checkbox">
-                                                        <input type="checkbox" id="checkItem" class="custom-control-input" cont_id="{{$contrato->cont_id}}" csextra_id="0" onchange="marcarPago();" name="checkItem" cont_tipopago="{{$contrato->cont_tipopago}}" cont_monto="{{$contrato->cont_monto}}">
-                                                        <span class="custom-control-indicator fuse-ripple-ready"></span>
-                                                        </label></td>
-                                                @else
-                                                    @if($contrato->cont_tipopago == "credito")
-                                                        <td>Compra al crédito | Cuota inicial</td>   
-                                                        <td>S/. {{$contrato->Convenio->conv_cuotaini}}</td>
+                                        @if(sizeof($contratos) > 0)
+                                            @foreach($contratos as $i => $contrato)
+                                                <tr>
+                                                    <td>{{++$i}}</td>
+                                                    <td>Compra Nicho</td>
+                                                    @if($contrato->cont_tipopago == "contado")
+                                                        <td>Compra al contado</td>
+                                                        <td>S/. {{$contrato->cont_monto}}</td>
                                                         <td>{{$contrato->Solicitante->sol_nombre}}</td>
                                                         <td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}} {{$contrato->Difunto->dif_ape2}}</td>
                                                         <td><label class="custom-control custom-checkbox">
-                                                            <input type="checkbox" id="checkItem" class="custom-control-input" cont_id="{{$contrato->cont_id}}" csextra_id="0" onchange="marcarPago();" name="checkItem" cont_tipopago="{{$contrato->cont_tipopago}}" cont_monto="{{$contrato->Convenio->conv_cuotaini}}">
+                                                            <input type="checkbox" id="checkItem" class="custom-control-input" cont_id="{{$contrato->cont_id}}" csextra_id="0" onchange="marcarPago();" name="checkItem" cont_tipopago="{{$contrato->cont_tipopago}}" cont_monto="{{$contrato->cont_monto}}">
                                                             <span class="custom-control-indicator fuse-ripple-ready"></span>
                                                             </label></td>
+                                                    @else
+                                                        @if($contrato->cont_tipopago == "credito")
+                                                            <td>Compra al crédito | Cuota inicial</td>   
+                                                            <td>S/. {{$contrato->Convenio->conv_cuotaini}}</td>
+                                                            <td>{{$contrato->Solicitante->sol_nombre}}</td>
+                                                            <td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}} {{$contrato->Difunto->dif_ape2}}</td>
+                                                            <td><label class="custom-control custom-checkbox">
+                                                                <input type="checkbox" id="checkItem" class="custom-control-input" cont_id="{{$contrato->cont_id}}" csextra_id="0" onchange="marcarPago();" name="checkItem" cont_tipopago="{{$contrato->cont_tipopago}}" cont_monto="{{$contrato->Convenio->conv_cuotaini}}">
+                                                                <span class="custom-control-indicator fuse-ripple-ready"></span>
+                                                                </label></td>
+                                                        @endif
                                                     @endif
-                                                @endif
- 
-                                            </tr>
-                                        @endforeach
+     
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                         @if(sizeof($csextras)>0)
                                             @php
                                                 $j = sizeof($contratos);
@@ -283,10 +284,10 @@
                                                     <td>S/. {{$csextra->ServicioExtra->sextra_costo}}</td> 
                                                     
                                                     <td>{{$csextra->Contrato->Solicitante->sol_nombre}}</td>
-                                                    <td>{{$csextra->Contrato->Difunto->dif_nom}} {{$csextra->Contrato->Difunto->dif_ape}} {{$contrato->Difunto->dif_ape2}}</td>
+                                                    <td>{{$csextra->Contrato->Difunto->dif_nom}} {{$csextra->Contrato->Difunto->dif_ape}} {{$csextra->Contrato->Difunto->dif_ape2}}</td>
                                                     <td>
                                                         <label class="custom-control custom-checkbox">
-                                                        <input type="checkbox" id="checkItem" class="custom-control-input" cont_id="0" csextra_id="{{$csextra->csextra_id}}" onchange="marcarPago();" name="checkItem" cont_tipopago="{{$contrato->cont_tipopago}}" cont_monto="{{$csextra->Contrato->cont_monto}}" concepto="{{$csextra->ServicioExtra->sextra_desc}}" sextra_costo="{{$csextra->ServicioExtra->sextra_costo}}">
+                                                        <input type="checkbox" id="checkItem" class="custom-control-input" cont_id="0" csextra_id="{{$csextra->csextra_id}}" onchange="marcarPago();" name="checkItem" cont_tipopago="{{$csextra->Contrato->cont_tipopago}}" cont_monto="{{$csextra->Contrato->cont_monto}}" concepto="{{$csextra->ServicioExtra->sextra_desc}}" sextra_costo="{{$csextra->ServicioExtra->sextra_costo}}">
                                                         <span class="custom-control-indicator fuse-ripple-ready">
                                                     </td>
                                                 </tr>

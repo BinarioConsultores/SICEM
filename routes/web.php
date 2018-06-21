@@ -62,6 +62,8 @@ Route::post('/gerencia/nicho/traslado/eliminar','TrasladoController@postEliminar
 Route::post('/gerencia/pabellon/nicho/trasladar','ContratoController@postTrasladarDifunto');
 
 Route::post('/gerencia/pabellon/nicho/solicitarsextra','ContratoController@postSolicitarSextra');
+Route::post('/gerencia/pabellon/nicho/cancelarsolicitud','ContratoController@postCancelarSolicitud');
+
 
 Route::get('/gerencia/busqueda','GerenciaController@getBusqueda');
 

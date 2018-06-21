@@ -62,7 +62,7 @@ class CajaController extends Controller
     		return "error, los pagos no pudieron ser procesados - contacte al administrador del sistema";    	
         }
     	
-      return redirect('/caja/buscar/detalles?conv_id='.$conv_id, ['exito','Las cuotas fueron pagadas de manera exitosa!']);
+      return redirect('/caja/buscar/detalles?conv_id='.$conv_id);
         
     }
     public function postPagarPagosPendientes(Request $request){
