@@ -41,6 +41,29 @@ class ContratoController extends Controller
         
     }
 
+    public function postCancelarSolicitud(Request $request){
+        $this->validate($request, [
+            'csextra_id' => 'required',
+            'nicho_id' => 'required'
+        ]);
+        $nicho = Nicho::findOrFail($request->get('nicho_id'));
+        $pabellon = Pabellon::findOrFail($nicho->pab_id);
+        $now = Carbon::now();
+        
+        $csextra = CSExtra::findOrFail($request->get('csextra_id'));
+        $csextra->delete();
+
+        $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->where('cont_estado','<>','fenecido')->get()[0];
+        $serviciosextra = \DB::select("SELECT * FROM t_servicioextra WHERE t_servicioextra.sextra_id NOT IN (SELECT cs.sextra_id FROM t_csextra cs WHERE cs.cont_id = '$contrato->cont_id')");
+        
+        $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->orderBy('cont_fecha','DESC')->get()[0];
+        $planpagos = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->orderBy('ppago_fechaven')->get();
+        
+        $tras_flag = $now->diffInYears(new Carbon($contrato->cont_fecha));
+        return view('gerencia.nicho.mostrar',['nicho'=>$nicho,'contrato'=>$contrato,'now'=>$now,'planpagos'=>$planpagos,'serviciosextra'=>$serviciosextra,'pabellon'=>$pabellon,'tras_flag'=>$tras_flag]);
+
+    }
+
     public function postEliminarContrato(Request $request){
         $this->validate($request, [
             'cont_id' => 'required',

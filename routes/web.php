@@ -68,6 +68,7 @@ Route::post('/gerencia/pabellon/nicho/cancelarsolicitud','ContratoController@pos
 Route::get('/gerencia/busqueda','GerenciaController@getBusqueda');
 
 Route::get('/createC','DocumentoController@createConstancia');
+Route::get('/createInhumacion','DocumentoController@createInhumacion');
 Route::get('/createA','DocumentoController@createAutorizacion');
 Route::get('/createN','DocumentoController@createNotificacion');
 Route::get('/createPDF','DocumentoController@createPDF');

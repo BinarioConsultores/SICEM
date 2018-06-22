@@ -39,6 +39,16 @@ class DocumentoController extends Controller
 
 
    	}
+
+    public function createInhumacion(Request $request)
+   {
+      $this->validate($request, [
+            'cont_id' => 'required',
+        ]);
+      $now = Carbon::now();
+      $contrato = Contrato::findOrFail($request->get('cont_id'));
+      return view('gerencia.documentos.inhumacion',['contrato'=>$contrato,'now'=>$now]);
+    }
     public function createNotificacion(Request $request)
     {
          $this->validate($request, [
@@ -58,7 +68,14 @@ class DocumentoController extends Controller
         $now = Carbon::now();
         $cont_id=$request->get('cont_id');
         $contrato = Contrato::findOrFail($cont_id);
-        return view('gerencia.documentos.contrato',['now'=>$now,'contrato'=>$contrato]);
+        $planPagos = PlanPago::where('conv_id',$contrato->Convenio->conv_id)->orderBy('ppago_nrocuota','asc')->get();
+        if ($contrato->cont_tipopago == "credito") {
+          return view('gerencia.documentos.contratocredito',['now'=>$now,'contrato'=>$contrato, 'planpagos'=>$planPagos]);  
+        }
+        else{
+          return view('gerencia.documentos.contratocontado',['now'=>$now,'contrato'=>$contrato]); 
+        }
+        
     }
     public function createPDF(Request $request)
     {

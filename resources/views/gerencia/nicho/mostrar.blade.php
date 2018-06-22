@@ -177,7 +177,7 @@
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="dif_ape" id="dif_ape"  placeholder="Apellido del Difunto" required value="{{$contrato->Difunto->dif_ape}}">
-                                <label for="dif_ape"><i class="icon-account-box"></i> Apellido paterno del Difunto</label>
+                                <label for="dif_ape"><i class="icon-account-box"></i> Apellidos</label>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="dif_ape2" id="dif_ape2"  placeholder="Apellido del Difunto" required value="{{$contrato->Difunto->dif_ape2}}">
@@ -216,22 +216,35 @@
                     <ul class="nav flex-column">
                         <li class="subheader">Menú</li>
                         <li class="nav-item">
-                            <a  href="/createC?nicho_id={{$nicho->nicho_id}}" class="btn btn-secondary ml-5">Constancia <i class="icon-arrow-down-bold-box"></i> </a>
+                            <a href="/createC?nicho_id={{$nicho->nicho_id}}" class="btn btn-block btn-secondary ml-5">Constancia <i class="icon-arrow-down-bold-box"></i> </a>
                         </li>
                         <?php $flag = 0; ?>
-                        @if(sizeof($planpagos)>=0 && $tras_flag >= 1)
+                        @if(sizeof($planpagos)>=0)
                             @foreach ($planpagos as $ppago)
                                 @if($ppago->ppago_saldocuota==0)
                                     <?php $flag = $flag + 1; ?>
                                 @endif
                             @endforeach
-                            @if($flag == sizeof($planpagos) && $tras_flag >= 1)
+                            @if($flag == sizeof($planpagos))
                                 <md-divider class="mb-5"> </md-divider>
                                 <li class="nav-item">
-                                    <a href="/gerencia/pabellon/nicho/traslado/{{$contrato->cont_id}}" class="btn btn-secondary ml-5">Trasladar  <i class="icon-move-resize-variant"></i> </a>
+                                    <a href="/gerencia/pabellon/nicho/traslado/{{$contrato->cont_id}}" class="btn btn-block btn-secondary ml-5">Trasladar  <i class="icon-move-resize-variant"></i> </a>
+                                </li>
+                            @else
+                                <md-divider class="mb-5"> </md-divider>
+                                <li class="nav-item">
+                                    <a href="/gerencia/pabellon/nicho/traslado/{{$contrato->cont_id}}" class="btn btn-block btn-secondary ml-5 disabled">Trasladar  <i class="icon-move-resize-variant"></i> </a>
                                 </li>
                             @endif
                         @endif
+                        <md-divider class="mb-5"> </md-divider>
+                        <li class="nav-item">
+                            <a  href="/createContrato?cont_id={{$contrato->cont_id}}" class="btn btn-block btn-secondary ml-5">Contrato <i class="icon-arrow-down-bold-box"></i></a>
+                        </li>
+                        <md-divider class="mb-5"> </md-divider>
+                        <li class="nav-item">
+                            <a  href="/createInhumacion?cont_id={{$contrato->cont_id}}" class="btn btn-block btn-secondary ml-5">Inhumación <i class="icon-arrow-down-bold-box"></i></a>
+                        </li>
                     </ul>
                 </div>
             </aside>
@@ -310,7 +323,6 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <a  href="/createContrato?cont_id={{$contrato->cont_id}}" class="btn btn-secondary pull-right">Descargar Contrato <i class="icon-arrow-down-bold-box"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -328,7 +340,7 @@
                                         <div class="content">
                                             <div class="table-responsive">
                                                 <div class="col-md-12 p-2">
-                                                    <img src="/assets/images/nicho/{{$nicho->nicho_pathimag}}">
+                                                    <img src="/assets/images/nicho/{{$nicho->nicho_pathimag}}" width="50%" height="50%">
                                                 </div>
                                                 <button type="button" class="btn btn-secondary pull-right fuse-ripple-ready" data-toggle="modal" data-target="#editarImgNichoModal" onclick=""><i class="icon-pencil"></i></button>
                                             </div>
@@ -351,9 +363,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
-                                                            <th>Nombre</th>
-                                                            <th>Apellido Paterno</th>
-                                                            <th>Apellido Materno</th>
+                                                            <th>Nombres y Apellidos</th>
                                                             <th>Nro. DNI</th>
                                                             <th>Fecha de Defunción</th>
                                                             <th>Observaciones</th>
@@ -362,9 +372,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <th scope="row">1</th>
-                                                            <td>{{$contrato->Difunto->dif_nom}}</td>
-                                                            <td>{{$contrato->Difunto->dif_ape}}</td>
-                                                            <td>{{$contrato->Difunto->dif_ape2}}</td>
+                                                            <td>{{$contrato->Difunto->dif_nom}} {{$contrato->Difunto->dif_ape}} {{$contrato->Difunto->dif_ape2}}</td>
                                                             <td>{{$contrato->Difunto->dif_dni}}</td>
                                                             <td>{{$contrato->Difunto->dif_fechadef}}</td>
                                                             <td>{{$contrato->Difunto->dif_obser}}</td>
@@ -455,13 +463,18 @@
                                                         @foreach($contrato->CSExtras as $CSExtra)
                                                         <tr>
                                                            <td>{{$cont++}}</td>
-                                                            <td>{{$CSExtra->ServicioExtra->sextra_desc}}</td>
+                                                           <td>{{$CSExtra->ServicioExtra->sextra_desc}}</td>
                                                             @if($CSExtra->bolde_id==1)
                                                                 <td>Solicitado</td>
-                                                                <td>No hay pago registrado</td>
+                                                                <td><form method="POST" action="/gerencia/pabellon/nicho/cancelarsolicitud">
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                                    <input type="hidden" name="csextra_id" value="{{$CSExtra->csextra_id}}">
+                                                                    <input type="hidden" name="nicho_id" value="{{$nicho->nicho_id}}">
+                                                                    <button type="submit" class="submit-button btn btn-danger my-4 mx-auto fuse-ripple-ready">Cancelar Solicitud</button>
+                                                                    </form></td>
                                                             @else
                                                                 <td>Pagado</td>
-                                                                <td><a href="/createA?nicho_id={{$nicho->nicho_id}}" class="nav-link">Descargar <i class="icon-arrow-down-bold-box"></i></a></td> 
+                                                                <td><a href="/createA?nicho_id={{$nicho->nicho_id}}" class="btn btn-secondary">Descargar <i class="icon-arrow-down-bold-box"></i></a></td> 
                                                             @endif
                                                         </tr> 
                                                         @endforeach                                                 
@@ -585,6 +598,15 @@
                                                     <div class="alert alert-success" role="alert">
                                                         No tiene Cuotas que pagar o la deuda está cancelada
                                                     </div>
+                                                    <tbody>
+                                                        <tr class="deuda-pagada">
+                                                        <td>1</td>
+                                                        <td>{{$contrato->BoletaDetalle->Boleta->bol_fecha}}</td>
+                                                        <td>{{$contrato->BoletaDetalle->bolde_monto}}</td>
+                                                        <td>0</td>
+                                                        <td><i class="icon-check-all"></td>
+                                                        </tr>
+                                                    </tbody>
                                                 @endif
                                             </table>
                                         </div>

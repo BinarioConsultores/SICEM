@@ -224,22 +224,24 @@
   
   <body style="font-family: 'Calibri';">
       <img src="{{asset('assets/images/logo_documento.png')}}">
+      <p style='text-align:center'><FONT FACE="Eras Medium ITC"><strong>AUTORIZACIÓN</strong></FONT></p>
+
+      <p style='text-align:right'><FONT FACE="Eras Medium ITC">La que suscribe, Mary Carmen Vizcarra Loayza, Encargada del Area Funcional del Registro Civil y Cementerios</FONT></p>
       
-      <p style='text-align:right;'><FONT FACE="Eras Medium ITC"><strong>LA ENCARGADA DEL AREA FUNCIONAL DE REGISTRO CIVIL Y CEMENTERIOS DE LA MUNICIPALIDAD DISTRITAL DE SACHACA:</strong></FONT></p>
+      <p style='text-align:center'><FONT FACE="Eras Medium ITC"><strong>AUTORIZA</strong></FONT></p>
 
-      <p style='text-align:center'><FONT FACE="Eras Medium ITC"><strong>DEJA CONSTANCIA:</strong></FONT></p>
-      <p style='text-align:justify'><FONT FACE="Eras Medium ITC">Que en el cementerio Municipal de Sachaca, se encuentran sepultados los restos mortales de quien en vida fue: <strong>{{$contrato->Solicitante->sol_nombre}}</strong>, en el nicho de Nro. {{$contrato->Nicho->nicho_nro}}, de la <strong>@php echo $filaenletra @endphp </strong> fila del Pabellón <strong>{{$contrato->Nicho->Pabellon->pab_nom}}</strong>, del cementerio de: <strong>{{$contrato->Nicho->Pabellon->Cementerio->cement_nom}}</strong></FONT>, sepultada el día <strong>{{$contrato->cont_diffechsep}}</strong>.</p>
+      <p style='text-align:justify'><FONT FACE="Eras Medium ITC">Al Sr.(a.) <strong>{{$contrato->Solicitante->sol_nombre}}</strong>, identificado con D.N.I. Nro. <strong>{{$contrato->Solicitante->sol_dni}}</strong>, domiciliado en <strong>{{$contrato->Solicitante->sol_dir}}</strong> para que proceda a INHUMAR los restos de quien en vida fue: <strong>{{$contrato->Difunto->dif_nom}}</strong>, en el nicho Nro. <strong>{{$contrato->Nicho->nicho_nro}}</strong>, de la @php echo $filaenletra; @endphp fila del pabellón <strong>{{$contrato->Nicho->Pabellon->pab_nom}}</strong>, del cementerio <strong>{{$contrato->Nicho->Pabellon->Cementerio->cement_nom}}</strong>, el día <strong>{{$contrato->cont_fecha}}</strong> a las _____________ horas.</p>
 
-      <p align='justify' style='text-align:justify'>Se expide la presente constancia a solicitud de la parte interesada, y para los fines que determine</p><br />
+      <p style='text-align:justify'><FONT FACE="Eras Medium ITC">Se extiende la presente solicitud de la parte interesada para los fines consiguientes.</FONT></p><br/>
 
-      <p align='right'> Arequipa, {{$now->day}} de <?php echo $mes; ?> del {{$now->year}}.</p>
+      <p style='text-align:right;'><FONT FACE="Eras Medium ITC"> Arequipa, {{$now->day}} de <?php echo $mes; ?> del {{$now->year}}.</FONT></p>
   </body>
             
 </html>
 <?php
   $reporte = ob_get_clean();
   header('Content-Type: application/vnd.ms-word');
-  header("Content-Disposition: attachment; filename=CONSTANCIA {$contrato->Solicitante->sol_nombre}.doc");  
+  header("Content-Disposition: attachment; filename=INHUMACION {$contrato->Solicitante->sol_nombre}.doc");  
   header("Pragma: no-cache");  
   header("Expires: 0");   
 
