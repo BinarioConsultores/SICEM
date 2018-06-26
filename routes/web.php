@@ -65,6 +65,9 @@ Route::post('/gerencia/pabellon/nicho/solicitarsextra','ContratoController@postS
 Route::post('/gerencia/pabellon/nicho/cancelarsolicitud','ContratoController@postCancelarSolicitud');
 
 
+
+
+
 Route::get('/gerencia/busqueda','GerenciaController@getBusqueda');
 
 Route::get('/createC','DocumentoController@createConstancia');

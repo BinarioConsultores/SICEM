@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use sicem\Nicho;
 use sicem\Traslado;
 use sicem\Solicitante;
+use sicem\BDPPago;
 use sicem\Difunto;
 use Carbon\Carbon;
 use sicem\Contrato;
@@ -64,13 +65,31 @@ class ContratoController extends Controller
 
     }
 
+
+
+
     public function postEliminarContrato(Request $request){
         $this->validate($request, [
             'cont_id' => 'required',
-            'pab_id' => 'required',
         ]);
         $contrato = Contrato::findOrFail($request->get('cont_id'));
-        $pabellon = Pabellon::findOrFail($request->get('pab_id'));
+        $pabellon = $contrato->Nicho->Pabellon;
+
+        $nrofil = $pabellon->pab_nrofil;
+        $nrocol = $pabellon->pab_nrocol;
+        $nichos[0][0]=0;
+
+        for($i=1;$i<=$nrofil;$i++)
+        {
+            for($j=1;$j<=$nrocol;$j++)
+            {
+                $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pabellon->pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
+            }
+        }
+
+        if (Traslado::where('cont_id_ant',$contrato->cont_id)->orwhere('cont_id_nue',$contrato->cont_id)->count() > 0){
+            return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('error', 'El contrato no se puede eliminar por que está involucrado en algún traslado, contacte al administrador del sistema.');
+        }
 
         if ($contrato->cont_tipopago == "credito") {
             \DB::transaction(function() use ($contrato){
@@ -78,8 +97,18 @@ class ContratoController extends Controller
                 $sol_id = $contrato->sol_id;
                 $dif_id = $contrato->dif_id;
                 $conv_id = $contrato->conv_id;
+                
+
+                $planespago = PlanPago::where('conv_id',$conv_id)->get();
+                foreach ($planespago as $key => $planpago) {
+                    BDPPago::where('ppago_id',$planpago->ppago_id)->delete();
+                }
+                $planespago = PlanPago::where('conv_id',$conv_id)->delete();
+
+                CSExtra::where('cont_id',$conv_id)->delete();
+
                 $contrato->delete();
-                $planPagos = PlanPago::where('conv_id',$conv_id)->delete();
+
                 if (Contrato::where('cont_id','!=',$cont_id)->where('sol_id',$sol_id)->count() == 0) {
                     Solicitante::where('sol_id',$sol_id)->delete();
                 }
@@ -89,7 +118,10 @@ class ContratoController extends Controller
                 $nicho = $contrato->Nicho;
                 $nicho->nicho_est = 'libre';
                 $nicho->save();
-                Convenio::where('conv_id',$conv_id)->delete();
+
+                if ($conv_id!=1) {
+                    Convenio::where('conv_id',$conv_id)->delete();
+                }
                 
             });
         }else{
@@ -100,7 +132,9 @@ class ContratoController extends Controller
                     $cont_id = $contrato->cont_id;
                     $sol_id = $contrato->sol_id;
                     $dif_id = $contrato->dif_id;
+                    $csextras = CSExtra::where('cont_id',$cont_id)->delete();
                     $contrato->delete();
+
                     if (Contrato::where('cont_id','!=',$cont_id)->where('sol_id',$sol_id)->count() == 0) {
                         Solicitante::where('sol_id',$sol_id)->delete();
                     }
@@ -111,27 +145,12 @@ class ContratoController extends Controller
                     $nicho->nicho_est = 'libre';
                     $nicho->save();
                     
-
                 });  
             }
         }
 
-        $pab_id=$request->get('pab_id');
-        $nrofil = $pabellon->pab_nrofil;
-        $nrocol = $pabellon->pab_nrocol;
-        $nichos[0][0]=0;
-
-        for($i=1;$i<=$nrofil;$i++)
-        {
-            for($j=1;$j<=$nrocol;$j++)
-            {
-                $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
-            }
-        }
 
         return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('eliminado', 'Contrado Eliminado de Manera Correcta');
-        //return view('caja.compraexitosa');
-
     }
 
     public function postSolicitarSextra(Request $request){

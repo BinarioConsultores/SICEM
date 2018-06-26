@@ -8,6 +8,7 @@ use sicem\Cementerio;
 use carbon\carbon;
 use sicem\ServicioExtra;
 use sicem\User;
+use sicem\CSExtra;
 use sicem\Nicho;
 use sicem\Contrato;
 use sicem\PlanPago;
@@ -30,12 +31,11 @@ class DocumentoController extends Controller
    {
    		
    		$this->validate($request, [
-            'nicho_id' => 'required',
+            'csextra_id' => 'required',
         ]);
         $now = Carbon::now();
-        $nicho = Nicho::findOrFail($request->get('nicho_id'));
-   		  $contrato = Contrato::where('nicho_id',$nicho->nicho_id)->orderBy('cont_fecha','DESC')->get()[0];
-   		return view('gerencia.documentos.autorizacion',['contrato'=>$contrato,'now'=>$now]);
+        $csextra = CSExtra::findOrFail($request->get('csextra_id'));
+   		return view('gerencia.documentos.autorizacion',['csextra'=>$csextra,'now'=>$now]);
 
 
    	}

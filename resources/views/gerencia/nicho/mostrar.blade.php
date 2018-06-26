@@ -56,7 +56,28 @@
 <div class="content">
     <div class="page-layout carded left-sidebar">
         <div class="top-bg bg-primary"></div>
+        <div class="modal fade" id="eliminarContratoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">¿Seguro que desea eliminar el contrato?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label>Cuando <strong>elimine</strong> el contrato, se elminarán el difunto, solicitante(de no tener a su cargo otros nichos), se desocupará el nicho y se eliminará cualquier registro de pago que exista en el contrato en mención.</label>
+                        <form method="post" action="/gerencia/contrato/eliminar">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="cont_id" value="{{$contrato->cont_id}}">
+                        <button type="submit" class="submit-button btn btn-block btn-danger my-4 mx-auto fuse-ripple-ready">ELIMINAR</button>
+                        <button type="button" class="submit-button btn btn-block btn-info my-4 mx-auto fuse-ripple-ready" data-dismiss="modal">Cancelar</button>
 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="nuevoServicioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -244,6 +265,10 @@
                         <md-divider class="mb-5"> </md-divider>
                         <li class="nav-item">
                             <a  href="/createInhumacion?cont_id={{$contrato->cont_id}}" class="btn btn-block btn-secondary ml-5">Inhumación <i class="icon-arrow-down-bold-box"></i></a>
+                        </li>
+                        <md-divider class="mb-5"> </md-divider>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-block btn-danger ml-5" data-toggle="modal" data-target="#eliminarContratoModal" onclick=""> ELMINAR CONTRATO <i class="icon-delete"></i></button>
                         </li>
                     </ul>
                 </div>
@@ -474,7 +499,7 @@
                                                                     </form></td>
                                                             @else
                                                                 <td>Pagado</td>
-                                                                <td><a href="/createA?nicho_id={{$nicho->nicho_id}}" class="btn btn-secondary">Descargar <i class="icon-arrow-down-bold-box"></i></a></td> 
+                                                                <td><a href="/createA?csextra_id={{$CSExtra->csextra_id}}" class="btn btn-secondary">Descargar <i class="icon-arrow-down-bold-box"></i></a></td> 
                                                             @endif
                                                         </tr> 
                                                         @endforeach                                                 

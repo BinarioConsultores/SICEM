@@ -1,10 +1,10 @@
-<?php
+@php
   ob_start();
   $mes = "";
   $mesf = "";
   
   $valor = $now->month;
-  $cont_diffechsep = $contrato->cont_diffechsep;
+  $cont_diffechsep = $csextra->Contrato->cont_diffechsep;
   $datosfecha = explode("-", $cont_diffechsep);
   $dia = $datosfecha[2];
   $mesf1 = $datosfecha[1];
@@ -86,7 +86,138 @@
         $mesf =" Diciembre";
         break;  
   }
-?>
+
+  $pab_nrofil = $csextra->Contrato->Nicho->Pabellon->pab_nrofil;
+  $nicho_fila = $csextra->Contrato->Nicho->nicho_fila;
+  $filaenletra = "";
+  if ($pab_nrofil == 7) {
+    switch ($nicho_fila) {
+      case 7:
+        $filaenletra = "primera";
+        break;
+      case 6:
+        $filaenletra = "segunda";
+        break;
+      case 5:
+        $filaenletra = "tercera";
+        break;
+      case 4:
+        $filaenletra = "cuarta";
+        break;
+      case 3:
+        $filaenletra = "quinta";
+        break;
+      case 2:
+        $filaenletra = "sexta";
+        break;
+      case 1:
+        $filaenletra = "séptima";
+        break;
+      default:
+        $filaenletra = $nicho_fila;
+        break;
+    }
+  }
+  elseif ($pab_nrofil == 6) {
+    switch ($nicho_fila) {
+      case 6:
+        $filaenletra = "primera";
+        break;
+      case 5:
+        $filaenletra = "segunda";
+        break;
+      case 4:
+        $filaenletra = "tercera";
+        break;
+      case 3:
+        $filaenletra = "cuarta";
+        break;
+      case 2:
+        $filaenletra = "quinta";
+        break;
+      case 1:
+        $filaenletra = "sexta";
+        break;
+      default:
+        $filaenletra = $nicho_fila;
+        break;
+    }
+  }
+  elseif ($pab_nrofil == 5) {
+    switch ($nicho_fila) {
+      case 5:
+        $filaenletra = "primera";
+        break;
+      case 4:
+        $filaenletra = "segunda";
+        break;
+      case 3:
+        $filaenletra = "tercera";
+        break;
+      case 2:
+        $filaenletra = "cuarta";
+        break;
+      case 1:
+        $filaenletra = "quinta";
+        break;
+      default:
+        $filaenletra = $nicho_fila;
+        break;
+    }
+  }
+  elseif ($pab_nrofil == 4) {
+    switch ($nicho_fila) {
+      case 4:
+        $filaenletra = "primera";
+        break;
+      case 3:
+        $filaenletra = "segunda";
+        break;
+      case 2:
+        $filaenletra = "tercera";
+        break;
+      case 1:
+        $filaenletra = "cuarta";
+        break;
+      default:
+        $filaenletra = $nicho_fila;
+        break;
+    }  
+  }
+  elseif ($pab_nrofil == 3) {
+    switch ($nicho_fila) {
+      case 3:
+        $filaenletra = "primera";
+        break;
+      case 2:
+        $filaenletra = "segunda";
+        break;
+      case 1:
+        $filaenletra = "tercera";
+        break;
+      default:
+        $filaenletra = $nicho_fila;
+        break;
+    }  
+  }
+  elseif ($pab_nrofil == 2) {
+    switch ($nicho_fila) {
+      case 2:
+        $filaenletra = "primera";
+        break;
+      case 1:
+        $filaenletra = "segunda";
+        break;
+      default:
+        $filaenletra = $nicho_fila;
+        break;
+    }  
+  }
+
+
+
+
+@endphp
 
 <html lang="es">
   <head>
@@ -95,20 +226,20 @@
   </head>
   
   <body>
-      <img src='' height='180' width='140'>
-      <p align='center'><strong>AUTORIZACION</strong> </p><br />
-      <p align='right'> El(La) que suscribe, {{ Auth::user()->name }}, Encargada del Departamento de Registro Civil y Cementerios</p><br /> <br />
-      <p align='center'><strong>AUTORIZA</strong> </p><br />
-      <p align='justify' style='text-align:justify'> Al Sr.(a.) <strong> {{$contrato->solicitante->sol_nombre}} </strong>, identificado con D.N.I. Nro. <strong> {{$contrato->solicitante->sol_dni}}</strong>, domiciliado en <strong>{{$contrato->solicitante->sol_dir}}</strong>, para que proceda a colocar una <strong>LAPIDA</strong>, en el nicho Nro.<strong> {{$contrato->Nicho->nicho_nro}}</strong>, de la fila <strong> {{$contrato->Nicho->nicho_fila}}</strong>  del Pabellón <strong>{{$contrato->Nicho->Pabellon->pab_nom}}</strong>, del Cementerio Sachaca Antiguo, donde se encuentran enterrados los restos de quien en vida fue: <strong>{{$contrato->Difunto->dif_nom}}  {{$contrato->Difunto->dif_ape}}   {{$contrato->Difunto->dif_ape2}}</strong>, el día <?php echo $dia; ?>  de <?php echo $mesf; ?> del <?php echo $año; ?>. 
+      <img src="{{asset('assets/images/logo_documento.png')}}">
+      <p style="text-align: center;"><FONT FACE="Eras Medium ITC"><strong>AUTORIZACIÓN</strong></FONT></p>
+      <p style='text-align: right'><FONT FACE="Eras Medium ITC">La que suscribe, Mary Carmen Vizcarra Loayza, Encargada del Area Funcional del Registro Civil y Cementerios</FONT></p>
+      <p style="text-align: center;"><FONT FACE="Eras Medium ITC"><strong>AUTORIZA</strong></FONT></p>
+      <p style='text-align: justify'><FONT FACE="Eras Medium ITC"> Al Sr.(a.) <strong>{{$csextra->Contrato->Solicitante->sol_nombre}}</strong>, identificado con D.N.I. Nro. <strong> {{$csextra->Contrato->Solicitante->sol_dni}}</strong>, domiciliado en <strong>{{$csextra->Contrato->Solicitante->sol_dir}}</strong>, para que proceda a colocar una <strong>{{$csextra->ServicioExtra->sextra_desc}}</strong>, en el nicho Nro.<strong> {{$csextra->Contrato->Nicho->nicho_nro}}</strong>, de la <strong> @php echo $filaenletra; @endphp</strong>  del Pabellón <strong>{{$csextra->Contrato->Nicho->Pabellon->pab_nom}}</strong>, del Cementerio {{$csextra->Contrato->Nicho->Pabellon->Cementerio->cement_nom}}, donde se encuentran enterrados los restos de quien en vida fue: <strong>{{$csextra->Contrato->Difunto->dif_nom}} {{$csextra->Contrato->Difunto->dif_ape}} {{$csextra->Contrato->Difunto->dif_ape2}}</strong>, el día {{$csextra->Contrato->cont_fecha}}</FONT></p>
       
-      <br /> <br /><p align='right'> Arequipa, {{$now->day}} de <?php echo $mes; ?> del {{$now->year}}.</p>
+      <p style='text-align: right'><FONT FACE="Eras Medium ITC"> Arequipa, {{$now->day}} de <?php echo $mes; ?> del {{$now->year}}.</FONT></p>
   </body>
             
 </html>
 <?php
   $reporte = ob_get_clean();
   header('Content-Type: application/vnd.ms-word');
-  header("Content-Disposition: attachment; filename=AUTORIZACION.doc");  
+  header("Content-Disposition: attachment; filename=AUTORIZACION {$csextra->ServicioExtra->sextra_desc}-{$csextra->Contrato->Solicitante->sol_nombre}.doc");  
   header("Pragma: no-cache");  
   header("Expires: 0");   
 
