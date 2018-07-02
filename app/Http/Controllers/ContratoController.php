@@ -172,6 +172,46 @@ class ContratoController extends Controller
         return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('eliminado', 'Contrado Eliminado de Manera Correcta');
     }
 
+    public function postFinalizarContrato(Request $request){
+        $this->validate($request, [
+            'cont_id' => 'required',
+        ]);
+        $contrato = Contrato::findOrFail($request->get('cont_id'));
+        
+
+        \DB::transaction(function() use ($contrato){
+            $contrato->cont_estado = "finalizado";
+
+            $contrato->save();
+
+            $nicho = $contrato->Nicho;
+            $nicho->nicho_est = 'libre';
+            $nicho->save();
+        });
+        
+        $pabellon = $contrato->Nicho->Pabellon;
+
+        $nrofil = $pabellon->pab_nrofil;
+        $nrocol = $pabellon->pab_nrocol;
+        $nichos[0][0]=0;
+
+        for($i=1;$i<=$nrofil;$i++)
+        {
+            for($j=1;$j<=$nrocol;$j++)
+            {
+                $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pabellon->pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
+            }
+        }
+
+        if (Traslado::where('cont_id_ant',$contrato->cont_id)->orwhere('cont_id_nue',$contrato->cont_id)->count() > 0){
+            return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('error', 'El contrato no se puede eliminar por que está involucrado en algún traslado, contacte al administrador del sistema.');
+        }
+
+
+
+        return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('liberado', 'Contrado Finalizado y Nicho Liberado de Manera Correcta');
+    }
+
     public function postSolicitarSextra(Request $request){
         $this->validate($request, [
             'cont_id' => 'required',
