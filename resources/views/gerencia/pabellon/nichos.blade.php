@@ -50,7 +50,7 @@
     <div class="doc data-table-doc page-layout simple full-width">
         <!-- HEADER -->
         <div class="page-header bg-secondary text-auto p-6 row no-gutters align-items-center justify-content-between">
-            <h2 class="doc-title" id="content">Pabellon -> {{$pabellon->pab_nom}}</h2>
+            <h2 class="doc-title" id="content">Pabellon -> {{$pabellon->pab_nom}} | Cementerio -> {{$pabellon->Cementerio->cement_nom}}</h2>
         </div>
 		 
 		@if (!empty($creado))

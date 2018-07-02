@@ -495,7 +495,8 @@
                                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                                     <input type="hidden" name="csextra_id" value="{{$CSExtra->csextra_id}}">
                                                                     <input type="hidden" name="nicho_id" value="{{$nicho->nicho_id}}">
-                                                                    <button type="submit" class="submit-button btn btn-danger my-4 mx-auto fuse-ripple-ready">Cancelar Solicitud</button>
+                                                                    <button type="submit" class="submit-button btn btn-danger my-4 mx-auto fuse-ripple-ready">Cancelar Solicitud <i class="icon-cancel"></i></button>
+                                                                    <a href="/gerencia/pabellon/nicho/ticketautorizacion?csextra_id={{$CSExtra->csextra_id}}" class="submit-button btn btn-primary my-4 mx-auto fuse-ripple-ready">Ticket <i class="icon-ticket-confirmation"></i></button>
                                                                     </form></td>
                                                             @else
                                                                 <td>Pagado</td>

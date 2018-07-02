@@ -85,15 +85,15 @@ $('#sample-data-table').DataTable({
                         <div class="p-6">
                             <a  href="/createC?nicho_id={{$nicho->nicho_id}}" class="btn btn-secondary btn-block fuse-ripple-ready disabled">Constancia <i class="icon-arrow-down-bold-box"></i></button> </a>
                         </div>
-                        
 
-                        <md-divider></md-divider>
-                        <li class="subheader">
-                            Tags
-                        </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-danger pull-right fuse-ripple-ready" data-toggle="modal" data-target="#eliminarContratoModal" onclick=""> ELMINAR CONTRATO <i class="icon-delete"></i></button>
+                            <button type="button" class="btn btn-block btn-danger ml-5 fuse-ripple-ready" data-toggle="modal" data-target="#eliminarContratoModal" onclick=""> ELMINAR CONTRATO <i class="icon-delete"></i></button>
                         </li>
+                        <md-divider class="mb-5"></md-divider>
+                        <li class="nav-item">
+                            <a href="/gerencia/pabellon/nicho/ticketcompra?cont_id={{$contrato->cont_id}}" class="btn btn-block btn-primary ml-5 fuse-ripple-ready" onclick=""> TICKET DE PAGO <i class="icon-ticket-confirmation"></i></a>
+                        </li>
+
 
                     </ul>
                 </div>

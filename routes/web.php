@@ -63,6 +63,9 @@ Route::post('/gerencia/pabellon/nicho/trasladar','ContratoController@postTraslad
 
 Route::post('/gerencia/pabellon/nicho/solicitarsextra','ContratoController@postSolicitarSextra');
 Route::post('/gerencia/pabellon/nicho/cancelarsolicitud','ContratoController@postCancelarSolicitud');
+Route::get('/gerencia/pabellon/nicho/ticketautorizacion','ContratoController@getTicketAutorizacion');
+Route::get('/gerencia/pabellon/nicho/ticketcompra','ContratoController@getTicketCompra');
+
 
 
 

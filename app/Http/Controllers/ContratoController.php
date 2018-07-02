@@ -42,6 +42,22 @@ class ContratoController extends Controller
         
     }
 
+    public function getTicketAutorizacion(Request $request){
+        $this->validate($request, [
+            'csextra_id' => 'required',
+        ]);
+        $csextra = CSExtra::findOrFail($request->get('csextra_id'));
+        return view('gerencia.ticketautorizacion',['csextra'=>$csextra]);
+    }
+
+    public function getTicketCompra(Request $request){
+        $this->validate($request, [
+            'cont_id' => 'required',
+        ]);
+        $contrato = Contrato::findOrFail($request->get('cont_id'));
+        return view('gerencia.ticketcompra',['contrato'=>$contrato]);
+    }
+
     public function postCancelarSolicitud(Request $request){
         $this->validate($request, [
             'csextra_id' => 'required',
@@ -73,23 +89,7 @@ class ContratoController extends Controller
             'cont_id' => 'required',
         ]);
         $contrato = Contrato::findOrFail($request->get('cont_id'));
-        $pabellon = $contrato->Nicho->Pabellon;
-
-        $nrofil = $pabellon->pab_nrofil;
-        $nrocol = $pabellon->pab_nrocol;
-        $nichos[0][0]=0;
-
-        for($i=1;$i<=$nrofil;$i++)
-        {
-            for($j=1;$j<=$nrocol;$j++)
-            {
-                $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pabellon->pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
-            }
-        }
-
-        if (Traslado::where('cont_id_ant',$contrato->cont_id)->orwhere('cont_id_nue',$contrato->cont_id)->count() > 0){
-            return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('error', 'El contrato no se puede eliminar por que está involucrado en algún traslado, contacte al administrador del sistema.');
-        }
+        
 
         if ($contrato->cont_tipopago == "credito") {
             \DB::transaction(function() use ($contrato){
@@ -148,6 +148,25 @@ class ContratoController extends Controller
                 });  
             }
         }
+
+        $pabellon = $contrato->Nicho->Pabellon;
+
+        $nrofil = $pabellon->pab_nrofil;
+        $nrocol = $pabellon->pab_nrocol;
+        $nichos[0][0]=0;
+
+        for($i=1;$i<=$nrofil;$i++)
+        {
+            for($j=1;$j<=$nrocol;$j++)
+            {
+                $nichos[$i-1][$j-1]=Nicho::where('pab_id',$pabellon->pab_id)->where('nicho_fila',$i)->where('nicho_col',$j)->get()[0];
+            }
+        }
+
+        if (Traslado::where('cont_id_ant',$contrato->cont_id)->orwhere('cont_id_nue',$contrato->cont_id)->count() > 0){
+            return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('error', 'El contrato no se puede eliminar por que está involucrado en algún traslado, contacte al administrador del sistema.');
+        }
+
 
 
         return view('gerencia.pabellon.nichos',['pabellon'=>$pabellon,'nichos'=>$nichos])->with('eliminado', 'Contrado Eliminado de Manera Correcta');
