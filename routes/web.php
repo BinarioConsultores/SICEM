@@ -83,6 +83,7 @@ Route::get('/createContrato','DocumentoController@createContrato');
 Route::get('/gerencia/deudas','PlanPagoController@getIndex');
 Route::get('/gerencia/deudas/detalles','PlanPagoController@getDetalleDeuda');
 Route::post('/gerencia/contrato/eliminar','ContratoController@postEliminarContrato');
+Route::post('/gerencia/contrato/finalizar','ContratoController@postFinalizarContrato');
 
 
 //Caja
