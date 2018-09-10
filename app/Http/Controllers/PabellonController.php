@@ -47,19 +47,19 @@ class PabellonController extends Controller
         $pabellon->pab_cantnicho = $request->get('pab_cantnicho');
         $pabellon->pab_tiponum = $request->get('pab_tiponum');
         $pabellon->cement_id = $request->get('cement_id');
-        $pabellon->pab_pathimag = "";
+        $pabellon->pab_pathimag = "no";
         $pabellon->save();
 
         $tiponum = $request->get('pab_tiponum');
         $nrofil = $request->get('pab_nrofil');
         $nrocol = $request->get('pab_nrocol');
 
-        $imagen = $request->file('pab_pathimag');
-        $ruta = '/assets/images/pabellones/';
-      	$nombre = $pabellon->pab_id.".".$imagen->guessExtension();
-  	    $pabellon->pab_pathimag = $pabellon->pab_id.".".$imagen->guessExtension();
-    		$pabellon->save();
-    		$imagen->move(getcwd().$ruta, $nombre);
+        //$imagen = $request->file('pab_pathimag');
+        //$ruta = '/assets/images/pabellones/';
+      	//$nombre = $pabellon->pab_id.".".$imagen->guessExtension();
+  	    //$pabellon->pab_pathimag = $pabellon->pab_id.".".$imagen->guessExtension();
+    		//$pabellon->save();
+    		//$imagen->move(getcwd().$ruta, $nombre);
     		$cementerio = Cementerio::find($pabellon->cement_id);
 
         $cont=1;
@@ -328,7 +328,9 @@ class PabellonController extends Controller
       session()->forget('solicitante');
        
       $pab_id=$request->get('pab_id');
+
       $pabellon = Pabellon::find($pab_id);
+      
       $nrofil = $pabellon->pab_nrofil;
       $nrocol = $pabellon->pab_nrocol;
       $nichos[0][0]=0;

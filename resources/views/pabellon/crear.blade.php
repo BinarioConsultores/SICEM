@@ -140,10 +140,10 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="form-group">
+                                                {{-- <div class="form-group">
                                                     <label for="pab_pathimag">Seleccione una Imagen</label>
                                                     <input type="file" class="form-control-file" id="pab_pathimag" name="pab_pathimag">
-                                                </div>
+                                                </div> --}}
 
                                                                                                 
                                                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -43,8 +43,11 @@ class NichoController extends Controller
         $this->validate($request, [
             'nicho_id' => 'required',
         ]);
+
         $now = Carbon::now();
+
         $nicho = Nicho::findOrFail($request->get('nicho_id'));
+
         $pabellon = Pabellon::findOrFail($nicho->pab_id);
         
         $usuarios = User::where('tipo','administrador')->get();

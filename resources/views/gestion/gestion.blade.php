@@ -44,10 +44,10 @@
 @section('content')
 <div class="content">
     @if (Session::has('contrato'))
-                                <div class="alert alert-success" role="alert">
-                                    {{Session::get('contrato')}}
-                                </div>
-                            @endif
+        <div class="alert alert-success" role="alert">
+            {{Session::get('contrato')}}
+        </div>
+    @endif
     <div class="doc forms-doc page-layout simple full-width">
 		<div class="page-header bg-secondary text-auto p-6 row no-gutters align-items-center justify-content-between">
             <h2 class="doc-title" id="content">Escoja el Cementerio y a continuación, el pabellón.</h2>
